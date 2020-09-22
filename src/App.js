@@ -1,0 +1,37 @@
+import React, { Component } from 'react';
+import Navigation from './Components/globals/navigation.js'
+import './App.css';
+import MainView from './Container/main.view';
+import ModuleOverview from './Container/module.overview.js';
+import './styles/main.css'
+import { Container } from 'reactstrap';
+
+class App extends Component {
+  state = {
+    current: 0
+  }
+  
+  getPage() {
+    switch (this.state.current) {
+      case 0: return <MainView />
+      case 1: return <ModuleOverview />  
+      default: return <MainView />;
+    }
+
+    
+  }
+            /**<Row className="app-footer">
+                <Col><p>Meike Cieslak</p></Col>
+            </Row>*/
+
+  render () {
+        return (
+      
+          <Container fluid>
+            <Navigation changeSite={(value) => this.setState({current: value})}/>
+            {this.getPage()}
+          </Container>
+      );
+}
+}
+export default App;

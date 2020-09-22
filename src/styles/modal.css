@@ -1,0 +1,29 @@
+div.mc-modal-dialog {
+    background: rgb(255, 255, 255);
+    position: fixed;
+    width: 500px;
+    height: 400px;
+    top: 50%;
+    left: 50%;
+    margin-top: -200px;
+    margin-left: -250px;
+}
+div.mc-modal-backdrop {
+    background: #2b2b2bc2;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+div.mc-modal-header {
+    background: orangered;
+}
+div.mc-modal-footer {
+    background: orangered;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
