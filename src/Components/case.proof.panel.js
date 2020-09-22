@@ -49,9 +49,9 @@ export default class CaseProofPanel extends Component {
                 <Col xs={6}>
                     <FormGroup>
                         <div className="documentChecks">
-                            <CustomInput type="checkbox" defaultChecked={this.state.internChecked} onChange={this.toggleIntern} id="hochschulinternCheckbox" label="Hochschulinterner Wechsel?"/>
-                            <CustomInput type="checkbox" defaultChecked={this.state.germanyChecked} onChange={this.toggleGermany} id="germanyCheckbox" label="Institution in Deutschland?" />
-                            <CustomInput type="checkbox" defaultChecked={this.state.moreChecked} onChange={this.toggleMore} id="moreCheckbox" label="weitere Überprüfung notwendig?"/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.internChecked} onChange={this.toggleIntern} id="hochschulinternCheckbox" label="Hochschulinterner Wechsel?"/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.germanyChecked} onChange={this.toggleGermany} id="germanyCheckbox" label="Institution in Deutschland?" />
+                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.moreChecked} onChange={this.toggleMore} id="moreCheckbox" label="weitere Überprüfung notwendig?"/>
                         </div>
                     </FormGroup>
                 </Col>
@@ -59,7 +59,7 @@ export default class CaseProofPanel extends Component {
                     <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
                 </Col >
                 <Col xs={3}>
-                    <a href="google.de"><button>Anabin öffnen</button> </a>
+                    <a href="google.de"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
                 </Col> 
             </Row>
         </div>

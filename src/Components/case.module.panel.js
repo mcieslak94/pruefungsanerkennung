@@ -60,7 +60,7 @@ export default class CaseModulePanel extends Component {
                 </Col>
                 
                 <Col xs={3}>
-                    <Button color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>
+                    <Button disabled={this.props.disabled} color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>
                 </Col> 
             </Row>
 

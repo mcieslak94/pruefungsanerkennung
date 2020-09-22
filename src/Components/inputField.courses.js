@@ -25,7 +25,7 @@ class CoursesInput extends Component {
 
     render () {
         return (
-           <Input type={'select'} value={this.props.value} placeholder='Studiengang wählen...' onChange={e => this.props.onChange(e.target.value)}>
+           <Input disabled={this.props.disabled}  type={'select'} value={this.props.value} placeholder='Studiengang wählen...' onChange={e => this.props.onChange(e.target.value)}>
                {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => <option key={'courses-option-' + c.courseID} value={c.courseID}>{c.courseName}</option>)}
            </Input>  
         )}

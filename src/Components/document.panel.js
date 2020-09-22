@@ -49,9 +49,9 @@ export default class DocumentsPanel extends Component {
                 <Col>
                     <FormGroup>
                         <div className="documentChecks">
-                            <CustomInput type="checkbox" id="antragCheckbox" onChange={this.toggleAntrag} label="Antrag auf Prüfungsanerkennung" readOnly/>
-                            <CustomInput type="checkbox" id="gradesCheckbox" onChange={this.togglGrades} label="Notenspiegel"  readOnly/>
-                            <CustomInput type="checkbox" id="modulCheckbox" onChange={this.toggleModul} label="Modulhandbuch" readOnly/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" id="antragCheckbox" onChange={this.toggleAntrag} label="Antrag auf Prüfungsanerkennung" readOnly/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" id="gradesCheckbox" onChange={this.togglGrades} label="Notenspiegel"  readOnly/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" id="modulCheckbox" onChange={this.toggleModul} label="Modulhandbuch" readOnly/>
                         </div>
                     </FormGroup>
                 </Col>
