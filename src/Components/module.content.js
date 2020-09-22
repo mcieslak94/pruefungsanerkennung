@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Form, FormGroup, Row, Col, Label, Input, CustomInput, InputGroup, Button } from 'reactstrap'
+import { Form, FormGroup, Row, Col, Label, Input, CustomInput, InputGroup, ButtonToggle } from 'reactstrap'
 
 export default class ModuleContent extends Component {
 
@@ -43,15 +43,19 @@ export default class ModuleContent extends Component {
     <h3>{(this.props.data.moduleName ? this.props.data.moduleName : '')}</h3>
     <Form>
     <Row style={{ padding: 16}}>
-        {this.state.disabled && <Button color="primary" onClick={this.setChangeMode} 
+        {this.state.disabled && <ButtonToggle  color="primary" onClick={this.setChangeMode} 
         
                 disabled = {(!this.state.disabled)? true : false}>
                     Fall bearbeiten
-        </Button>}
-        {!this.state.disabled && <Button color="secondary" onClick={this.setChangeMode} 
+        </ButtonToggle >}
+        {!this.state.disabled && <ButtonToggle color="success" onClick={this.setChangeMode} 
                 disabled = {(this.state.disabled)? true : false}>
-                    Speichern
-        </Button>}
+                    Übernehmen
+        </ButtonToggle>} {'  '}
+        {!this.state.disabled && <ButtonToggle color="danger" onClick={this.setChangeMode} 
+                disabled = {(this.state.disabled)? true : false}>
+                    Abbrechen
+        </ButtonToggle>}
     </Row>  
         <FormGroup>
                 <Row xs={2} style={{ padding: 16 }}>

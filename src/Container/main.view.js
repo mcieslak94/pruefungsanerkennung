@@ -47,12 +47,17 @@ export default class MainView extends Component {
                         })
     }
 
-    editData = (caseID, prop, value) => {
+    saveCase = (student) => {
+        console.log(student)
+        this.casesDB.data(student).update(() => this.getCases())
+    }
+
+    /*editData = (caseID, prop, value) => {
         console.log(caseID, prop, value)
             this.caseDB.updateCase(caseID, prop, value, (changes) => {
               this.getCases()
             })
-    }
+    }*/
            
     render = () => {
         return <>    
@@ -76,7 +81,7 @@ export default class MainView extends Component {
                     <DetailContent
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
-                        onChange={this.editData}
+                        saveChanges={this.saveCase}
                     />
                 </Col>
             </Row>

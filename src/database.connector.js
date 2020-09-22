@@ -49,12 +49,14 @@ function DatabaseConnector(tableName) {
           })
         },
         update: function(cb){
-          let update = Object.keys(data.update).map(prop => `${prop} = ${data.update[prop]}`).join(', ')
+          getConnection(function (db) {
+          console.log(data)
+          let update = Object.keys(data).map(prop => `${prop} = ${data[prop]}`).join(', ')
           let selector = ''
           if (Object.keys(data.selector).length > 1) selector = Object.keys(data.selector).map(prop => `${prop} = ${data.selector[prop]}`).join(' AND ')
           else selector = Object.keys(data.selector).map(prop => `${prop} = ${data.selector[prop]}`).join(' ')
-          getConnection(function (db) {
-            db.run(`UPDATE ${tableName} SET WHERE ${update} WHERE ${selector}`, data.update, function(err) {
+         
+            db.run(`UPDATE ${tableName} SET ${update} WHERE ${selector}`, data.update, function(err) {
               console.log('UPDATED ', this.changes)
               if (err) throw err;
               cb(this.changes)
