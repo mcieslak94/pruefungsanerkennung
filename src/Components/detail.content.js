@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { Form, FormGroup, Row, Col, Label, Input, ButtonToggle } from 'reactstrap'
+import { Form, FormGroup, Row, Col, Label, Input } from 'reactstrap'
 import DocumentDetail from './document.panel';
 import CaseProofPanel from './case.proof.panel';
 import CaseModulePanel from './case.module.panel';

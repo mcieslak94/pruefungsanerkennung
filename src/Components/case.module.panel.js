@@ -23,7 +23,9 @@ export default class CaseModulePanel extends Component {
                 this.getCases()
                 console.log(' caseXmodule added')
                 return null
-            })        })
+            })        
+            return null
+        })
     }
 
     handleModuleChange = (id, value) => {
