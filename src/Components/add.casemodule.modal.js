@@ -1,5 +1,5 @@
 import React, {Component} from 'react' 
-import { ModalHeader, Modal, ModalBody, ModalFooter, Button, FormGroup, Label, Input } from 'reactstrap'
+import { ModalHeader, Modal, ModalBody, ModalFooter, Button, FormGroup, Label, Row, Col, CustomInput } from 'reactstrap'
 
 const electron = window.require('electron')
 
@@ -13,7 +13,8 @@ export default class AddCaseModuleModal extends Component {
 
     state = {
         detail: null,
-        modules: null
+        modules: null,
+        selected: []
     }
 
     componentDidMount() {
@@ -24,34 +25,32 @@ export default class AddCaseModuleModal extends Component {
         this.module.getAll(modules => this.setState({ modules }))
     }
 
-    handleChange = (prop, value) => {
-        let tempForm = this.state.form
-        tempForm[prop] = value
-        this.setState({ form: tempForm })
-    }
-
-    handleSubmit = () => {
-        this.props.onSubmit(this.state.form)
-        this.props.toggle()
-        this.setState({ form: {} })
-    }
-
     render = () => {
         return  (
             <>
-            <Modal isOpen={this.props.open} toggle={this.props.toggle}>
+            <Modal isOpen={this.props.open} toggle={this.props.toggle} >
                 <ModalHeader toggle={this.props.toggle}>Modulauswahl</ModalHeader>
                 <ModalBody>
                     <FormGroup>
                         <Label for="selectModule"></Label>
-                        <Input type="select" name="selectMulti" id="selectModule" multiple>
+                        {console.log('### state', this.state.selected)}
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map(c => 
-                        <option key={'modules-option-' + c.moduleID} value={c.moduleID}>{c.moduleName}</option>)}
-                        </Input>
+                            <Row key={'module-select-list-'+c.moduleID}>
+                                <Col>
+                                <CustomInput
+                                    type="checkbox"
+                                    id={"c.moduleID" + c.moduleID}
+                                    checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
+                                    label={c.moduleName} 
+                                    onChange={(value) => this.props.onChange(c.moduleID, value)}/>
+                                </Col>
+                            </Row> 
+                        )}
+                        {/* <option key={'modules-option-' + c.moduleID} value={c.moduleID}>{c.moduleName}</option>)} */}
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={this.handleSubmit}>Speichern</Button>{' '}
+                    <Button color="primary" onClick={this.props.onSubmit}>Speichern</Button>{' '}
                     <Button color="secondary" onClick={this.props.toggle}>Abbrechen</Button>
                 </ModalFooter>
             </Modal>

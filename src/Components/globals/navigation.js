@@ -13,7 +13,10 @@ const Navigation = (props) => {
                     <NavLink onClick={() => props.changeSite(0)} className='pointer' >Fallverwaltung</NavLink>
                 </NavItem>
                 <NavItem>
-                    <NavLink onClick={() => props.changeSite(1)} className='pointer' >Module bearbeiten</NavLink>
+                    <NavLink onClick={() => props.changeSite(1)} className='pointer' >Modulverwaltung</NavLink>
+                </NavItem>
+                <NavItem>
+                    <NavLink onClick={() => props.changeSite(2)} className='pointer' >Stammdaten</NavLink>
                 </NavItem>
              
             </Nav>

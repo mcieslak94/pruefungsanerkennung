@@ -49,7 +49,11 @@ export default class MainView extends Component {
 
     saveCase = (student) => {
         console.log(student)
-        this.casesDB.data(student).update(() => this.getCases())
+        let data = {
+            value: student,
+            selector: { caseID: this.state.cases[this.state.detail].caseID }
+        }
+        this.casesDB.data(data).update(() => this.getCases())
     }
 
     /*editData = (caseID, prop, value) => {

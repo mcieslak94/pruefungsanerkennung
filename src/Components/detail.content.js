@@ -4,6 +4,7 @@ import DocumentDetail from './document.panel';
 import CaseProofPanel from './case.proof.panel';
 import CaseModulePanel from './case.module.panel';
 import CoursesInput from '../Components/inputField.courses'
+import EditFooter from './globals/edit.footer';
 
 export default class DetailContent extends Component {
 
@@ -49,23 +50,11 @@ export default class DetailContent extends Component {
     render = () => {
     return this.props.data
     ? 
-    <>
+    <div style={{ paddingBottom: 72 }}>
     <Form>
     <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
-    <Row style={{ padding: 16}}>
-        {this.state.disabled && <ButtonToggle  color="primary" onClick={this.setChangeMode} 
-                disabled = {(!this.state.disabled)? true : false}>
-                    Fall bearbeiten
-        </ButtonToggle >}
-        {!this.state.disabled && <ButtonToggle color="success" onClick={this.saveChanges} 
-                disabled = {(this.state.disabled)? true : false}>
-                    Übernehmen
-        </ButtonToggle>} {'  '}
-        {!this.state.disabled && <ButtonToggle color="danger" onClick={this.setChangeMode} 
-                disabled = {(this.state.disabled)? true : false}>
-                    Abbrechen
-        </ButtonToggle>}
-    </Row>  
+    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+    
     <FormGroup>
         <Row xs={2} style={{ padding: 16 }}>
             <Col>
@@ -126,7 +115,7 @@ export default class DetailContent extends Component {
     </Row>
     </Form>
          
-    </> 
+    </div> 
     : <></>    
 }
 }

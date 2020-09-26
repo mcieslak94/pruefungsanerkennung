@@ -14,10 +14,10 @@ function getConnection(cb) {
 
 function DatabaseModule() {
   return ({
-    getProfForModule(professorID, cb) {
+    getProfByModule(professorID, cb) {
       getConnection(function (db) {
         console.log(caseID, prop, value)
-        let sql = `SELECT profLastName FROM professor WHERE professorID = ${professorID}`
+        let sql = `SELECT profName, profEmailadress, anrede FROM professor WHERE professorID = ${professorID}`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)

@@ -2,22 +2,38 @@ import React, { Component } from 'react'
 import { Row, Col, Table, Button} from 'reactstrap'
 import AddCaseModuleModal from './add.casemodule.modal';
 
+const electron = window.require('electron')
 
 export default class CaseModulePanel extends Component {
-
+    constructor(props) {
+        super(props)
+        const DataBaseConnector = electron.remote.require('./database.connector.js')
+        this.caseXmoduleDB = DataBaseConnector('caseXmodule')
+    }
     state = { 
-        internChecked: false,
-        germanyChecked: false,
-        moreChecked: false,
-        progressValue: 0,
         modules: null,
-        moduleModalOpen: false
+        moduleModalOpen: false,
+        selected: []
     } 
 
-    addModulesToTable = modules => {
-
+    addModulesToTable = () => {
+        this.state.selected.map(s => {
+            let newEntry = { caseID: this.props.caseID, moduleID: s }
+            this.caseXmoduleDB.data(newEntry).create(() => {
+                this.getCases()
+                console.log(' caseXmodule added')
+                return null
+            })        })
     }
-    
+
+    handleModuleChange = (id, value) => {
+        let tempModules = this.state.selected || []
+        let modIdx = tempModules.findIndex(m => m === id)
+        if (modIdx === -1) tempModules.push(id)
+        else delete tempModules[modIdx]
+        tempModules = tempModules.filter(x => x != null)
+        this.setState({ selected: tempModules })
+    }
     
     render = () => {
     return ( 
@@ -65,6 +81,8 @@ export default class CaseModulePanel extends Component {
             </Row>
 
             <AddCaseModuleModal className="app-case-module"
+                selected={this.state.selected}
+                onChange={this.handleModuleChange}
                 open={this.state.moduleModalOpen}
                 size={300}
                 toggle={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}
