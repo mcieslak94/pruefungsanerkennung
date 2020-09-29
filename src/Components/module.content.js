@@ -1,35 +1,79 @@
 import React, {Component} from 'react'
-import { Form, FormGroup, Row, Col, Label, Input, CustomInput, InputGroup, ButtonToggle } from 'reactstrap'
+import { Form, FormGroup, Row, Col, Label, Input, CustomInput } from 'reactstrap'
+import EditFooter from './globals/edit.footer';
+
+const electron = window.require('electron')
+
 
 export default class ModuleContent extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
-            disabled: true,
-            documentsModalOpen: false,
-            form: {
-                moduleName: '', 
-                profName: '', 
-                creditpoints: '', 
-                courseID: '' ,
-                profEmail: ''
-            } 
+        const DataBaseConnector = electron.remote.require('./database.connector.js')        
+        const ModuleDatabase = electron.remote.require('./module-db.js')
+        this.moduleExtraDB = ModuleDatabase()
+        this.courseDB = DataBaseConnector('course')
+        this.courseXDB = DataBaseConnector('courseXmodule')
+    }
+    state = { 
+        disabled: true,
+        documentsModalOpen: false,
+        courses: null,
+        courseXmodule: null,
+        prof: null,
+        form: {
+            moduleName: '', 
+            profName: '', 
+            creditpoints: '', 
+            courseID: '' ,
+            profEmail: '',
+            professorID:''
+        }      
+    }
+    
+    componentDidMount() {
+        this.getCourses()
+    }
+
+    componentDidUpdate(prevProps) {
+        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.professorID !== prevProps.data.professorID))){
+            this.getProfByModule()
         }
     }
     
+    getCourses = () => {
+        this.courseDB.getAll(courses => this.setState({ courses }))
+    }
+    
+    getCourseXmodule = () => {
+        this.moduleExtraDB.getProfByModule(this.props.data.professorID, prof => {
+            if(prof && prof.length > 0) prof = prof[0]
+            this.setState({ prof })
+        })    
+    }
+
+    getProfByModule = () => {
+        this.moduleExtraDB.getProfByModule(this.props.data.professorID, prof => {
+            if(prof && prof.length > 0) prof = prof[0]
+            this.setState({ prof })
+          })
+    }
+
     handleChange = (prop, e) => {
         let tempForm = this.props.data
         tempForm[prop] = e.target.value
-        this.props.onChange(tempForm, this.props.detail)
         this.setState({ tempForm })
-        
     }
 
     handleSubmit = () => {
         this.props.onSubmit(this.state.form)
         this.props.toggle()
         this.setState({ form: {} })
+    }
+
+    saveChanges = () => {
+        this.props.saveChanges(this.props.data)
+        this.setChangeMode()
     }
 
     setChangeMode = () => {
@@ -39,64 +83,57 @@ export default class ModuleContent extends Component {
     render = () => {
     return this.props.data
     ? 
-    <>
-    <h3>{(this.props.data.moduleName ? this.props.data.moduleName : '')}</h3>
+    <div style={{ paddingBottom: "70px", paddingTop: "40px" }}>
+    <h3 className='header-row'>{(this.props.data.moduleName ? this.props.data.moduleName : '')}</h3>
     <Form>
-    <Row style={{ padding: 16}}>
-        {this.state.disabled && <ButtonToggle  color="primary" onClick={this.setChangeMode} 
-        
-                disabled = {(!this.state.disabled)? true : false}>
-                    Fall bearbeiten
-        </ButtonToggle >}
-        {!this.state.disabled && <ButtonToggle color="success" onClick={this.setChangeMode} 
-                disabled = {(this.state.disabled)? true : false}>
-                    Übernehmen
-        </ButtonToggle>} {'  '}
-        {!this.state.disabled && <ButtonToggle color="danger" onClick={this.setChangeMode} 
-                disabled = {(this.state.disabled)? true : false}>
-                    Abbrechen
-        </ButtonToggle>}
-    </Row>  
-        <FormGroup>
+           <FormGroup>
                 <Row xs={2} style={{ padding: 16 }}>
                     <Col>
                         <Label for="moduleName">Modulname</Label>
                         <Input disabled={this.state.disabled} value={this.props.data.moduleName ? this.props.data.moduleName : ''} 
-                        onChange={e => this.props.onChange('moduleName', e.target.value)} 
+                        onChange={value => this.handleChange('moduleName', value)} 
                         type="text" placeholder="Modulname eintragen" />
                     </Col>
                     <Col>
                         <Label for="creditpoints">Credit Points</Label>
                         <Input disabled={this.state.disabled} value={this.props.data.creditpoints ? this.props.data.creditpoints : ''} 
-                        onChange={e => this.props.onChange('creditPoints', e.target.value)} 
+                        onChange={value => this.handleChange('creditpoints', value)} 
                         type="text" placeholder="Credit Points eintragen" />
+                    </Col>
+                    <Col xs={12}>
+                    <Label for="courseID">Studiengang</Label>
+                    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => 
+                                <Row key={'courses-option-' + c.courseID}>
+                                    <Col>
+                                    <CustomInput disabled={this.state.disabled}
+                                        type="checkbox"
+                                        id={"c.courseID" + c.courseID}
+                                        checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
+                                        label={c.courseName} 
+                                        onChange={(value) => this.props.onChange(c.courseID, value)}/>
+                                    </Col>
+                                </Row> 
+                            )}
+                    </Col>
+                    <Col xs={12}>
+                    <hr />
                     </Col>
                     <Col>
                         <Label for="profName">Lehrender</Label>
-                        <Input disabled={this.state.disabled} value={this.props.data.profName ? this.props.data.profName : ''} 
-                        onChange={e => this.props.onChange('profName', e.target.value)} 
+                        <Input disabled value={this.state.prof && this.state.prof.profName ? this.state.prof.profName : ''} 
                         type="text" placeholder="Name des Lehrenden eintragen" />
                     </Col>
                     <Col>
                         <Label for="profEmail">E-Mail-Adresse</Label>
-                        <Input disabled={this.state.disabled} value={this.props.data.profEmail ? this.props.data.profEmail : ''} 
-                        onChange={e => this.props.onChange('profEmail', e.target.value)} 
+                        <Input disabled value={this.state.prof && this.state.prof.profEmailadress ? this.state.prof.profEmailadress : ''} 
                         type="text" placeholder="E-Mail-Adresse eintragen" />
-                    </Col>
-                    <Col xs={3}>
-                        <Label for="courseID">Studiengang</Label>
-                        <InputGroup >
-                            <CustomInput disabled={this.state.disabled}  type="checkbox"  id="praktische" label="Praktische Informatik" />
-                            <CustomInput disabled={this.state.disabled}  type="checkbox"  id="wirtschaft" label="Wirtschaftsinformatik"/>
-                            <CustomInput disabled={this.state.disabled}  type="checkbox"  id="theoretische" label="Theoretische Informatik"/>
-                        </InputGroup>
                     </Col>
                 </Row>
         </FormGroup>
             
 </Form>
-    
-    </> 
+    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+    </div> 
     : <></>    
 }
 }

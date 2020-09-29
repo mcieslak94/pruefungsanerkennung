@@ -12,15 +12,14 @@ function getConnection(cb) {
   });
 }
 
-function DatabaseModule() {
+function ModuleDatabase() {
   return ({
     getProfByModule(professorID, cb) {
       getConnection(function (db) {
-        console.log(caseID, prop, value)
-        let sql = `SELECT profName, profEmailadress, anrede FROM professor WHERE professorID = ${professorID}`
+        let sql = `SELECT profName, profEmailadress, titel FROM professor WHERE professorID = ${professorID}`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
-          cb(this.changes)
+          cb(rows)
         });
       })
     }
@@ -28,4 +27,4 @@ function DatabaseModule() {
 }
 
 
-module.exports = DatabaseModule
+module.exports = ModuleDatabase

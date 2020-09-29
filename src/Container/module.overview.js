@@ -17,13 +17,12 @@ export default class MainView extends Component {
       }  
   
       componentDidMount() {
-          this.getModules()
-          
+          this.getModules()          
       }
-  
-      getModules = () => {
-          this.module.getAll(modules => this.setState({ modules }))
-      }
+
+    getModules = () => {
+        this.module.getAll(modules => this.setState({ modules }))
+    }
 
     addModule = newModule => {
       this.module.data(newModule).create(() => {
@@ -32,21 +31,13 @@ export default class MainView extends Component {
     })
     }
 
-    editData = (newModule, i) => {
-        this.setState(state => {
-          const data = state.data.map((item, j) => {
-            if (j === i) {
-              return newModule;
-            } else {
-              return item;
-            }
-          });
-     
-          return {
-            data,
-          };
-        });
-      };
+    saveCase = (module) => {
+      let data = {
+          value: module,
+          selector: { moduleID: this.state.modules[this.state.detail].moduleID }
+      }
+      this.module.data(data).update(() => this.getModules())
+  }
 
     render () {
         return (
@@ -55,19 +46,19 @@ export default class MainView extends Component {
                     <Col><h3>Modulübersicht</h3></Col>
                 </Row>
                 <Row className='app-body'>
-                <Col xs={3} className='app-list'>
+                <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
                     <ModuleList 
                         onAdd={() => this.setState({ addModalOpen: true })}
-                        onChange={value => this.setState({ detail: value })}
+                        onChange={value => this.setState({ detail: value })} 
                         active={this.state.detail}
                         data={this.state.modules}
                     />
                 </Col>
-                <Col xs={9} className='app-content'>
+                <Col xs={9} className='app-content' style={{ maxHeight: '83vh' }}>
                     <ModuleContent 
                     detail={this.state.detail} 
                     data={this.state.modules != null && this.state.detail != null ? this.state.modules[this.state.detail] : null}
-                    onChange={this.editData}
+                    saveChanges={this.saveCase}
                     />
                 </Col>
             </Row>

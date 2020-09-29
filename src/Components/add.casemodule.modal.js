@@ -33,7 +33,6 @@ export default class AddCaseModuleModal extends Component {
                 <ModalBody>
                     <FormGroup>
                         <Label for="selectModule"></Label>
-                        {console.log('### state', this.state.selected)}
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map(c => 
                             <Row key={'module-select-list-'+c.moduleID}>
                                 <Col>

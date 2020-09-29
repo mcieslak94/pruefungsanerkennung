@@ -55,14 +55,7 @@ export default class MainView extends Component {
         }
         this.casesDB.data(data).update(() => this.getCases())
     }
-
-    /*editData = (caseID, prop, value) => {
-        console.log(caseID, prop, value)
-            this.caseDB.updateCase(caseID, prop, value, (changes) => {
-              this.getCases()
-            })
-    }*/
-           
+          
     render = () => {
         return <>    
             <Row className='app-header'>

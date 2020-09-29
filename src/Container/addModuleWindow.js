@@ -1,7 +1,27 @@
 import React, { Component } from 'react'
 import { Form, FormGroup, Label, Input, Row, Col, CustomInput } from 'reactstrap'
+import ProfsInput from '../Components/inputField.profs'
+
+const electron = window.require('electron')
 
 export default class AddModuleWindow extends Component {
+    constructor(props) {
+        super(props)
+        const DataBaseConnector = electron.remote.require('./database.connector.js')  
+        this.courseDB = DataBaseConnector('course')
+    }
+
+    state = { 
+        courses: null
+    }
+
+    componentDidMount() {
+        this.getCourses()
+    }
+
+    getCourses = () => {
+        this.courseDB.getAll(courses => this.setState({ courses }))
+    }
 
     render = () => {
         return <Form>
@@ -21,26 +41,29 @@ export default class AddModuleWindow extends Component {
                         type="text" name="creditPoints" id="creditPoints" 
                         placeholder="Credit Points eintragen" />
                     </Col>
-                    <Col>
-                        <Label for="profName">Lehrender</Label>
-                        <Input value={this.props.data && this.props.data.profName} 
-                        onChange={e => this.props.onChange('profName', e.target.value)} 
-                        type="text" name="profName" id="profName" 
-                        placeholder="Name des Lehrenden eintragen" />
+                    <Col xs={12}>
+                    <Label for="courseID">Studiengang</Label>
+                    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => 
+                                <Row key={'courses-option-' + c.courseID}>
+                                    <Col>
+                                    <CustomInput disabled={this.state.disabled}
+                                        type="checkbox"
+                                        id={"c.courseID" + c.courseID}
+                                        checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
+                                        label={c.courseName} 
+                                        onChange={(value) => this.props.onChange(c.courseID, value)}/>
+                                    </Col>
+                                </Row> 
+                            )}
+                    </Col>
+                    <Col xs={12}>
+                    <hr />
                     </Col>
                     <Col>
-                        <Label for="profEmail">E-Mail-Adresse</Label>
-                        <Input value={this.props.data && this.props.data.profEmail} 
-                        onChange={e => this.props.onChange('profEmail', e.target.value)} 
-                        type="text" name="profEmail" id="profEmail" 
-                        placeholder="E-Mail-Adresse eintragen" />
+                        <Label for="professorID">Lehrender</Label>
+                        <ProfsInput id="professorID" value={this.props.data.professorID} onChange={ value => this.props.onChange('professorID', value)} />
                     </Col>
-                    <Col>
-                        <Label for="courseID">Studiengang</Label>
-                        <CustomInput type="checkbox"  id="praktische1" label="Praktische Informatik" />
-                        <CustomInput type="checkbox"  id="wirtschaft1" label="Wirtschaftsinformatik"/>
-                        <CustomInput type="checkbox"  id="theoretische1" label="Theoretische Informatik"/>
-                    </Col>
+                    
                 </Row>
             </FormGroup>
         </Form>
