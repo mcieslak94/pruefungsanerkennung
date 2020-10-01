@@ -1,6 +1,9 @@
 import React, {Component} from 'react'
-import { Button, Col, ListGroup, ListGroupItem, Row } from 'reactstrap';
+import { Button, Col, Row } from 'reactstrap';
+import EditProfBaseDatePanel from './edit.prof.panel';
 import EditFooter from './globals/edit.footer';
+import ProfBaseDateList from './prof.date.list';
+import AddProfModal from './addBaseDate/add.prof.modal';
 
 export default class ProfBaseDateContent extends Component {
 
@@ -8,15 +11,11 @@ export default class ProfBaseDateContent extends Component {
         super(props);
         this.state = { 
             disabled: true,
+            profdetail: null,
+            profModalOpen: false
         }
     }
         
-    handleChange = (prop, e) => {
-        let tempForm = this.props.data
-        tempForm[prop] = e.target.value
-        this.setState({ tempForm })
-    }
-
     handleSubmit = () => {
         this.props.onSubmit(this.state.form)
         this.props.toggle()
@@ -24,7 +23,7 @@ export default class ProfBaseDateContent extends Component {
     }
 
     saveChanges = () => {
-        this.props.saveChanges(this.props.data)
+        this.props.saveChanges(this.props.data[this.state.profdetail])
         this.setChangeMode() 
     }
 
@@ -32,29 +31,41 @@ export default class ProfBaseDateContent extends Component {
         this.setState( {disabled: !this.state.disabled} )
     }
 
+    addProf = (prof) => {
+        this.props.addProf(prof)
+    }
+/**/
     render = () => {
     return this.props.data
     ?
     <>
     <div style={{paddingTop: '20px', minheight:'89vh'}}>
     <Row>
-        <Col xs={1} style={{backgroundColor:'yellow'}}><Button color="success" onClick={this.props.onAdd}>+</Button></Col>
-        <Col xs={4} style={{backgroundColor:'black'}}>
-            <ListGroup>
-                {this.props.data && this.props.data.length > 0 && this.props.data.map((o, idx) => 
-                <ListGroupItem  key={'prof-base-date-list-item' + idx}
-                    active={this.props.active === idx}
-                    onClick={() => this.props.onChange(idx)}
-                    tag="button" action>
-                    <span><b>{(o.titel ? o.titel : '') + ' ' + (o.profName ? o.profName : '')}</b></span>
-                </ListGroupItem>)}
-            </ListGroup>
+        <Col xs={1}><Button color="success" onClick={() => this.setState({ profModalOpen: true })}>+</Button></Col>
+        <Col xs={4}>
+            <ProfBaseDateList 
+            onAdd={() => this.setState({ addModalOpen: true })}
+            onChange={value => this.setState({ profdetail: value })}
+            active={this.state.profdetail}
+            data={this.props.data}
+            />
         </Col>
-        <div style={{borderLeft: '1px solid grey', minHeight: '85vh'}}></div>
-        <Col xs={6} style={{backgroundColor:'red'}}>
-            <EditFooter />
+        <div style={{borderLeft: '1px solid lightgrey', minHeight: '85vh'}}></div>
+        <Col xs={6}>
+            <EditProfBaseDatePanel 
+            disabled={this.state.disabled}
+            profdetail={this.state.profdetail}
+            data={this.props.data != null && this.state.profdetail != null ? this.props.data[this.state.profdetail] : null}
+            saveChanges={this.saveProf}
+            />
         </Col>
     </Row>   
+            <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+            <AddProfModal className="app-modal-addProf"
+                open={this.state.profModalOpen}
+                toggle={() => this.setState({ profModalOpen: !this.state.profModalOpen })}
+                onSubmit={this.addProf}
+            />
     </div> 
     </>
     : <></>    

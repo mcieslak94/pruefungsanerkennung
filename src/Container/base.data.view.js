@@ -41,16 +41,48 @@ export default class BaseDataView extends Component {
           case 0: return <ProfBaseDateContent
           detail={this.state.detail}
           data={this.state.profs != null && this.state.detail != null ? this.state.profs : null}
-          saveChanges={this.saveProfs}
+          saveChanges={this.saveProf} addProf={this.addProf}
       />
           case 1: return <CourseBaseDateContent
           detail={this.state.detail}
           data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
-          saveChanges={this.saveCourses}
+          saveChanges={this.saveCourse} addCourse={this.addCourse}
       /> 
           default: return <></>;
     }
 }
+
+    saveProf = (prof) => {
+        console.log(prof)
+        let data = {
+            value: prof,
+            selector: { professorID: prof.professorID }
+        }
+        this.professorDB.data(data).update(() => this.getProfs())
+    }
+
+    saveCourse = (course) => {
+        console.log(course)
+        let data = {
+            value: course,
+            selector: { courseID: course.courseID }
+        }
+        this.courseDB.data(data).update(() => this.getCourses())
+    }
+
+    addProf = prof => {
+        this.professorDB.data(prof).create(() => {
+                            this.getProfs()
+                            console.log(' prof added')
+                        })
+    }
+
+    addCourse = course => {
+        this.courseDB.data(course).create(() => {
+                            this.getCourses()
+                            console.log(' course added')
+                        })
+    }
 
     render = () => {
         return <>    
@@ -67,7 +99,6 @@ export default class BaseDataView extends Component {
                     />
                 </Col>
                 <Col xs={9} style={{ minHeight: '89vh' }}>
-                    {console.log('##', this.state.detail)}
                     {this.getPage()}
                 </Col>
             </Row>           

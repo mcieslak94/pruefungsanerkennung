@@ -9,7 +9,7 @@ class EditFooter extends Component {
     return <div className='edit-footer'>
         {!this.props.editActive && <ButtonToggle  color="primary" onClick={this.props.toggle} 
                 disabled = {(this.props.editActive)? true : false}>
-                    Fall bearbeiten
+                    Bearbeiten
         </ButtonToggle >}
         {this.props.editActive && <ButtonToggle color="success" onClick={this.props.onSave} 
                 disabled = {(!this.props.editActive)? true : false}>

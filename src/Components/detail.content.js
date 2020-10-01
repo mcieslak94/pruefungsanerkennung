@@ -70,22 +70,22 @@ export default class DetailContent extends Component {
                 <Col> 
                     <Label for="mNumber">Matrikelnummer</Label>
                     <Input disabled={this.state.disabled} type='text' value={this.props.data.mNumber ? this.props.data.mNumber : ''} 
-                    onChange={value => this.handleChange(this.props.data.caseID, 'mNumber', value)} />
+                    onChange={value => this.handleChange('mNumber', value)} />
                 </Col>
                 <Col> 
                     <Label for="email">E-Mail-Adresse</Label>
                     <Input disabled={this.state.disabled} type='text' value={this.props.data.email ? this.props.data.email : ''} 
-                    onChange={value => this.props.onChange(this.props.data.caseID, 'email', value)} />
+                    onChange={value => this.handleChange('email', value)} />
                 </Col>
                 <Col> 
                     <Label for="geschlecht">Geschlecht</Label>
                     <Input disabled={this.state.disabled} type='text' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
-                    onChange={value => this.props.onChange(this.props.data.caseID, 'geschlecht', value)} />
+                    onChange={value => this.handleChange('geschlecht', value)} />
                 </Col>
                 <Col>
                 <Label for="courseID">Studiengang</Label>
                     <CoursesInput disabled={this.state.disabled}  value={this.props.data.courseID ? this.props.data.courseID : ''} 
-                    onChange={ value => this.props.onChange(this.props.data.caseID, 'courseID', value)} />
+                    handleChange={this.handleChange} />
                 </Col>
             </Row>
         </FormGroup>
