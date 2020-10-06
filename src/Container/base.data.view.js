@@ -17,7 +17,7 @@ export default class BaseDataView extends Component {
     }
 
     state = {
-        baseDate: ['Professoren', 'Studiengänge'],
+        baseData: ['Professoren', 'Studiengänge'],
         courses: null, 
         profs: null,
         detail: null,
@@ -29,11 +29,11 @@ export default class BaseDataView extends Component {
         this.getCourses()
     }
 
-    getCourses = () => {
+    getProfs = () => {
         this.professorDB.getAll(profs => this.setState({ profs }))
     }
 
-    getProfs = () => {
+    getCourses = () => {
         this.courseDB.getAll(courses => this.setState({ courses }))
     }
     getPage() {
@@ -41,12 +41,12 @@ export default class BaseDataView extends Component {
           case 0: return <ProfBaseDateContent
           detail={this.state.detail}
           data={this.state.profs != null && this.state.detail != null ? this.state.profs : null}
-          saveChanges={this.saveProf} addProf={this.addProf}
+          saveChanges={this.saveProf} addProf={this.addProf} deleteProf={this.deleteProf}
       />
           case 1: return <CourseBaseDateContent
           detail={this.state.detail}
           data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
-          saveChanges={this.saveCourse} addCourse={this.addCourse}
+          saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.deleteCourse}
       /> 
           default: return <></>;
     }
@@ -73,14 +73,33 @@ export default class BaseDataView extends Component {
     addProf = prof => {
         this.professorDB.data(prof).create(() => {
                             this.getProfs()
-                            console.log(' prof added')
                         })
     }
 
     addCourse = course => {
         this.courseDB.data(course).create(() => {
                             this.getCourses()
-                            console.log(' course added')
+                        })
+    }
+
+    deleteProf = professorID => {
+        let data = {
+            prop: 'professorID',
+            value: professorID
+        }
+        console.log('##', data.prop, data.value)
+        this.professorDB.data(data).delete(() => {
+                            this.getProfs()
+                        })
+    }
+
+    deleteCourse = courseID => {
+        let data = {
+            prop: 'courseID',
+            value: courseID
+        }
+        this.courseDB.data(data).delete(() => {
+                            this.getCourses()
                         })
     }
 
@@ -95,7 +114,7 @@ export default class BaseDataView extends Component {
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })}
                         active={this.state.detail}
-                        data={this.state.baseDate}
+                        data={this.state.baseData}
                     />
                 </Col>
                 <Col xs={9} style={{ minHeight: '89vh' }}>

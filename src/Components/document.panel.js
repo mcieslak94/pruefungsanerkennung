@@ -6,39 +6,48 @@ import '../App.css';
 export default class DocumentsPanel extends Component {
 
     state = { 
-        antragChecked: false,
-        gradesChecked: false,
-        modulChecked: false,
         progressValue: 0
     } 
         
-    
     getProgressValue = () => {
             var value = 0;
-            if(this.state.antragChecked && this.state.gradesChecked && this.state.modulChecked){
+            if(this.props.data.docAntrag && this.props.data.docNoten && this.props.data.docHandbuch){
                 return 100;
             }
-            this.state.antragChecked ? value += 33.3 : value += 0;
-            this.state.gradesChecked ? value += 33.3 : value += 0;
-            this.state.modulChecked ? value += 33.3 : value += 0;
+            this.props.data.docAntrag ? value += 33.3 : value += 0;
+            this.props.data.docNoten ? value += 33.3 : value += 0;
+            this.props.data.docHandbuch ? value += 33.3 : value += 0;
     
             return value;
     };
 
     toggleAntrag = () => {
-        this.setState({ antragChecked: !this.state.antragChecked })
-        console.log("toggle!")
+        if (this.props.data.docAntrag === 0){
+            this.props.data.docAntrag = 1
+            this.setState({docAntrag: 1})
+        } else {
+            this.props.data.docAntrag = 0
+            this.setState({docAntrag: 0})
+        }
     }
 
-    togglGrades = () => {
-        this.setState({ gradesChecked: !this.state.gradesChecked })
-        console.log("toggle!")
-    }
+    toggleGrades = () => {
+        if (this.props.data.docNoten === 0){
+            this.props.data.docNoten = 1
+            this.setState({docNoten: 1})
+        } else {
+            this.props.data.docNoten = 0
+            this.setState({docNoten: 0})
+        }    }
 
     toggleModul = () => {
-        this.setState({ modulChecked: !this.state.modulChecked })
-        console.log("toggle!")
-    }
+        if (this.props.data.docHandbuch === 0){
+            this.props.data.docHandbuch = 1
+            this.setState({docHandbuch: 1})
+        } else {
+            this.props.data.docHandbuch = 0
+            this.setState({docHandbuch: 0})
+        }    }
     
     
     render = () => {
@@ -49,9 +58,12 @@ export default class DocumentsPanel extends Component {
                 <Col>
                     <FormGroup>
                         <div className="documentChecks">
-                            <CustomInput disabled={this.props.disabled} type="checkbox" id="antragCheckbox" onChange={this.toggleAntrag} label="Antrag auf Prüfungsanerkennung" readOnly/>
-                            <CustomInput disabled={this.props.disabled} type="checkbox" id="gradesCheckbox" onChange={this.togglGrades} label="Notenspiegel"  readOnly/>
-                            <CustomInput disabled={this.props.disabled} type="checkbox" id="modulCheckbox" onChange={this.toggleModul} label="Modulhandbuch" readOnly/>
+                            <CustomInput disabled={this.props.disabled} checked={this.props.data.docAntrag} type="checkbox" 
+                            id="docAntrag" onChange={this.toggleAntrag} label="Antrag auf Prüfungsanerkennung"/>
+                            <CustomInput disabled={this.props.disabled} checked={this.props.data.docNoten} type="checkbox" 
+                            id="docNoten" onChange={this.toggleGrades} label="Notenspiegel"/>
+                            <CustomInput disabled={this.props.disabled} checked={this.props.data.docHandbuch} type="checkbox" 
+                            id="docHandbuch" onChange={this.toggleModul} label="Modulhandbuch"/>
                         </div>
                     </FormGroup>
                 </Col>

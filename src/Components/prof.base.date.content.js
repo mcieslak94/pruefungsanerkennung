@@ -4,6 +4,7 @@ import EditProfBaseDatePanel from './edit.prof.panel';
 import EditFooter from './globals/edit.footer';
 import ProfBaseDateList from './prof.date.list';
 import AddProfModal from './addBaseDate/add.prof.modal';
+import DeleteModal from './addBaseDate/delete.modal';
 
 export default class ProfBaseDateContent extends Component {
 
@@ -12,7 +13,8 @@ export default class ProfBaseDateContent extends Component {
         this.state = { 
             disabled: true,
             profdetail: null,
-            profModalOpen: false
+            profModalOpen: false,
+            deleteModalOpen: false
         }
     }
         
@@ -34,14 +36,22 @@ export default class ProfBaseDateContent extends Component {
     addProf = (prof) => {
         this.props.addProf(prof)
     }
-/**/
+
+    deleteProf = () => {
+        this.props.deleteProf(this.props.data[this.state.profdetail].professorID)
+        this.setState({ deleteModalOpen: !this.state.deleteModalOpen })
+    }
+
     render = () => {
     return this.props.data
     ?
     <>
     <div style={{paddingTop: '20px', minheight:'89vh'}}>
     <Row>
-        <Col xs={1}><Button color="success" onClick={() => this.setState({ profModalOpen: true })}>+</Button></Col>
+        <Col xs={1}>
+            <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" onClick={() => this.setState({ profModalOpen: true })}>+</Button>
+            <Button disabled={this.state.profdetail ? false : true } size='lg' color="danger" onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
+        </Col>
         <Col xs={4}>
             <ProfBaseDateList 
             onAdd={() => this.setState({ addModalOpen: true })}
@@ -65,6 +75,12 @@ export default class ProfBaseDateContent extends Component {
                 open={this.state.profModalOpen}
                 toggle={() => this.setState({ profModalOpen: !this.state.profModalOpen })}
                 onSubmit={this.addProf}
+            />
+            <DeleteModal className="deleteProf"
+                open={this.state.deleteModalOpen}
+                toggle={() => this.setState({ deleteModalOpen: !this.state.deleteModalOpen })}
+                data={this.props.data != null && this.state.profdetail != null ? this.props.data[this.state.profdetail] : null}
+                onSubmit={this.deleteProf}
             />
     </div> 
     </>

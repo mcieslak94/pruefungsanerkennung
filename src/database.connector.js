@@ -55,9 +55,6 @@ function DatabaseConnector(tableName) {
           let selector = ''
           if (Object.keys(data.selector).length > 1) selector = Object.keys(data.selector).map(prop => `${prop} = ${data.selector[prop]}`).join(' AND ')
           else selector = Object.keys(data.selector).map(prop => `${prop} = ${data.selector[prop]}`).join(' ')
-            console.log('### update', update)
-            console.log('### selector', selector)
-            console.log('### sql', `UPDATE ${tableName} SET ${update} WHERE ${selector}`)
             db.run(`UPDATE ${tableName} SET ${update} WHERE ${selector}`, function(err) {
               console.log('UPDATED ', selector)
               if (err) throw err;
@@ -68,6 +65,7 @@ function DatabaseConnector(tableName) {
         },
         delete: function(cb){
           getConnection(function (db) {
+            console.log('###', data.prop, data.value)
             let sql = `DELETE FROM ${tableName} WHERE ${data.prop} = ${data.value}`
             db.all(sql, [], (err ) => {
               if (err) throw err;

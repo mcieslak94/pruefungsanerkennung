@@ -102,7 +102,7 @@ export default class DetailContent extends Component {
         <h4>Dokumente</h4>
         <Row style={{ padding: 16 }}>
             <Col xs={12}>
-                <DocumentDetail disabled={this.state.disabled} />
+                <DocumentDetail data={this.props.data} disabled={this.state.disabled} />
             </Col>
         </Row>
 

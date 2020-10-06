@@ -48,7 +48,6 @@ export default class MainView extends Component {
     }
 
     saveCase = (student) => {
-        console.log(student)
         let data = {
             value: student,
             selector: { caseID: this.state.cases[this.state.detail].caseID }

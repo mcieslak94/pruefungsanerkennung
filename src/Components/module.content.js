@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Form, FormGroup, Row, Col, Label, Input, CustomInput } from 'reactstrap'
 import EditFooter from './globals/edit.footer';
+import ProfsInput from './inputField.profs';
 
 const electron = window.require('electron')
 
@@ -60,8 +61,16 @@ export default class ModuleContent extends Component {
     }
 
     handleChange = (prop, e) => {
+        console.log('##', prop, e)
+        console.log('## data', this.props.data)
         let tempForm = this.props.data
         tempForm[prop] = e.target.value
+        this.setState({ tempForm })
+    }
+
+    handleProf = (prop, e) => {
+        let tempForm = this.props.data
+        tempForm[prop] = e
         this.setState({ tempForm })
     }
 
@@ -119,14 +128,8 @@ export default class ModuleContent extends Component {
                     <hr />
                     </Col>
                     <Col>
-                        <Label for="profName">Lehrender</Label>
-                        <Input disabled value={this.state.prof && this.state.prof.profName ? this.state.prof.profName : ''} 
-                        type="text" placeholder="Name des Lehrenden eintragen" />
-                    </Col>
-                    <Col>
-                        <Label for="profEmail">E-Mail-Adresse</Label>
-                        <Input disabled value={this.state.prof && this.state.prof.profEmailadress ? this.state.prof.profEmailadress : ''} 
-                        type="text" placeholder="E-Mail-Adresse eintragen" />
+                        <Label for="professorID">Lehrender</Label>
+                        <ProfsInput disabled={this.state.disabled} id="professorID" value={this.props.data.professorID ? this.props.data.professorID : ''} onChange={value => this.handleProf('professorID', value)} />
                     </Col>
                 </Row>
         </FormGroup>

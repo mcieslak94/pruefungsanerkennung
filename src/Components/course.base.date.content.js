@@ -4,6 +4,7 @@ import EditFooter from './globals/edit.footer';
 import CourseBaseDateList from './course.date.list';
 import EditCourseBaseDatePanel from './edit.course.panel';
 import AddCourseModal from './addBaseDate/add.course.modal';
+import DeleteModal from './addBaseDate/delete.modal';
 
 export default class CourseBaseDateContent extends Component {
 
@@ -12,7 +13,8 @@ export default class CourseBaseDateContent extends Component {
         this.state = { 
             coursedetail: null,
             disabled: true,
-            courseModalOpen: false
+            courseModalOpen: false,
+            deleteModalOpen: false
         }
     }
         
@@ -35,13 +37,21 @@ export default class CourseBaseDateContent extends Component {
         this.props.addCourse(course)
     }
 
+    deleteCourse = () => {
+        this.props.deleteCourse(this.props.data[this.state.coursedetail].courseID)
+        this.setState({ deleteModalOpen: !this.state.deleteModalOpen })
+    }
+
     render = () => {
     return this.props.data
     ?
     <>
     <div style={{paddingTop: '20px', minheight:'89vh'}}>
     <Row>
-    <Col xs={1}><Button color="success" onClick={() => this.setState({ courseModalOpen: true })}>+</Button></Col>
+        <Col xs={1}>
+            <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" onClick={() => this.setState({ courseModalOpen: true })}>+</Button>
+            <Button disabled={this.state.coursedetail ? false : true } size='lg' color="danger" onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
+        </Col>
         <Col xs={4}>
             <CourseBaseDateList
             onAdd={() => this.setState({ addModalOpen: true })}
@@ -64,6 +74,12 @@ export default class CourseBaseDateContent extends Component {
                 open={this.state.courseModalOpen}
                 toggle={() => this.setState({ courseModalOpen: !this.state.courseModalOpen })}
                 onSubmit={this.addCourse}
+            />
+            <DeleteModal className="deleteCourse"
+                open={this.state.deleteModalOpen}
+                toggle={() => this.setState({ deleteModalOpen: !this.state.deleteModalOpen })}
+                data={this.props.data != null && this.state.coursedetail != null ? this.props.data[this.state.coursedetail] : null}
+                onSubmit={this.deleteCourse}
             />
     </div> 
     </>

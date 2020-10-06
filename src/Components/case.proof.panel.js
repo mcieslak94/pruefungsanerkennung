@@ -27,17 +27,14 @@ export default class CaseProofPanel extends Component {
 
     toggleIntern = () => {
         this.setState({ internChecked: !this.state.internChecked })
-        console.log("toggle!")
     }
 
     toggleGermany = () => {
         this.setState({ germanyChecked: !this.state.germanyChecked })
-        console.log("toggle!")
     }
 
     toggleMore = () => {
         this.setState({ moreChecked: !this.state.moreChecked })
-        console.log("toggle!")
     }
     
     
@@ -59,7 +56,7 @@ export default class CaseProofPanel extends Component {
                     <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
                 </Col >
                 <Col xs={3}>
-                    <a href="google.de"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
+                    <a href="https://www.google.de"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
                 </Col> 
             </Row>
         </div>
