@@ -21,7 +21,10 @@ export default class MainView extends Component {
       }
 
     getModules = () => {
-        this.module.getAll(modules => this.setState({ modules }))
+        let data = {
+            criteria: 'moduleName'
+        }
+        this.module.data(data).getAllAsc(modules => this.setState({ modules }))
     }
 
     addModule = newModule => {

@@ -65,11 +65,20 @@ function DatabaseConnector(tableName) {
         },
         delete: function(cb){
           getConnection(function (db) {
-            console.log('###', data.prop, data.value)
             let sql = `DELETE FROM ${tableName} WHERE ${data.prop} = ${data.value}`
             db.all(sql, [], (err ) => {
               if (err) throw err;
               cb(true)
+              db.close()
+            });
+          })
+        },
+        getAllAsc: function(cb){
+          getConnection(function (db) {
+            let sql = `SELECT * From ${tableName} order by ${data.criteria} ASC`
+            db.all(sql, [], (err, rows) => {
+              if (err) throw err;
+              cb(rows)
               db.close()
             });
           })

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Form, FormGroup, Label, Input, Row, Col, CustomInput } from 'reactstrap'
+import { Label, Input, Row, Col, CustomInput } from 'reactstrap'
+import { AvField } from 'availity-reactstrap-validation';
 import ProfsInput from '../Components/inputField.profs'
+import AvForm from 'availity-reactstrap-validation/lib/AvForm';
 
 const electron = window.require('electron')
 
@@ -24,22 +26,22 @@ export default class AddModuleWindow extends Component {
     }
 
     render = () => {
-        return <Form>
-            <FormGroup>
+        return <>
+             <AvForm onValidSubmit={this.handleValidSubmit} onInvalidSubmit={this.handleInvalidSubmit}>
                 <Row xs={2} style={{ padding: 16 }}>
                     <Col>
                         <Label for="moduleName">Modulname</Label>
                         <Input value={this.props.data && this.props.data.name} 
                         onChange={e => this.props.onChange('moduleName', e.target.value)} 
                         type="text" name="moduleName" id="moduleName" 
-                        placeholder="Modulname eintragen" />
+                        placeholder="Modulname eintragen" required />
                     </Col>
                     <Col>
                         <Label for="creditPoints">Credit Points</Label>
-                        <Input value={this.props.data && this.props.data.creditPoints} 
+                        <AvField value={this.props.data && this.props.data.creditPoints} 
                         onChange={e => this.props.onChange('creditPoints', e.target.value)} 
                         type="text" name="creditPoints" id="creditPoints" 
-                        placeholder="Credit Points eintragen" />
+                        placeholder="Credit Points eintragen" required />
                     </Col>
                     <Col xs={12}>
                     <Label for="courseID">Studiengang</Label>
@@ -51,7 +53,7 @@ export default class AddModuleWindow extends Component {
                                         id={"c.courseID" + c.courseID}
                                         checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
                                         label={c.courseName} 
-                                        onChange={(value) => this.props.onChange(c.courseID, value)}/>
+                                        onChange={(value) => this.props.onChange(c.courseID, value)} />
                                     </Col>
                                 </Row> 
                             )}
@@ -61,11 +63,11 @@ export default class AddModuleWindow extends Component {
                     </Col>
                     <Col>
                         <Label for="professorID">Lehrender</Label>
-                        <ProfsInput id="professorID" value={this.props.data.professorID} onChange={ value => this.props.onChange('professorID', value)} />
+                        <ProfsInput id="professorID" value={this.props.data.professorID} onChange={ value => this.props.onChange('professorID', value)} required/>
                     </Col>
                     
                 </Row>
-            </FormGroup>
-        </Form>
+            </AvForm>
+            </>
     }
 }

@@ -20,7 +20,10 @@ class CoursesInput extends Component {
     }
 
     getCourses = () => {
-        this.course.getAll(courses => this.setState({ courses }))
+        let data = {
+            criteria: 'courseName'
+        }
+        this.course.data(data).getAllAsc(courses => this.setState({ courses }))
     }
 
     render () {

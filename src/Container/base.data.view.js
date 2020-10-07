@@ -30,11 +30,17 @@ export default class BaseDataView extends Component {
     }
 
     getProfs = () => {
-        this.professorDB.getAll(profs => this.setState({ profs }))
+        let data = {
+            criteria: 'profName'
+        }
+        this.professorDB.data(data).getAllAsc(profs => this.setState({ profs }))
     }
 
     getCourses = () => {
-        this.courseDB.getAll(courses => this.setState({ courses }))
+        let data = {
+            criteria: 'courseName'
+        }
+        this.courseDB.data(data).getAllAsc(courses => this.setState({ courses }))
     }
     getPage() {
         switch (this.state.detail) {

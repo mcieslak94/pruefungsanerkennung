@@ -3,7 +3,7 @@ import { ListGroupItem } from 'reactstrap'
 
     const DetailListItem = ({ data, listItemClickHandler, active }) => (
         <ListGroupItem active={active} tag="button" action onClick={() => listItemClickHandler()}>
-            <span><b>{(data.caseFirstName ? data.caseFirstName : '') + ' ' + (data.caseLastName ? data.caseLastName : '')}</b></span>
+            <span><b>{(data.caseLastName ? data.caseLastName : '') + ', ' + (data.caseFirstName ? data.caseFirstName : '')}</b></span>
         </ListGroupItem>
     )
 

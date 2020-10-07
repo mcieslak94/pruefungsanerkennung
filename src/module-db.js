@@ -16,7 +16,7 @@ function ModuleDatabase() {
   return ({
     getProfByModule(professorID, cb) {
       getConnection(function (db) {
-        let sql = `SELECT profName, profEmailadress, titel FROM professor WHERE professorID = ${professorID}`
+        let sql = `SELECT profName, titel FROM professor WHERE professorID = ${professorID}`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)

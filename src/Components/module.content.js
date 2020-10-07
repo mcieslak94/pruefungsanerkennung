@@ -24,10 +24,8 @@ export default class ModuleContent extends Component {
         prof: null,
         form: {
             moduleName: '', 
-            profName: '', 
             creditpoints: '', 
             courseID: '' ,
-            profEmail: '',
             professorID:''
         }      
     }

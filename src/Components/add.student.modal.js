@@ -12,7 +12,15 @@ export default class AddStudentModal extends Component {
         } 
     }
 
-    handleChange = (prop, value) => {
+    handleChange = (prop, e) => {
+        console.log('prop', prop)
+        console.log('value', e.target.value)
+        let tempForm = this.state.form
+        tempForm[prop] = e.target.value
+        this.setState({ tempForm })
+    }
+
+    handleCourse = (prop, value) => {
         console.log('prop', prop)
         console.log('value', value)
         let tempForm = this.state.form

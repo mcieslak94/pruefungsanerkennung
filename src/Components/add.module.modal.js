@@ -7,8 +7,7 @@ export default class AddModuleModal extends Component {
         form: {
             moduleName: '',
             creditPoints: '',
-            profName: '', 
-            profEmail: ''           
+            professorID: '', 
         } 
     }
 
