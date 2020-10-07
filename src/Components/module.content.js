@@ -20,6 +20,7 @@ export default class ModuleContent extends Component {
         disabled: true,
         documentsModalOpen: false,
         courses: null,
+        courseIDs: null,
         courseXmodule: null,
         prof: null,
         form: {
@@ -37,17 +38,20 @@ export default class ModuleContent extends Component {
     componentDidUpdate(prevProps) {
         if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.professorID !== prevProps.data.professorID))){
             this.getProfByModule()
+            this.getCourseXmodule()
         }
     }
     
     getCourses = () => {
-        this.courseDB.getAll(courses => this.setState({ courses }))
+        let data = {
+            criteria: 'courseName'
+        }
+        this.courseDB.data(data).getAllAsc(courses => this.setState({ courses }))
     }
     
     getCourseXmodule = () => {
-        this.moduleExtraDB.getProfByModule(this.props.data.professorID, prof => {
-            if(prof && prof.length > 0) prof = prof[0]
-            this.setState({ prof })
+        this.moduleExtraDB.getCourseIDbyModule(this.props.data.moduleID, courseIDs => {
+            this.setState({ courseIDs })
         })    
     }
 
@@ -64,6 +68,25 @@ export default class ModuleContent extends Component {
         let tempForm = this.props.data
         tempForm[prop] = e.target.value
         this.setState({ tempForm })
+    }
+
+    toggleCourse = (courseID, e) => {
+        console.log('##', courseID)
+        if(this.state.courseIDs.find(m => m.courseID === courseID)){
+            var idx =this.state.courseIDs.findIndex(m => m.courseID === courseID)
+            this.state.courseIDs.splice(idx,1)
+            this.removeCourse()
+        } else {
+            let tempCourse = this.state.courseIDs
+            const value = {courseID: courseID}
+            tempCourse.push(value)
+            this.setState({courseIDs: tempCourse})   
+            this.saveCourse()         
+        }
+    }
+
+    saveCourse = () => {
+
     }
 
     handleProf = (prop, e) => {
@@ -115,9 +138,9 @@ export default class ModuleContent extends Component {
                                     <CustomInput disabled={this.state.disabled}
                                         type="checkbox"
                                         id={"c.courseID" + c.courseID}
-                                        checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
+                                        checked={this.state.courseIDs && this.state.courseIDs.length > 0 && (this.state.courseIDs.find(m => m.courseID === c.courseID)) }
                                         label={c.courseName} 
-                                        onChange={(value) => this.props.onChange(c.courseID, value)}/>
+                                        onChange={(value) => this.toggleCourse(c.courseID, value)}/>
                                     </Col>
                                 </Row> 
                             )}

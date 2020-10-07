@@ -22,6 +22,15 @@ function ModuleDatabase() {
           cb(rows)
         });
       })
+    },
+    getCourseIDbyModule(moduleID, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT courseID FROM courseXmodule WHERE moduleID = ${moduleID}`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }
