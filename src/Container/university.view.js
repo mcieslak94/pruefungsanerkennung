@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'reactstrap'
+import UniversityContent from '../Components/university/university.content'
 import UniversityList from '../Components/university/university.list'
 /* import moment from 'moment'
  */
@@ -43,6 +44,10 @@ export default class UniversityView extends Component {
                     />
                 </Col>
                 <Col xs={9} style={{ maxHeight: '75vh' }}> 
+                    <UniversityContent 
+                    detail={this.state.detail} 
+                    data={this.state.universities != null && this.state.detail != null ? this.state.universities[this.state.detail] : null}
+                    />
                 </Col>
             </Row>           
         </>

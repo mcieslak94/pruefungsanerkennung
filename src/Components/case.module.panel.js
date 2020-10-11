@@ -40,7 +40,6 @@ export default class CaseModulePanel extends Component {
     render = () => {
     return ( 
         <div>
-            
             <Row xs={2}>
                 <Col xs={9}>
                 <Table size="sm" hover>

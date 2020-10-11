@@ -1,121 +1,64 @@
 import React, {Component} from 'react'
-import { Form, FormGroup, Row, Col, Label, Input } from 'reactstrap'
-import DocumentDetail from './document.panel';
-import CaseProofPanel from './case.proof.panel';
-import CaseModulePanel from './case.module.panel';
-import CoursesInput from '../Components/inputField.courses'
-import EditFooter from './globals/edit.footer';
+import { Row, Col, Table} from 'reactstrap'
 
-export default class DetailContent extends Component {
+const electron = window.require('electron')
+
+export default class UniversityContent extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
-            disabled: true,
-            moduleModalOpen: false,
-            form: {
-                caseFirstName: '', 
-                caseLastName: '', 
-                mNumber: '', 
-                courseID: '' ,
-                documentID: '',
-                caseID: '',
-                email: '', 
-                geschlecht: ''
-            } 
+        const UniversityDBConnector = electron.remote.require('./university.db.js')
+        this.universitymodulesDB = UniversityDBConnector()
+    }
+    
+    state = { 
+        modules: null
+    }
+
+    componentDidUpdate(prevProps) {
+        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.universityID !== prevProps.data.universityID))){
+            this.getExternModules()
         }
     }
-        
-    handleChange = (prop, e) => {
-        let tempForm = this.props.data
-        tempForm[prop] = e.target.value
-        this.setState({ tempForm })
-    }
 
-    handleSubmit = () => {
-        this.props.onSubmit(this.state.form)
-        this.props.toggle()
-        this.setState({ form: {} })
-    }
-
-    saveChanges = () => {
-        this.props.saveChanges(this.props.data)
-        this.setChangeMode()
-    }
-
-    setChangeMode = () => {
-        this.setState( {disabled: !this.state.disabled} )
+    getExternModules = () => {
+        let data = {
+            universityID: this.props.data.universityID
+        }
+        this.universitymodulesDB.getExternModules(data, modules => this.setState({ modules }))
     }
 
     render = () => {
     return this.props.data
     ?
     <>
-    <div style={{ paddingBottom: "70px", paddingTop: "40px" }}>
-        <Form>
-        <h3 className='header-row'>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
-        
-        <FormGroup>
-            <Row xs={2} style={{ padding: 16 }}>
-                <Col>
-                    <Label for="caseFirstName">Vorname</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.caseFirstName ? this.props.data.caseFirstName : ''} 
-                    onChange= {value => this.handleChange('caseFirstName', value)} />
-                </Col>
-                <Col>
-                    <Label for="caseLastName">Nachname</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.caseLastName ? this.props.data.caseLastName : ''} 
-                    onChange={value => this.handleChange('caseLastName', value)} />
-                </Col>
-                <Col> 
-                    <Label for="mNumber">Matrikelnummer</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.mNumber ? this.props.data.mNumber : ''} 
-                    onChange={value => this.handleChange('mNumber', value)} />
-                </Col>
-                <Col> 
-                    <Label for="email">E-Mail-Adresse</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.email ? this.props.data.email : ''} 
-                    onChange={value => this.handleChange('email', value)} />
-                </Col>
-                <Col> 
-                    <Label for="geschlecht">Geschlecht</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
-                    onChange={value => this.handleChange('geschlecht', value)} />
-                </Col>
-                <Col>
-                <Label for="courseID">Studiengang</Label>
-                    <CoursesInput disabled={this.state.disabled}  value={this.props.data.courseID ? this.props.data.courseID : ''} 
-                    handleChange={this.handleChange} />
+    <div style={{ paddingBottom: "70px", paddingTop: "10px" }}>
+        <h3 style={{ paddingBottom: "20px"}}>{(this.props.data.universityName ? this.props.data.universityName : '') }</h3>
+        <div>
+            <Row xs={2}>
+                <Col xs={12}>
+                <Table size="sm" hover responsive>
+                    <thead>
+                        <tr>
+                        <th xs={5}>Modulname Extern </th>
+                        <th xs={5}>Modulname Fachhochschule Dortmund</th>
+                        <th xs={2}>Anerkannt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.state.modules && this.state.modules.length > 0 && this.state.modules.map(m => 
+                            <tr>
+                                <td>{m.moduleNameExt}</td>
+                                <td>{m.moduleName}</td>
+                                <td>{m.anerkannt}</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </Table>
                 </Col>
             </Row>
-        </FormGroup>
-
-        <hr />
-        <h4>Prüfung der Institution</h4>
-        <Row style={{ padding: 16 }}>
-            <Col xs={12}>
-                <CaseProofPanel disabled={this.state.disabled} />
-            </Col>
-        </Row>
-
-        <hr />
-        <h4>Dokumente</h4>
-        <Row style={{ padding: 16 }}>
-            <Col xs={12}>
-                <DocumentDetail data={this.props.data} disabled={this.state.disabled} />
-            </Col>
-        </Row>
-
-        <hr />
-        <h4>Module</h4>
-        <Row style={{ padding: 16 }}>
-            <Col xs={12}>
-                <CaseModulePanel disabled={this.state.disabled} onSubmit={() => this.setState({ moduleModalOpen: true })}/>
-            </Col>
-        </Row>
-        </Form>
+        </div>
     </div> 
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
     </>
     : <></>    
 }
