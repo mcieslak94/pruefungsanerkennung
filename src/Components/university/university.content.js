@@ -37,19 +37,21 @@ export default class UniversityContent extends Component {
         <div>
             <Row xs={2}>
                 <Col xs={12}>
-                <Table size="sm" hover responsive>
+                <Table size="sm" hover>
                     <thead>
                         <tr>
-                            <th xs={5}>#</th>
-                            <th xs={5}>Modulname Extern </th>
-                            <th xs={5}>Modulname Fachhochschule Dortmund</th>
-                            <th xs={2}>Anerkannt?</th>
+                            <th>#</th>
+                            <th>Studiengang Extern</th>
+                            <th xs={3}>Modulname Extern</th>
+                            <th>Modulname Intern</th>
+                            <th>Anerkannt?</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr>
                                 <td>{idx+1}</td>
+                                <td>{m.courseNameExt}</td>
                                 <td>{m.moduleNameExt}</td>
                                 <td>{m.moduleName}</td>
                                 <td>{m.anerkannt}</td>

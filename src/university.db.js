@@ -16,9 +16,9 @@ function UniversityDBConnector() {
   return ({
     getExternModules(data, cb) {
       getConnection(function (db) {
-        let sql = ` SELECT moduleNameExt, anerkannt, moduleName From module 
+        let sql = ` SELECT moduleNameExt, courseNameExt, anerkannt, moduleName From module 
                     LEFT JOIN moduleXuniversity ON module.moduleID = moduleXuniversity.moduleID 
-                    WHERE moduleXuniversity.universityID = ${data.universityID} order by "moduleNameExt" ASC, "anerkannt" ASC`
+                    WHERE moduleXuniversity.universityID = ${data.universityID} order by  "courseNameExt" ASC, "moduleNameExt" ASC`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)
