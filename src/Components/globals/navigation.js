@@ -18,7 +18,9 @@ const Navigation = (props) => {
                 <NavItem>
                     <NavLink onClick={() => props.changeSite(2)} className='pointer' >Stammdaten</NavLink>
                 </NavItem>
-             
+                <NavItem>
+                    <NavLink onClick={() => props.changeSite(3)} className='pointer' >Hochschulen</NavLink>
+                </NavItem>
             </Nav>
             <Notifications />
           

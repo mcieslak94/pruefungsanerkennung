@@ -6,6 +6,7 @@ import ModuleOverview from './Container/module.overview.js';
 import './styles/main.css'
 import { Container } from 'reactstrap';
 import BaseDataView from './Container/base.data.view.js';
+import UniversityView from './Container/university.view.js';
 
 class App extends Component {
   state = {
@@ -17,6 +18,7 @@ class App extends Component {
       case 0: return <MainView />
       case 1: return <ModuleOverview />  
       case 2: return <BaseDataView />
+      case 3: return <UniversityView />
       default: return <MainView />;
     }
 

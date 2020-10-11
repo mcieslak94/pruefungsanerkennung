@@ -14,6 +14,7 @@ let db = new sqlite.Database(DBFile, sqlite.OPEN_READWRITE, (err) => {
         db.run('CREATE TABLE IF NOT EXISTS cases(caseID INTEGER PRIMARY KEY AUTOINCREMENT, courseID INTEGER, documentID INTEGER, firstName STRING, lastName STRING, mNumber INTEGER, state STRING, createDate INTEGER, FOREIGN KEY(courseID) REFERENCES course(courseID), FOREIGN KEY(documentID) REFERENCES document(documentID))');
         db.run('CREATE TABLE IF NOT EXISTS caseXmodule(case_module_ID INTEGER PRIMARY KEY AUTOINCREMENT, caseID INTEGER, moduleID INTEGER, requestDate INTEGER, requestActive BOOLEAN, FOREIGN KEY(caseID) REFERENCES cases(caseID), FOREIGN KEY(moduleID) REFERENCES module(moduleID))');
         db.run('CREATE TABLE IF NOT EXISTS courseXmodule(course_module_ID INTEGER PRIMARY KEY AUTOINCREMENT, courseID INTEGER, moduleID INTEGER, FOREIGN KEY(courseID) REFERENCES course(courseID), FOREIGN KEY(moduleID) REFERENCES module(moduleID))');
+        db.run('CREATE TABLE IF NOT EXISTS moduleXuniversity(university_module_ID INTEGER PRIMARY KEY AUTOINCREMENT, universityID INTEGER, moduleID INTEGER, moduleNameExt TEXT, FOREIGN KEY(universityID) REFERENCES university(universityID), FOREIGN KEY(moduleID) REFERENCES module(moduleID))');
         db.close()
     }
 })
