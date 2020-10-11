@@ -7,7 +7,6 @@ import { Row, Col } from 'reactstrap'
  */
 const electron = window.require('electron')
 
-
 export default class MainView extends Component {
     constructor(props) {
         super(props)
@@ -52,6 +51,10 @@ export default class MainView extends Component {
                         })
     }
 
+    resetCase = () => {
+        this.getCases()
+    }
+
     saveCase = (student) => {
         let data = {
             value: student,
@@ -82,7 +85,7 @@ export default class MainView extends Component {
                     <DetailContent
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
-                        saveChanges={this.saveCase}
+                        saveChanges={this.saveCase} resetChanges={this.resetCase}
                     />
                 </Col>
             </Row>

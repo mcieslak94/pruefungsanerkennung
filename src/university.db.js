@@ -25,6 +25,16 @@ function UniversityDBConnector() {
           cb(rows)
         });
       })
+    },
+    getUniversityName(data, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT * FROM university WHERE universityID = ${data}`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(this.changes)
+          cb(rows)
+        });
+      })
     }
   })
 }

@@ -35,6 +35,7 @@ export default class ModuleContent extends Component {
         if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.professorID !== prevProps.data.professorID))){
             this.getProfByModule()
             this.getCourseXmodule()
+            console.log('### courseIDs', this.state.courseIDs)
         }
     }
     

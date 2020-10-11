@@ -43,6 +43,11 @@ export default class DetailContent extends Component {
         this.setChangeMode()
     }
 
+    resetChanges = () => {
+        this.props.resetChanges()
+        this.setChangeMode()
+    }
+
     setChangeMode = () => {
         this.setState( {disabled: !this.state.disabled} )
     }
@@ -94,7 +99,10 @@ export default class DetailContent extends Component {
         <h4>Prüfung der Institution</h4>
         <Row style={{ padding: 16 }}>
             <Col xs={12}>
-                <CaseProofPanel disabled={this.state.disabled} />
+                <CaseProofPanel 
+                disabled={this.state.disabled} 
+                data={this.props.data}
+                />
             </Col>
         </Row>
 
@@ -102,7 +110,9 @@ export default class DetailContent extends Component {
         <h4>Dokumente</h4>
         <Row style={{ padding: 16 }}>
             <Col xs={12}>
-                <DocumentDetail data={this.props.data} disabled={this.state.disabled} />
+                <DocumentDetail 
+                data={this.props.data} 
+                disabled={this.state.disabled} />
             </Col>
         </Row>
 
@@ -115,7 +125,7 @@ export default class DetailContent extends Component {
         </Row>
         </Form>
     </div> 
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
     </>
     : <></>    
 }

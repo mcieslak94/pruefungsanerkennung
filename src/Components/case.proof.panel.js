@@ -1,17 +1,36 @@
 import React, { Component } from 'react'
-import { Progress, Row, Col, FormGroup, CustomInput} from 'reactstrap'
+import { Progress, Row, Col, FormGroup, CustomInput, Label, Input} from 'reactstrap'
 import '../App.css';
 
+const electron = window.require('electron')
 
 export default class CaseProofPanel extends Component {
 
+    constructor(props) {
+        super(props)
+        const DatabaseUni = electron.remote.require('./university.db.js')
+        this.UniversityData = DatabaseUni()
+    }
     state = { 
         internChecked: false,
         germanyChecked: false,
         moreChecked: false,
-        progressValue: 0
+        progressValue: 0, 
+        university: null
     } 
-        
+
+    componentDidUpdate(prevProps) {
+        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.universityID !== prevProps.data.universityID))){
+            this.getUniversityName()
+        }
+    }
+    
+    getUniversityName = () => {
+        this.UniversityData.getUniversityName(this.props.data.universityID, university => {
+            if(university && university.length > 0) university = university[0]
+            this.setState({ university })
+          }) 
+    }
     
     getProgressValue = () => {
             var value = 0;
@@ -41,7 +60,17 @@ export default class CaseProofPanel extends Component {
     render = () => {
     return ( 
         <div>
-            
+            <Row xs={2}>
+                    <Col xs={2} style={{ paddingTop: '5px'}}>
+                        <Label for="caseFirstName">Institution wählen</Label>
+                    </Col>
+                    <Col xs={4} style={{ paddingBottom: '10px'}}>
+                        <Input disabled={this.props.disabled} type='text' value={this.state.university && this.state.university.universityName ? this.state.university.universityName : ''} 
+                        onChange= {value => this.handleChange('universityID', value)} />
+                    </Col>
+                    <Col xs={6} style={{ paddingBottom: '10px'}}>
+                    </Col>
+            </Row>
             <Row xs={2}>
                 <Col xs={6}>
                     <FormGroup>
