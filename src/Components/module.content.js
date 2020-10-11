@@ -22,13 +22,9 @@ export default class ModuleContent extends Component {
         courses: null,
         courseIDs: null,
         courseXmodule: null,
-        prof: null,
-        form: {
-            moduleName: '', 
-            creditpoints: '', 
-            courseID: '' ,
-            professorID:''
-        }      
+        prof: null, 
+        deleteArray: [], 
+        addArray: []
     }
     
     componentDidMount() {
@@ -70,12 +66,11 @@ export default class ModuleContent extends Component {
         this.setState({ tempForm })
     }
 
-    toggleCourse = (courseID, e) => {
-        console.log('##', courseID)
+    toggleCourse = (courseID) => {
         if(this.state.courseIDs.find(m => m.courseID === courseID)){
             var idx =this.state.courseIDs.findIndex(m => m.courseID === courseID)
             this.state.courseIDs.splice(idx,1)
-            this.removeCourse()
+            /* this.removeCourse() */
         } else {
             let tempCourse = this.state.courseIDs
             const value = {courseID: courseID}
@@ -140,7 +135,7 @@ export default class ModuleContent extends Component {
                                         id={"c.courseID" + c.courseID}
                                         checked={this.state.courseIDs && this.state.courseIDs.length > 0 && (this.state.courseIDs.find(m => m.courseID === c.courseID)) }
                                         label={c.courseName} 
-                                        onChange={(value) => this.toggleCourse(c.courseID, value)}/>
+                                        onChange={(value) => this.toggleCourse(c.courseID)}/>
                                     </Col>
                                 </Row> 
                             )}
