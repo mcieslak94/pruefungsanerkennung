@@ -92,6 +92,10 @@ body {
   list-style: none;
 }
 
+.base-data-content {
+  overflow-y: scroll;
+  list-style: none;
+}
 
 .edit-footer {
   position: fixed;

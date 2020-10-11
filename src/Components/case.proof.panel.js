@@ -56,7 +56,7 @@ export default class CaseProofPanel extends Component {
                     <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
                 </Col >
                 <Col xs={3}>
-                    <a href="https://www.google.de"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
+                    <a href="https://anabin.kmk.org/anabin.html"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
                 </Col> 
             </Row>
         </div>

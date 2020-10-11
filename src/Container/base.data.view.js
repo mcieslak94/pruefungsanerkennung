@@ -123,7 +123,7 @@ export default class BaseDataView extends Component {
                         data={this.state.baseData}
                     />
                 </Col>
-                <Col xs={9} style={{ minHeight: '89vh' }}>
+                <Col xs={9} style={{ maxHeight: '75vh' }}> 
                     {this.getPage()}
                 </Col>
             </Row>           

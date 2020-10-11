@@ -52,7 +52,7 @@ export default class ProfBaseDateContent extends Component {
             <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" onClick={() => this.setState({ profModalOpen: true })}>+</Button>
             <Button disabled={this.state.profdetail ? false : true } size='lg' color="danger" onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
         </Col>
-        <Col xs={4}>
+        <Col xs={4} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
             <ProfBaseDateList 
             onAdd={() => this.setState({ addModalOpen: true })}
             onChange={value => this.setState({ profdetail: value })}
@@ -60,7 +60,7 @@ export default class ProfBaseDateContent extends Component {
             data={this.props.data}
             />
         </Col>
-        <div style={{borderLeft: '1px solid lightgrey', minHeight: '85vh'}}></div>
+        <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
         <Col xs={6}>
             <EditProfBaseDatePanel 
             disabled={this.state.disabled}
