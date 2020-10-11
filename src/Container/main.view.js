@@ -49,7 +49,6 @@ export default class MainView extends Component {
     addCase = student => {
         this.casesDB.data(student).create(() => {
                             this.getCases()
-                            console.log(' cases added')
                         })
     }
 

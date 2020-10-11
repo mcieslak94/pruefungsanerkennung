@@ -31,6 +31,15 @@ function ModuleDatabase() {
           cb(rows)
         });
       })
+    },
+    deleteCourseXmodule(data, cb) {
+      getConnection(function (db) {
+        let sql = `DELETE FROM courseXmodule WHERE courseID = "${data.courseID}" AND moduleID = "${data.moduleID}"`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }

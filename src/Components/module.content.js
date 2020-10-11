@@ -59,8 +59,6 @@ export default class ModuleContent extends Component {
     }
 
     handleChange = (prop, e) => {
-        console.log('##', prop, e)
-        console.log('## data', this.props.data)
         let tempForm = this.props.data
         tempForm[prop] = e.target.value
         this.setState({ tempForm })
@@ -68,20 +66,46 @@ export default class ModuleContent extends Component {
 
     toggleCourse = (courseID) => {
         if(this.state.courseIDs.find(m => m.courseID === courseID)){
+            let tempCourse = this.state.courseIDs
             var idx =this.state.courseIDs.findIndex(m => m.courseID === courseID)
-            this.state.courseIDs.splice(idx,1)
-            /* this.removeCourse() */
+            tempCourse.splice(idx,1)
+            this.setState({courseIDs: tempCourse})  
+            this.state.deleteArray.push(courseID)
         } else {
             let tempCourse = this.state.courseIDs
             const value = {courseID: courseID}
             tempCourse.push(value)
             this.setState({courseIDs: tempCourse})   
-            this.saveCourse()         
+            this.state.addArray.push(courseID)
         }
     }
 
-    saveCourse = () => {
+    addCourses = () => {
+        this.state.addArray && this.state.addArray.length > 0 && this.state.addArray.map(c => {
+            let data = {
+                courseID: c,
+                moduleID: this.props.data.moduleID
+            }
+            this.courseXDB.data(data).create(() => {
+                this.getCourseXmodule()
+                return null
+            })
+            return null
+    })
+    }
 
+    deleteCourses = () => {
+        this.state.deleteArray && this.state.deleteArray.length > 0 && this.state.deleteArray.map(c => {
+            let data = {
+                courseID: c,
+                moduleID: this.props.data.moduleID
+            }
+            this.moduleExtraDB.deleteCourseXmodule(data, (changes) => {
+            this.getCourseXmodule()
+                return null
+              })
+            return null
+    })
     }
 
     handleProf = (prop, e) => {
@@ -98,6 +122,15 @@ export default class ModuleContent extends Component {
 
     saveChanges = () => {
         this.props.saveChanges(this.props.data)
+        this.addCourses()
+        this.deleteCourses()
+        this.setChangeMode()
+    }
+
+    resetChanges = () => {
+        this.getCourseXmodule()
+        this.setState({addArray: []})
+        this.setState({deleteArray: []})
         this.setChangeMode()
     }
 
@@ -151,7 +184,7 @@ export default class ModuleContent extends Component {
         </FormGroup>
             
 </Form>
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
     </div> 
     : <></>    
 }
