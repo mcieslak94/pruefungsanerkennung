@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
-import { Progress, Row, Col, FormGroup, CustomInput, Label, Input} from 'reactstrap'
+import { Progress, Row, Col, FormGroup, CustomInput, Label} from 'reactstrap'
 import '../App.css';
+import CourseExtInput from './university/inputField.courseExt';
+import UniversityInput from './university/inputField.university';
 
 const electron = window.require('electron')
 
@@ -16,7 +18,7 @@ export default class CaseProofPanel extends Component {
         germanyChecked: false,
         moreChecked: false,
         progressValue: 0, 
-        university: null
+        university: null,
     } 
 
     componentDidUpdate(prevProps) {
@@ -56,17 +58,41 @@ export default class CaseProofPanel extends Component {
         this.setState({ moreChecked: !this.state.moreChecked })
     }
     
+    saveUniversity = (prop, e) => {
+        let tempForm = this.props.data
+        tempForm[prop] = e
+        this.setState({ tempForm })
+        console.log('### temp', tempForm) 
+        console.log('### university', this.state.university) 
+    }
+    
+    saveCourseExt = (prop, e) => {
+        let tempForm = this.props.data
+        tempForm[prop] = e
+        this.setState({ tempForm })
+    }
     
     render = () => {
     return ( 
         <div>
             <Row xs={2}>
                     <Col xs={2} style={{ paddingTop: '5px'}}>
-                        <Label for="caseFirstName">Institution wählen</Label>
+                        <Label for="caseFirstName">ehem. Institution </Label>
                     </Col>
                     <Col xs={4} style={{ paddingBottom: '10px'}}>
-                        <Input disabled={this.props.disabled} type='text' value={this.state.university && this.state.university.universityName ? this.state.university.universityName : ''} 
-                        onChange= {value => this.handleChange('universityID', value)} />
+                        <UniversityInput disabled={this.props.disabled} id="universityID" 
+                        value={this.props.data.universityID ? this.props.data.universityID : ''} 
+                        onChange={value => this.saveUniversity('universityID', value)} />
+                    </Col>
+                    <Col xs={6} style={{ paddingBottom: '10px'}}>
+                    </Col>
+                    <Col xs={2} style={{ paddingTop: '5px'}}>
+                        <Label for="caseFirstName">ehem. Studiengang</Label>
+                    </Col>
+                    <Col xs={4} style={{ paddingBottom: '10px'}}>
+                        <CourseExtInput disabled={this.props.disabled} id="courseNameExt" 
+                        value={this.state.university && this.state.university.courseNameExt ? this.state.university.courseNameExt : ''} 
+                        onChange={value => this.saveUniversity('courseNameExt', value)} />
                     </Col>
                     <Col xs={6} style={{ paddingBottom: '10px'}}>
                     </Col>
@@ -75,9 +101,12 @@ export default class CaseProofPanel extends Component {
                 <Col xs={6}>
                     <FormGroup>
                         <div className="documentChecks">
-                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.internChecked} onChange={this.toggleIntern} id="hochschulinternCheckbox" label="Hochschulinterner Wechsel?"/>
-                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.germanyChecked} onChange={this.toggleGermany} id="germanyCheckbox" label="Institution in Deutschland?" />
-                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.moreChecked} onChange={this.toggleMore} id="moreCheckbox" label="weitere Überprüfung notwendig?"/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.internChecked} 
+                            onChange={this.toggleIntern} id="hochschulinternCheckbox" label="Hochschulinterner Wechsel?"/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.germanyChecked} 
+                            onChange={this.toggleGermany} id="germanyCheckbox" label="Institution in Deutschland?" />
+                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.moreChecked} 
+                            onChange={this.toggleMore} id="moreCheckbox" label="weitere Überprüfung notwendig?"/>
                         </div>
                     </FormGroup>
                 </Col>
