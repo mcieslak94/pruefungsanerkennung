@@ -41,7 +41,7 @@ export default class AddCaseModuleModal extends Component {
                                     id={"c.moduleID" + c.moduleID}
                                     checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
                                     label={c.moduleName} 
-                                    onChange={(value) => this.props.onChange(c.moduleID, value)}/>
+                                    onChange={(value) => this.props.onChange(c.moduleID, c)}/>
                                 </Col>
                             </Row> 
                         )}

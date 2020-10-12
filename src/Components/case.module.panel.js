@@ -8,6 +8,8 @@ export default class CaseModulePanel extends Component {
     constructor(props) {
         super(props)
         const DataBaseConnector = electron.remote.require('./database.connector.js')
+        const CaseXMConnector = electron.remote.require('./modules.db.js')
+        this.caseXmDB = CaseXMConnector()
         this.caseXmoduleDB = DataBaseConnector('caseXmodule')
     }
     state = { 
@@ -16,19 +18,39 @@ export default class CaseModulePanel extends Component {
         selected: []
     } 
 
+    componentDidUpdate(prevProps) {
+        console.log('### prevProps.data', prevProps.data)
+        console.log('### this.props.data', this.props.data)
+        console.log('### erstes', (prevProps.data == null && this.props.data != null))
+        console.log('### this.props.data', this.props.data.caseID)
+        console.log('### prevProps.data', prevProps.data.caseID)
+        console.log('### zweites', (this.props.data.caseID !== prevProps.data.caseID))
+        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.caseID !== prevProps.data.caseID))){
+            this.getCasesXModules()
+            console.log('### modules', this.state.modules)
+        }
+    }
+
     addModulesToTable = () => {
         this.state.selected.map(s => {
-            let newEntry = { caseID: this.props.caseID, moduleID: s }
+            let newEntry = { caseID: this.props.data.caseID, moduleID: s }
             this.caseXmoduleDB.data(newEntry).create(() => {
-                this.getCases()
-                console.log(' caseXmodule added')
+                this.getCasesXModules()
+                console.log('caseXmodule added')
                 return null
             })        
             return null
         })
     }
 
-    handleModuleChange = (id, value) => {
+    getCasesXModules = () => {
+        this.caseXmDB.getCasesXModules(this.props.data.caseID, modules => {
+            this.setState({ modules })
+        })    
+    }
+
+    handleModuleChange = (id, object) => {
+        console.log('### object', object)
         let tempModules = this.state.selected || []
         let modIdx = tempModules.findIndex(m => m === id)
         if (modIdx === -1) tempModules.push(id)
@@ -37,6 +59,8 @@ export default class CaseModulePanel extends Component {
         this.setState({ selected: tempModules })
     }
     
+    
+
     render = () => {
     return ( 
         <div>
@@ -45,35 +69,27 @@ export default class CaseModulePanel extends Component {
                 <Table size="sm" hover>
                     <thead>
                         <tr>
-                        <th>#</th>
-                        <th>Modulname</th>
-                        <th>Name des Fachkollegen</th>
-                        <th>Rückmeldung erhalten</th>
+                            <th>#</th>
+                            <th>Modulname</th>
+                            <th>Name des Fachkollegen</th>
+                            <th>Rückmeldung erhalten</th>
+                            <th>Begründung</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {this.state.modules && this.state.modules.length > 0 && this.state.modules.map(m => {
+                        {console.log('### modules', this.state.modules)} 
+                        {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr>
-                                <th scope="row">1</th>
-                                <td>{m.name}</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
+                                <td>{idx+1}</td>
+                                <td>{m.moduleName}</td>
+                                <td>{m.profName}</td>
+                                <td>{m.requestActive}</td>
+                                <td>{m.begruendung}</td>
                             </tr>
-                        })} */}
-                        <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                        </tr>
-                        <tr>
-                        <th scope="row">3</th>
-                        <td>Larry</td>
-                        <td>the Bird</td>
-                        <td>@twitter</td>
-                        </tr>
+                        )}
                     </tbody>
                 </Table>
+                
                 </Col>
                 
                 <Col xs={3}>
@@ -87,7 +103,7 @@ export default class CaseModulePanel extends Component {
                 open={this.state.moduleModalOpen}
                 size={300}
                 toggle={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}
-                onSubmit={() => this.addModulesToTable}
+                onSubmit={this.addModulesToTable}
             />
         </div>
     );

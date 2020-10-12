@@ -120,7 +120,10 @@ export default class DetailContent extends Component {
         <h4>Module</h4>
         <Row style={{ padding: 16 }}>
             <Col xs={12}>
-                <CaseModulePanel disabled={this.state.disabled} onSubmit={() => this.setState({ moduleModalOpen: true })}/>
+                <CaseModulePanel 
+                data={this.props.data} 
+                disabled={this.state.disabled} 
+                onSubmit={() => this.setState({ moduleModalOpen: true })}/>
             </Col>
         </Row>
         </Form>

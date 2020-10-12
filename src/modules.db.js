@@ -40,6 +40,18 @@ function ModuleDatabase() {
           cb(rows)
         });
       })
+    },
+    getCasesXModules(caseID, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT moduleName, requestActive, titel, profName, begruendung FROM module 
+                          LEFT JOIN caseXmodule ON module.moduleID = caseXmodule.moduleID 
+                          LEFT JOIN professor ON professor.professorID = module.professorID 
+                          WHERE caseID = ${caseID} order by  "moduleName" ASC`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }
