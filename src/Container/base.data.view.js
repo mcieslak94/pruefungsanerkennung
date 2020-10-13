@@ -83,6 +83,7 @@ export default class BaseDataView extends Component {
     }
 
     addCourse = course => {
+        course.intern = true
         this.courseDB.data(course).create(() => {
                             this.getCourses()
                         })

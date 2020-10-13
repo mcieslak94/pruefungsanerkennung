@@ -49,8 +49,10 @@ export default class CourseBaseDateContent extends Component {
     <div style={{paddingTop: '20px', minheight:'89vh'}}>
     <Row>
         <Col xs={1}>
-            <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" onClick={() => this.setState({ courseModalOpen: true })}>+</Button>
-            <Button disabled={this.state.coursedetail ? false : true } size='lg' color="danger" onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
+            <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" 
+            onClick={() => this.setState({ courseModalOpen: true })}>+</Button>
+            <Button disabled={this.state.coursedetail ? false : true } size='lg' color="danger" 
+            onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
         </Col>
         <Col xs={4} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
             <CourseBaseDateList
