@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Row, Col, Table, Button} from 'reactstrap'
 import AddCaseModuleModal from './add.casemodule.modal';
-
+import _ from 'lodash'
 const electron = window.require('electron')
 
 export default class CaseModulePanel extends Component {
@@ -18,22 +18,36 @@ export default class CaseModulePanel extends Component {
         selected: []
     } 
 
-    componentDidUpdate(prevProps) {
-        console.log('### prevProps.data', prevProps.data)
-        console.log('### this.props.data', this.props.data)
-        console.log('### erstes', (prevProps.data == null && this.props.data != null))
-        console.log('### this.props.data', this.props.data.caseID)
-        console.log('### prevProps.data', prevProps.data.caseID)
-        console.log('### zweites', (this.props.data.caseID !== prevProps.data.caseID))
-        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.caseID !== prevProps.data.caseID))){
-            this.getCasesXModules()
-            console.log('### modules', this.state.modules)
-        }
+    componentDidMount () {
+        if(this.props.data && this.props.data.caseID) this.getCasesXModules()
     }
 
-    addModulesToTable = () => {
-        this.state.selected.map(s => {
-            let newEntry = { caseID: this.props.data.caseID, moduleID: s }
+    componentDidUpdate (prevProps) {
+        if(!_.isEqual(this.props.data, prevProps.data)) this.getCasesXModules()
+    }
+
+    addModulesToTable = (selected) => {
+        
+        let removed = []
+        selected = selected.filter(s => {
+            let mIdx = this.state.modules.findIndex(sm => sm.moduleID === s) 
+            if ( mIdx !== -1) removed.push(this.state.modules[mIdx])
+            return mIdx === -1
+        })
+        removed.map(r => {
+            let data = {
+                prop: 'case_module_ID',
+                value: r.case_module_ID
+            }
+            this.caseXmoduleDB.data(data).delete(() => {
+                this.getCasesXModules()
+                console.log('caseXmodule deleted')
+                return null
+            })    
+            return null
+        })
+        selected.map(s => {
+            let newEntry = { caseID: this.props.data.caseID, module_ID: s }
             this.caseXmoduleDB.data(newEntry).create(() => {
                 this.getCasesXModules()
                 console.log('caseXmodule added')
@@ -41,6 +55,7 @@ export default class CaseModulePanel extends Component {
             })        
             return null
         })
+        this.setState({ moduleModalOpen: false })
     }
 
     getCasesXModules = () => {
@@ -56,7 +71,7 @@ export default class CaseModulePanel extends Component {
         if (modIdx === -1) tempModules.push(id)
         else delete tempModules[modIdx]
         tempModules = tempModules.filter(x => x != null)
-        this.setState({ selected: tempModules })
+        this.setState({ selected: tempModules, moduleModalOpen: !this.state.moduleModalOpen })
     }
     
     
@@ -79,7 +94,7 @@ export default class CaseModulePanel extends Component {
                     <tbody>
                         {console.log('### modules', this.state.modules)} 
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
-                            <tr>
+                            <tr key={'module-tr-key-' + idx}>
                                 <td>{idx+1}</td>
                                 <td>{m.moduleName}</td>
                                 <td>{m.profName}</td>
@@ -99,7 +114,7 @@ export default class CaseModulePanel extends Component {
             </Row>
 
             <AddCaseModuleModal className="app-case-module"
-                selected={this.state.selected}
+                modules={this.state.modules}
                 onChange={this.handleModuleChange}
                 open={this.state.moduleModalOpen}
                 size={300}

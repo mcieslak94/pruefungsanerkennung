@@ -25,7 +25,7 @@ function ModuleDatabase() {
     },
     getCourseIDbyModule(moduleID, cb) {
       getConnection(function (db) {
-        let sql = `SELECT courseID FROM courseXmodule WHERE moduleID = ${moduleID}`
+        let sql = `SELECT courseID FROM courseXmodule WHERE module_ID = ${moduleID}`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)
@@ -34,7 +34,7 @@ function ModuleDatabase() {
     },
     deleteCourseXmodule(data, cb) {
       getConnection(function (db) {
-        let sql = `DELETE FROM courseXmodule WHERE courseID = "${data.courseID}" AND moduleID = "${data.moduleID}"`
+        let sql = `DELETE FROM courseXmodule WHERE courseID = "${data.courseID}" AND module_ID = "${data.moduleID}"`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)
@@ -43,8 +43,8 @@ function ModuleDatabase() {
     },
     getCasesXModules(caseID, cb) {
       getConnection(function (db) {
-        let sql = `SELECT moduleName, requestActive, titel, profName, begruendung FROM module 
-                          LEFT JOIN caseXmodule ON module.moduleID = caseXmodule.moduleID 
+        let sql = `SELECT moduleName, moduleID, case_module_ID, requestActive, titel, profName, begruendung FROM module 
+                          LEFT JOIN caseXmodule ON module.moduleID = caseXmodule.module_ID 
                           LEFT JOIN professor ON professor.professorID = module.professorID 
                           WHERE caseID = ${caseID} order by  "moduleName" ASC`
         db.all(sql, [], (err, rows) => {

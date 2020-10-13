@@ -1,6 +1,6 @@
 import React, {Component} from 'react' 
 import { ModalHeader, Modal, ModalBody, ModalFooter, Button, FormGroup, Label, Row, Col, CustomInput } from 'reactstrap'
-
+import _ from 'lodash'
 const electron = window.require('electron')
 
 export default class AddCaseModuleModal extends Component {
@@ -21,9 +21,39 @@ export default class AddCaseModuleModal extends Component {
         this.getModules()
     }
 
-    getModules = () => {
-        this.module.getAll(modules => this.setState({ modules }))
+    componentDidUpdate(prevProps) {
+        if (!_.isEqual(this.props.modules, prevProps.modules) && this.state.modules) this.setInitSelected()
     }
+
+    onChange = (id) => {
+        let tempModules = this.state.selected || []
+        let modIdx = tempModules.findIndex(m => m === id)
+        if (modIdx === -1) tempModules.push(id)
+        else delete tempModules[modIdx]
+        tempModules = tempModules.filter(x => x != null)
+        this.setState({ selected: tempModules })
+    }
+
+    getModules = () => {
+        this.module.getAll(modules => {
+            this.setState({ modules }, () => this.setInitSelected())
+    })
+
+    }
+
+    setInitSelected = () => {
+        console.log('### propsModules', this.props.modules)
+        console.log('### stateModules', this.state.modules)
+
+        if (this.props.modules && this.props.modules.length > 0) {
+            let selected = []
+            selected = this.state.modules.filter(m => this.props.modules.findIndex(pm => pm.moduleID === m.moduleID) !== -1)
+            selected = selected.map(x => x.moduleID)
+            this.setState({ selected })
+        }
+    }
+
+
 
     render = () => {
         return  (
@@ -39,9 +69,9 @@ export default class AddCaseModuleModal extends Component {
                                 <CustomInput
                                     type="checkbox"
                                     id={"c.moduleID" + c.moduleID}
-                                    checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
+                                    checked={this.state.selected && this.state.selected.length > 0 && (this.state.selected.findIndex(m => m === c.moduleID) !== -1)} 
                                     label={c.moduleName} 
-                                    onChange={(value) => this.props.onChange(c.moduleID, c)}/>
+                                    onChange={(value) => this.onChange(c.moduleID, c)}/>
                                 </Col>
                             </Row> 
                         )}
@@ -49,7 +79,7 @@ export default class AddCaseModuleModal extends Component {
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={this.props.onSubmit}>Speichern</Button>{' '}
+                    <Button color="primary" onClick={() => this.props.onSubmit(this.state.selected)}>Speichern</Button>{' '}
                     <Button color="secondary" onClick={this.props.toggle}>Abbrechen</Button>
                 </ModalFooter>
             </Modal>
