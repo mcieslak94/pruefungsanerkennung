@@ -7,6 +7,7 @@ import './styles/main.css'
 import { Container } from 'reactstrap';
 import BaseDataView from './Container/base.data.view.js';
 import UniversityView from './Container/university.view.js';
+import ArchivView from './Container/archiv.view.js';
 
 class App extends Component {
   state = {
@@ -19,6 +20,7 @@ class App extends Component {
       case 1: return <ModuleOverview />  
       case 2: return <BaseDataView />
       case 3: return <UniversityView />
+      case 4: return <ArchivView />
       default: return <MainView />;
     }
 

@@ -1,65 +1,28 @@
 import React, {Component} from 'react'
 import { Form, FormGroup, Row, Col, Label, Input } from 'reactstrap'
-import DocumentDetail from './document.panel';
-import CaseProofPanel from './case.proof.panel';
-import CaseModulePanel from './case.module.panel';
-import CoursesInput from '../Components/inputField.courses'
-import EditFooter from './globals/edit.footer';
+import CoursesInput from '../inputField.courses';
+import CaseProofPanel from '../case.proof.panel';
+import DocumentDetail from '../document.panel';
+import CaseModulePanel from '../case.module.panel';
 
-export default class DetailContent extends Component {
+export default class ArchivContent extends Component {
 
     constructor(props) {
         super(props);
         this.state = { 
-            disabled: true,
-            moduleModalOpen: false,
-            archiv: false,
-            form: {
-                caseFirstName: '', 
-                caseLastName: '', 
-                mNumber: '', 
-                courseID: '' ,
-                documentID: '',
-                caseID: '',
-                email: '', 
-                geschlecht: ''
-            } 
+            disabled: true, 
+            archiv: true
+
         }
-    }
-        
-    handleChange = (prop, e) => {
-        let tempForm = this.props.data
-        tempForm[prop] = e.target.value
-        this.setState({ tempForm })
-    }
-
-    handleSubmit = () => {
-        this.props.onSubmit(this.state.form)
-        this.props.toggle()
-        this.setState({ form: {} })
-    }
-
-    saveChanges = () => {
-        this.props.saveChanges(this.props.data)
-        this.setChangeMode()
-    }
-
-    resetChanges = () => {
-        this.props.resetChanges()
-        this.setChangeMode()
-    }
-
-    setChangeMode = () => {
-        this.setState( {disabled: !this.state.disabled} )
     }
 
     render = () => {
     return this.props.data
     ?
     <>
-    <div style={{ paddingBottom: "70px", paddingTop: "40px" }}>
+    <div>
         <Form>
-        <h3 className='header-row'>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
+        <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
         
         <FormGroup>
             <Row xs={2} style={{ padding: 16 }}>
@@ -129,7 +92,6 @@ export default class DetailContent extends Component {
         </Row>
         </Form>
     </div> 
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
     </>
     : <></>    
 }

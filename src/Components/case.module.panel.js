@@ -65,7 +65,7 @@ export default class CaseModulePanel extends Component {
     return ( 
         <div>
             <Row xs={2}>
-                <Col xs={9}>
+                <Col xs={10}>
                 <Table size="sm" hover>
                     <thead>
                         <tr>
@@ -91,10 +91,11 @@ export default class CaseModulePanel extends Component {
                 </Table>
                 
                 </Col>
-                
-                <Col xs={3}>
+                {console.log('### archiv',  this.props.archiv)}
+                {!this.props.archiv ?
+                <Col xs={2}>
                     <Button disabled={this.props.disabled} color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>
-                </Col> 
+                </Col> : <></>} 
             </Row>
 
             <AddCaseModuleModal className="app-case-module"
