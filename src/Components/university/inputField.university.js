@@ -22,10 +22,10 @@ class UniversityInput extends Component {
     getUnis = () => {
         this.uniDB.getAll(universities => this.setState({ universities }))
     }
-
+    
     render () {
         return (
-           <Input disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='Hochschule wählen...' onChange={e => this.props.onChange(e.target.value)}>
+            <Input disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='Hochschule wählen...' onChange={e => this.props.onChange(e.target.value)}>
                {this.state.universities && this.state.universities.length > 0 && this.state.universities.map(c => <option key={'universities-option-' + c.universityID} value={c.universityID}>{c.universityName}</option>)}
            </Input>  
         )}

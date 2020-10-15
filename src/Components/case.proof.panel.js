@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Progress, Row, Col, FormGroup, CustomInput, Label} from 'reactstrap'
+import { Progress, Row, Col, FormGroup, CustomInput, Label, Button, Input} from 'reactstrap'
 import '../App.css';
-import CourseExtInput from './university/inputField.courseExt';
-import UniversityInput from './university/inputField.university';
+import AddUniversityModal from './university/add.university.modal';
+import AddExtCourseModal from './university/add.ext.course.modal';
 
 const electron = window.require('electron')
 
@@ -11,6 +11,8 @@ export default class CaseProofPanel extends Component {
     constructor(props) {
         super(props)
         const DatabaseUni = electron.remote.require('./university.db.js')
+        const DataBaseConnector = electron.remote.require('./database.connector.js')
+        this.uniDB = DataBaseConnector('university')
         this.UniversityData = DatabaseUni()
         this.ExtCourseData = DatabaseUni()
     }
@@ -20,13 +22,21 @@ export default class CaseProofPanel extends Component {
         moreChecked: false,
         progressValue: 0, 
         university: null,
-        extCourses: null
+        extCourses: null,
+        extCourseModalOpen: false,
+        universityModalOpen: false,
+        universities: null
     } 
+
+    componentDidMount() {
+        this.getUnis()
+        this.getExtCourses()
+
+    }
 
     componentDidUpdate(prevProps) {
         if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.universityID !== prevProps.data.universityID))){
             this.getUniversityName()
-            this.getExtCourses()
         }
     }
     
@@ -34,6 +44,10 @@ export default class CaseProofPanel extends Component {
         this.ExtCourseData.getExtCourses( extCourses => {
             this.setState({ extCourses })
           }) 
+    }
+
+    getUnis = () => {
+        this.uniDB.getAll(universities => this.setState({ universities }))
     }
 
     getUniversityName = () => {
@@ -78,6 +92,18 @@ export default class CaseProofPanel extends Component {
         tempForm[prop] = e
         this.setState({ tempForm })
     }
+
+    addExtCourse = (extCourse) => {
+        this.props.addExtCourse(extCourse)
+        this.getExtCourses()
+        console.log('this.state.extCourse', this.state.extCourse)
+    }
+    
+    addUniversity = (university) => {
+        this.props.addUniversity(university)
+        this.getUnis()
+        console.log('this.state.universities', this.state.universities)
+    }
     
     render = () => {
     return ( 
@@ -85,15 +111,26 @@ export default class CaseProofPanel extends Component {
             <Row xs={2} style={{ paddingBottom: 16 }}>
                 <Col>
                     <Label for="caseFirstName">ehem. Institution </Label>
-                    <UniversityInput disabled={this.props.disabled} id="universityID" 
-                        value={this.props.data.universityID ? this.props.data.universityID : ''} 
-                        onChange={value => this.saveUniversity('universityID', value)} />
+                    <div style={{ float:"right"}}>
+                        <Button size="sm" style={{ marginBottom: 5 }} color="success" onClick={() => this.setState({ universityModalOpen: true })}>+</Button>
+                    </div>
+                    <Input disabled={this.props.disabled} id="universityID" type={'select'} value={this.props.data.universityID ? this.props.data.universityID : ''} 
+                        onChange={e => this.saveUniversity('universityID', e.target.value)} >
+                        {this.state.universities && this.state.universities.length > 0 && this.state.universities.map(c => <option key={'universities-option-' + c.universityID} 
+                        value={c.universityID}>{c.universityName}</option>)}
+                    </Input> 
+                    
                 </Col>
                 <Col>
                     <Label for="caseFirstName">ehem. Studiengang</Label>
-                    <CourseExtInput disabled={this.props.disabled} id="courseNameExt" 
-                        value={this.state.extCourses && this.state.extCourses.length > 0 ? this.state.extCourses : ''} 
-                        onChange={value => this.saveUniversity('courseNameExt', value)} />
+                    <div style={{ float:"right"}}>
+                        <Button size="sm" style={{ marginBottom: 5 }} color="success" onClick={() => this.setState({ extCourseModalOpen: true })}>+</Button>
+                    </div>
+                    <Input   disabled={this.props.disabled} type={'select'} value={this.props.data.extCourseID ? this.props.data.extCourseID : ''} 
+                        onChange={e => this.saveUniversity('extCourseID', e.target.value)}>
+                        {this.state.extCourses && this.state.extCourses.length > 0 && this.state.extCourses.map((c, idx) => <option key={'course-option-' + idx} 
+                        value={c.courseID}>{c.courseName}</option>)}
+                    </Input> 
                 </Col>
             </Row>
             
@@ -117,6 +154,16 @@ export default class CaseProofPanel extends Component {
                     <a href="https://anabin.kmk.org/anabin.html"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
                 </Col> 
             </Row>
+            <AddExtCourseModal className="app-modal-addExtCourse"
+                open={this.state.extCourseModalOpen}
+                toggle={() => this.setState({ extCourseModalOpen: !this.state.extCourseModalOpen })}
+                onSubmit={this.addExtCourse}
+            />
+            <AddUniversityModal className="app-modal-addUniversity"
+                open={this.state.universityModalOpen}
+                toggle={() => this.setState({ universityModalOpen: !this.state.universityModalOpen })}
+                onSubmit={this.addUniversity}
+            />
         </div>
     );
     }

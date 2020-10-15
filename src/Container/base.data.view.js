@@ -12,8 +12,9 @@ export default class BaseDataView extends Component {
     constructor(props) {
         super(props)
         const DataBaseConnector = electron.remote.require('./database.connector.js')
+        const CourseConnector = electron.remote.require('./course.db.js')
+        this.courseDB = CourseConnector()
         this.professorDB = DataBaseConnector('professor')
-        this.courseDB = DataBaseConnector('course')
     }
 
     state = {
@@ -38,9 +39,9 @@ export default class BaseDataView extends Component {
 
     getCourses = () => {
         let data = {
-            criteria: 'courseName'
+            intern: '1'
         }
-        this.courseDB.data(data).getAllAsc(courses => this.setState({ courses }))
+        this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
     getPage() {
         switch (this.state.detail) {

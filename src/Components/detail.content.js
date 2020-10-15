@@ -53,6 +53,14 @@ export default class DetailContent extends Component {
         this.setState( {disabled: !this.state.disabled} )
     }
 
+    addExtCourse = (extCourse) => {
+        this.props.addExtCourse(extCourse)
+    }
+
+    addUniversity = (university) => {
+        this.props.addUniversity(university)
+    }
+
     render = () => {
     return this.props.data
     ?
@@ -103,6 +111,8 @@ export default class DetailContent extends Component {
                 <CaseProofPanel 
                 disabled={this.state.disabled} 
                 data={this.props.data}
+                addExtCourse={this.addExtCourse} 
+                addUniversity={this.addUniversity}
                 />
             </Col>
         </Row>
@@ -113,7 +123,7 @@ export default class DetailContent extends Component {
             <Col xs={12}>
                 <DocumentDetail 
                 data={this.props.data} 
-                disabled={this.state.disabled} />
+                disabled={this.state.disabled}/>
             </Col>
         </Row>
 

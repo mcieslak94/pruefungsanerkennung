@@ -14,6 +14,7 @@ export default class MainView extends Component {
         const DatabaseCase = electron.remote.require('./casedb.js')
         this.course = DataBaseConnector('course')
         this.casesDB = DataBaseConnector('cases')
+        this.universityDB = DataBaseConnector('university')
         this.caseDB = DatabaseCase()
     }
 
@@ -62,6 +63,20 @@ export default class MainView extends Component {
         }
         this.casesDB.data(data).update(() => this.getCases())
     }
+
+    addExtCourse = extCourse => {
+        extCourse.intern = '0'
+        this.course.data(extCourse).create(() => {
+                            this.getCourses()
+                        })
+    }
+
+    addUniversity = university => {
+        this.universityDB.data(university).create(() => {
+                            this.getCourses()
+                        })
+    }
+
           
     render = () => {
         return <>    
@@ -85,7 +100,8 @@ export default class MainView extends Component {
                     <DetailContent
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
-                        saveChanges={this.saveCase} resetChanges={this.resetCase}
+                        saveChanges={this.saveCase} resetChanges={this.resetCase} 
+                        addUniversity={this.addUniversity} addExtCourse={this.addExtCourse}
                     />
                 </Col>
             </Row>
