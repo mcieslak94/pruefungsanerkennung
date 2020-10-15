@@ -21,7 +21,6 @@ export default class CaseProofPanel extends Component {
         germanyChecked: false,
         moreChecked: false,
         progressValue: 0, 
-        university: null,
         extCourses: null,
         extCourseModalOpen: false,
         universityModalOpen: false,
@@ -31,15 +30,8 @@ export default class CaseProofPanel extends Component {
     componentDidMount() {
         this.getUnis()
         this.getExtCourses()
-
     }
 
-    componentDidUpdate(prevProps) {
-        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.universityID !== prevProps.data.universityID))){
-            this.getUniversityName()
-        }
-    }
-    
     getExtCourses = () => {
         this.ExtCourseData.getExtCourses( extCourses => {
             this.setState({ extCourses })
@@ -50,13 +42,6 @@ export default class CaseProofPanel extends Component {
         this.uniDB.getAll(universities => this.setState({ universities }))
     }
 
-    getUniversityName = () => {
-        this.UniversityData.getUniversityName(this.props.data.universityID, university => {
-            if(university && university.length > 0) university = university[0]
-            this.setState({ university })
-          }) 
-    }
-    
     getProgressValue = () => {
             var value = 0;
             if(this.state.internChecked && this.state.germanyChecked && this.state.moreChecked){
@@ -94,9 +79,10 @@ export default class CaseProofPanel extends Component {
     }
 
     addExtCourse = (extCourse) => {
-        this.props.addExtCourse(extCourse)
+        this.props.addExtCourse(extCourse, (this.callback))
+
         this.getExtCourses()
-        console.log('this.state.extCourse', this.state.extCourse)
+        console.log('this.state.extCourse', this.state.extCourses)
     }
     
     addUniversity = (university) => {
