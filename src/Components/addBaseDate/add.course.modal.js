@@ -27,7 +27,7 @@ export default class AddCourseModal extends Component {
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Row xs={2} style={{ padding: 16 }}>
+                            <Row style={{ padding: 16 }}>
                                 <Col>
                                     <Label for="courseName">Name des Studiengangs</Label>
                                     <Input value={this.props.data && this.props.data.courseName} 

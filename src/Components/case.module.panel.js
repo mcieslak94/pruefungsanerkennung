@@ -41,7 +41,6 @@ export default class CaseModulePanel extends Component {
             }
             this.caseXmoduleDB.data(data).delete(() => {
                 this.getCasesXModules()
-                console.log('caseXmodule deleted')
                 return null
             })    
             return null
@@ -50,7 +49,6 @@ export default class CaseModulePanel extends Component {
             let newEntry = { caseID: this.props.data.caseID, module_ID: s }
             this.caseXmoduleDB.data(newEntry).create(() => {
                 this.getCasesXModules()
-                console.log('caseXmodule added')
                 return null
             })        
             return null
@@ -65,7 +63,6 @@ export default class CaseModulePanel extends Component {
     }
 
     handleModuleChange = (id, object) => {
-        console.log('### object', object)
         let tempModules = this.state.selected || []
         let modIdx = tempModules.findIndex(m => m === id)
         if (modIdx === -1) tempModules.push(id)
@@ -92,7 +89,6 @@ export default class CaseModulePanel extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {console.log('### modules', this.state.modules)} 
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr key={'module-tr-key-' + idx}>
                                 <td>{idx+1}</td>
@@ -106,7 +102,6 @@ export default class CaseModulePanel extends Component {
                 </Table>
                 
                 </Col>
-                {console.log('### archiv',  this.props.archiv)}
                 {!this.props.archiv ?
                 <Col xs={2}>
                     <Button disabled={this.props.disabled} color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>

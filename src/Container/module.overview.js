@@ -30,7 +30,6 @@ export default class MainView extends Component {
     addModule = newModule => {
       this.module.data(newModule).create(() => {
         this.getModules()
-        console.log(' module added')
     })
     }
 

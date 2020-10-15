@@ -59,7 +59,6 @@ export default class BaseDataView extends Component {
 }
 
     saveProf = (prof) => {
-        console.log(prof)
         let data = {
             value: prof,
             selector: { professorID: prof.professorID }
@@ -68,7 +67,6 @@ export default class BaseDataView extends Component {
     }
 
     saveCourse = (course) => {
-        console.log(course)
         let data = {
             value: course,
             selector: { courseID: course.courseID }
@@ -94,7 +92,6 @@ export default class BaseDataView extends Component {
             prop: 'professorID',
             value: professorID
         }
-        console.log('##', data.prop, data.value)
         this.professorDB.data(data).delete(() => {
                             this.getProfs()
                         })

@@ -42,9 +42,6 @@ export default class AddCaseModuleModal extends Component {
     }
 
     setInitSelected = () => {
-        console.log('### propsModules', this.props.modules)
-        console.log('### stateModules', this.state.modules)
-
         if (this.props.modules && this.props.modules.length > 0) {
             let selected = []
             selected = this.state.modules.filter(m => this.props.modules.findIndex(pm => pm.moduleID === m.moduleID) !== -1)

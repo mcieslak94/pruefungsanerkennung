@@ -35,7 +35,6 @@ export default class ModuleContent extends Component {
         if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.professorID !== prevProps.data.professorID))){
             this.getProfByModule()
             this.getCourseXmodule()
-            console.log('### courseIDs', this.state.courseIDs)
         }
     }
     
@@ -85,7 +84,7 @@ export default class ModuleContent extends Component {
         this.state.addArray && this.state.addArray.length > 0 && this.state.addArray.map(c => {
             let data = {
                 courseID: c,
-                moduleID: this.props.data.moduleID
+                module_ID: this.props.data.moduleID
             }
             this.courseXDB.data(data).create(() => {
                 this.getCourseXmodule()
@@ -99,8 +98,10 @@ export default class ModuleContent extends Component {
         this.state.deleteArray && this.state.deleteArray.length > 0 && this.state.deleteArray.map(c => {
             let data = {
                 courseID: c,
-                moduleID: this.props.data.moduleID
+                module_ID: this.props.data.moduleID
             }
+            console.log('### course', data.courseID)
+            console.log('### module', data.module_ID)
             this.moduleExtraDB.deleteCourseXmodule(data, (changes) => {
             this.getCourseXmodule()
                 return null

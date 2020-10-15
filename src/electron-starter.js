@@ -3,7 +3,6 @@ const electron = require('electron');
 const sqlite = require('sqlite3').verbose();
 const DBFile = './db/case.db'
 let db = new sqlite.Database(DBFile, sqlite.OPEN_READWRITE, (err) => {
-    console.log('#### TRIGGER')
     if (err) console.error('####', err.message);
     else {
         console.info(`Connected to ${DBFile} DB`)

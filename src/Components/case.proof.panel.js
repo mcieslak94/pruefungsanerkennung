@@ -12,6 +12,7 @@ export default class CaseProofPanel extends Component {
         super(props)
         const DatabaseUni = electron.remote.require('./university.db.js')
         this.UniversityData = DatabaseUni()
+        this.ExtCourseData = DatabaseUni()
     }
     state = { 
         internChecked: false,
@@ -19,14 +20,22 @@ export default class CaseProofPanel extends Component {
         moreChecked: false,
         progressValue: 0, 
         university: null,
+        extCourses: null
     } 
 
     componentDidUpdate(prevProps) {
         if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.universityID !== prevProps.data.universityID))){
             this.getUniversityName()
+            this.getExtCourses()
         }
     }
     
+    getExtCourses = () => {
+        this.ExtCourseData.getExtCourses( extCourses => {
+            this.setState({ extCourses })
+          }) 
+    }
+
     getUniversityName = () => {
         this.UniversityData.getUniversityName(this.props.data.universityID, university => {
             if(university && university.length > 0) university = university[0]
@@ -62,8 +71,6 @@ export default class CaseProofPanel extends Component {
         let tempForm = this.props.data
         tempForm[prop] = e
         this.setState({ tempForm })
-        console.log('### temp', tempForm) 
-        console.log('### university', this.state.university) 
     }
     
     saveCourseExt = (prop, e) => {
@@ -75,28 +82,21 @@ export default class CaseProofPanel extends Component {
     render = () => {
     return ( 
         <div>
-            <Row xs={2}>
-                    <Col xs={2} style={{ paddingTop: '5px'}}>
-                        <Label for="caseFirstName">ehem. Institution </Label>
-                    </Col>
-                    <Col xs={4} style={{ paddingBottom: '10px'}}>
-                        <UniversityInput disabled={this.props.disabled} id="universityID" 
+            <Row xs={2} style={{ paddingBottom: 16 }}>
+                <Col>
+                    <Label for="caseFirstName">ehem. Institution </Label>
+                    <UniversityInput disabled={this.props.disabled} id="universityID" 
                         value={this.props.data.universityID ? this.props.data.universityID : ''} 
                         onChange={value => this.saveUniversity('universityID', value)} />
-                    </Col>
-                    <Col xs={6} style={{ paddingBottom: '10px'}}>
-                    </Col>
-                    <Col xs={2} style={{ paddingTop: '5px'}}>
-                        <Label for="caseFirstName">ehem. Studiengang</Label>
-                    </Col>
-                    <Col xs={4} style={{ paddingBottom: '10px'}}>
-                        <CourseExtInput disabled={this.props.disabled} id="courseNameExt" 
-                        value={this.state.university && this.state.university.courseNameExt ? this.state.university.courseNameExt : ''} 
+                </Col>
+                <Col>
+                    <Label for="caseFirstName">ehem. Studiengang</Label>
+                    <CourseExtInput disabled={this.props.disabled} id="courseNameExt" 
+                        value={this.state.extCourses && this.state.extCourses.length > 0 ? this.state.extCourses : ''} 
                         onChange={value => this.saveUniversity('courseNameExt', value)} />
-                    </Col>
-                    <Col xs={6} style={{ paddingBottom: '10px'}}>
-                    </Col>
+                </Col>
             </Row>
+            
             <Row xs={2}>
                 <Col xs={6}>
                     <FormGroup>

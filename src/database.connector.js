@@ -28,7 +28,6 @@ function DatabaseConnector(tableName) {
       return {
         create: function(cb){
           getConnection(function (db) {
-            console.log(data)
             let propNames = Object.keys(data).map(prop => prop).join(', ')
             let values = Object.keys(data).map(prop => data[prop])
             db.run(`INSERT INTO ${tableName} (${propNames}) VALUES (${Object.keys(data).map(prop => '?').join(', ')})`, values, function(err, row) {
@@ -50,13 +49,11 @@ function DatabaseConnector(tableName) {
         },
         update: function(cb){
           getConnection(function (db) {
-          console.log(data)
           let update = Object.keys(data.value).map(prop => `${prop} = "${data.value[prop]}"`).join(', ')
           let selector = ''
           if (Object.keys(data.selector).length > 1) selector = Object.keys(data.selector).map(prop => `${prop} = ${data.selector[prop]}`).join(' AND ')
           else selector = Object.keys(data.selector).map(prop => `${prop} = ${data.selector[prop]}`).join(' ')
             db.run(`UPDATE ${tableName} SET ${update} WHERE ${selector}`, function(err) {
-              console.log('UPDATED ', selector)
               if (err) throw err;
               cb(this.changes)
               db.close()

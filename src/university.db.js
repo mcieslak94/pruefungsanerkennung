@@ -39,7 +39,7 @@ function UniversityDBConnector() {
     },
     getExtCourses(cb) {
       getConnection(function (db) {
-        let sql = `SELECT DISTINCT courseNameExt FROM university`
+        let sql = `SELECT DISTINCT * FROM Course WHERE intern = "0"`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)

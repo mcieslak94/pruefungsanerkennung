@@ -34,7 +34,10 @@ function ModuleDatabase() {
     },
     deleteCourseXmodule(data, cb) {
       getConnection(function (db) {
-        let sql = `DELETE FROM courseXmodule WHERE courseID = "${data.courseID}" AND module_ID = "${data.moduleID}"`
+        console.log('### course', data.courseID)
+        console.log('### module', data.module_ID)
+        let sql = `DELETE FROM courseXmodule WHERE courseID = "${data.courseID}" AND module_ID = "${data.module_ID}"`
+        console.log('### sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)

@@ -30,7 +30,7 @@ class CourseExtInput extends Component {
            <Input   disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='ehem. Studiengang wählen...'
                     onChange={e => this.props.onChange(e.target.value)}>
                     {this.state.courseExt && this.state.courseExt.length > 0 && this.state.courseExt.map((c, idx) => <option key={'course-option-' + idx} 
-                    value={c.universityID}>{c.courseNameExt}</option>)}
+                    value={c.courseID}>{c.courseName}</option>)}
            </Input>  
         )}
 }
