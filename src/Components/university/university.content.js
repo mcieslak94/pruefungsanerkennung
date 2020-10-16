@@ -51,7 +51,7 @@ export default class UniversityContent extends Component {
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr key={'university-tr-key-' + idx}>
                                 <td>{idx+1}</td>
-                                <td>{m.courseNameExt}</td>
+                                <td>{m.courseName}</td>
                                 <td>{m.moduleNameExt}</td>
                                 <td>{m.moduleName}</td>
                                 <td>{m.anerkannt}</td>

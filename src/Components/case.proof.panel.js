@@ -13,7 +13,7 @@ export default class CaseProofPanel extends Component {
         const DatabaseUni = electron.remote.require('./university.db.js')
         const DataBaseConnector = electron.remote.require('./database.connector.js')
         this.uniDB = DataBaseConnector('university')
-        this.UniversityData = DatabaseUni()
+        this.course = DataBaseConnector('course')
         this.ExtCourseData = DatabaseUni()
     }
     state = { 
@@ -79,15 +79,17 @@ export default class CaseProofPanel extends Component {
     }
 
     addExtCourse = (extCourse) => {
-        this.props.addExtCourse(extCourse, (this.callback))
-
-        this.getExtCourses()
+        extCourse.intern = '0'
+        this.course.data(extCourse).create(() => {
+                            this.getExtCourses()
+                        })
         console.log('this.state.extCourse', this.state.extCourses)
     }
     
     addUniversity = (university) => {
-        this.props.addUniversity(university)
-        this.getUnis()
+        this.uniDB.data(university).create(() => {
+            this.getUnis()
+        })
         console.log('this.state.universities', this.state.universities)
     }
     

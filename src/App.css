@@ -101,7 +101,7 @@ body {
   position: fixed;
   background: #fff;
   bottom: 0;
-  left: 25%;
+  left: 16.666666%;
   right: 0;
   height: 43px;
   z-index: 1;
@@ -115,7 +115,7 @@ body {
   position: fixed;
   background: #fff;
   top: 79px;
-  left: 25%;
+  left: 16.666666%;
   right: 15px;
   height: 50px;
   z-index: 1;

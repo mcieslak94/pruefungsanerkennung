@@ -12,8 +12,8 @@ export default class MainView extends Component {
         super(props)
         const DataBaseConnector = electron.remote.require('./database.connector.js')
         const DatabaseCase = electron.remote.require('./casedb.js')
-        this.course = DataBaseConnector('course')
         this.casesDB = DataBaseConnector('cases')
+        this.course = DataBaseConnector('course')
         this.universityDB = DataBaseConnector('university')
         this.caseDB = DatabaseCase()
     }
@@ -63,21 +63,7 @@ export default class MainView extends Component {
         }
         this.casesDB.data(data).update(() => this.getCases())
     }
-
-    addExtCourse = extCourse => {
-        extCourse.intern = '0'
-        this.course.data(extCourse).create(() => {
-                            this.getCourses()
-                        })
-    }
-
-    addUniversity = university => {
-        this.universityDB.data(university).create(() => {
-                            this.getCourses()
-                        })
-    }
-
-          
+         
     render = () => {
         return <>    
             <Row className='app-header'>
@@ -88,7 +74,7 @@ export default class MainView extends Component {
  */} 
             </Row>
             <Row className='app-body'>
-                <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
+                <Col xs={2} className='app-list' style={{ minHeight: '89vh' }}>
                     <DetailList
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })}
@@ -96,12 +82,11 @@ export default class MainView extends Component {
                         data={this.state.cases}
                     />
                 </Col>
-                <Col xs={9} className='app-content' style={{ maxHeight: '83vh' }}>
+                <Col xs={10} className='app-content' style={{ maxHeight: '83vh' }}>
                     <DetailContent
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
                         saveChanges={this.saveCase} resetChanges={this.resetCase} 
-                        addUniversity={this.addUniversity} addExtCourse={this.addExtCourse}
                     />
                 </Col>
             </Row>
