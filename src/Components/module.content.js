@@ -12,8 +12,9 @@ export default class ModuleContent extends Component {
         super(props);
         const DataBaseConnector = electron.remote.require('./database.connector.js')        
         const ModuleDatabase = electron.remote.require('./modules.db.js')
+        const CourseDatabase = electron.remote.require('./course.db.js')
         this.moduleExtraDB = ModuleDatabase()
-        this.courseDB = DataBaseConnector('course')
+        this.courseDB = CourseDatabase()
         this.courseXDB = DataBaseConnector('courseXmodule')
     }
     state = { 
@@ -40,11 +41,11 @@ export default class ModuleContent extends Component {
     
     getCourses = () => {
         let data = {
-            criteria: 'courseName'
+            intern: '1'
         }
-        this.courseDB.data(data).getAllAsc(courses => this.setState({ courses }))
+        this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
-    
+        
     getCourseXmodule = () => {
         this.moduleExtraDB.getCourseIDbyModule(this.props.data.moduleID, courseIDs => {
             this.setState({ courseIDs })

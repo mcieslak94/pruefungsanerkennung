@@ -22,16 +22,24 @@ export default class AddCaseModuleModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        console.log('### update')
         if (!_.isEqual(this.props.modules, prevProps.modules) && this.state.modules) this.setInitSelected()
     }
-
+    
     onChange = (id) => {
         let tempModules = this.state.selected || []
         let modIdx = tempModules.findIndex(m => m === id)
-        if (modIdx === -1) tempModules.push(id)
-        else delete tempModules[modIdx]
+        if (modIdx === -1)  tempModules.push(id) 
+        else delete tempModules[modIdx] 
+        
         tempModules = tempModules.filter(x => x != null)
         this.setState({ selected: tempModules })
+
+    }
+
+    handleSave = () => {
+        this.props.onSubmit(this.state.selected)
+        this.setState({  selected: [] })
     }
 
     getModules = () => {
@@ -76,7 +84,7 @@ export default class AddCaseModuleModal extends Component {
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={() => this.props.onSubmit(this.state.selected)}>Speichern</Button>{' '}
+                    <Button color="primary" onClick={this.handleSave}>Speichern</Button>{' '}
                     <Button color="secondary" onClick={this.props.toggle}>Abbrechen</Button>
                 </ModalFooter>
             </Modal>

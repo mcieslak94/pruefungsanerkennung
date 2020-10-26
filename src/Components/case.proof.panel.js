@@ -100,7 +100,7 @@ export default class CaseProofPanel extends Component {
                 <Col>
                     <Label for="caseFirstName">ehem. Institution </Label>
                     <div style={{ float:"right"}}>
-                        <Button size="sm" style={{ marginBottom: 5 }} color="success" onClick={() => this.setState({ universityModalOpen: true })}>+</Button>
+                        <Button disabled={this.props.disabled} size="sm" style={{ marginBottom: 5 }} color="success" onClick={() => this.setState({ universityModalOpen: true })}>+</Button>
                     </div>
                     <Input disabled={this.props.disabled} id="universityID" type={'select'} value={this.props.data.universityID ? this.props.data.universityID : ''} 
                         onChange={e => this.saveUniversity('universityID', e.target.value)} >
@@ -112,7 +112,7 @@ export default class CaseProofPanel extends Component {
                 <Col>
                     <Label for="caseFirstName">ehem. Studiengang</Label>
                     <div style={{ float:"right"}}>
-                        <Button size="sm" style={{ marginBottom: 5 }} color="success" onClick={() => this.setState({ extCourseModalOpen: true })}>+</Button>
+                        <Button disabled={this.props.disabled} size="sm" style={{ marginBottom: 5 }} color="success" onClick={() => this.setState({ extCourseModalOpen: true })}>+</Button>
                     </div>
                     <Input   disabled={this.props.disabled} type={'select'} value={this.props.data.extCourseID ? this.props.data.extCourseID : ''} 
                         onChange={e => this.saveUniversity('extCourseID', e.target.value)}>

@@ -17,7 +17,6 @@ function CourseDBConnector() {
     getCourses(intern, cb) {
       getConnection(function (db) {
         let sql = ` SELECT * FROM course WHERE intern = "${intern}" ORDER BY "courseName" ASC`
-        console.log('### sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)

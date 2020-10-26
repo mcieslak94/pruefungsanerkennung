@@ -27,28 +27,31 @@ export default class CaseModulePanel extends Component {
     }
 
     addModulesToTable = (selected) => {
+        let currentSelected = this.state.modules.map(x => x.moduleID)
+        let removeArray = currentSelected && currentSelected.length > 0 ? currentSelected.filter(c => !selected.includes(c)) : []  
+        removeArray = removeArray.map(r => this.state.modules[this.state.modules.findIndex(m => m.moduleID === r)])
+        let addArray = selected.filter(s => !currentSelected.includes(s))
         
-        let removed = []
-        selected = selected.filter(s => {
-            let mIdx = this.state.modules.findIndex(sm => sm.moduleID === s) 
-            if ( mIdx !== -1) removed.push(this.state.modules[mIdx])
-            return mIdx === -1
-        })
-        removed.map(r => {
-            let data = {
-                prop: 'case_module_ID',
-                value: r.case_module_ID
-            }
+        removeArray.map((r, idx) => {
+            let data = { prop: 'case_module_ID', value: r.case_module_ID }
             this.caseXmoduleDB.data(data).delete(() => {
-                this.getCasesXModules()
+                if (idx === removeArray.length - 1) {
+                    setTimeout(() => {
+                        this.setState({ modules: [] },() => this.getCasesXModules())
+                    }, 200)
+                } 
                 return null
             })    
             return null
         })
-        selected.map(s => {
+        addArray.map((s, idx) => {
             let newEntry = { caseID: this.props.data.caseID, module_ID: s }
             this.caseXmoduleDB.data(newEntry).create(() => {
-                this.getCasesXModules()
+                if (idx === addArray.length - 1) {
+                    setTimeout(() => {
+                        this.setState({ modules: [] },() => this.getCasesXModules())
+                    }, 200)
+                }
                 return null
             })        
             return null
@@ -60,18 +63,7 @@ export default class CaseModulePanel extends Component {
         this.caseXmDB.getCasesXModules(this.props.data.caseID, modules => {
             this.setState({ modules })
         })    
-    }
-
-    handleModuleChange = (id, object) => {
-        let tempModules = this.state.selected || []
-        let modIdx = tempModules.findIndex(m => m === id)
-        if (modIdx === -1) tempModules.push(id)
-        else delete tempModules[modIdx]
-        tempModules = tempModules.filter(x => x != null)
-        this.setState({ selected: tempModules, moduleModalOpen: !this.state.moduleModalOpen })
-    }
-    
-    
+    }   
 
     render = () => {
     return ( 
@@ -110,7 +102,6 @@ export default class CaseModulePanel extends Component {
 
             <AddCaseModuleModal className="app-case-module"
                 modules={this.state.modules}
-                onChange={this.handleModuleChange}
                 open={this.state.moduleModalOpen}
                 size={300}
                 toggle={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}
