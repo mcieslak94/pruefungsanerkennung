@@ -5,6 +5,7 @@ import CaseProofPanel from './case.proof.panel';
 import CaseModulePanel from './case.module.panel';
 import CoursesInput from '../Components/inputField.courses'
 import EditFooter from './globals/edit.footer';
+import { GrMailOption } from "react-icons/gr";
 
 export default class DetailContent extends Component {
 
@@ -93,6 +94,17 @@ export default class DetailContent extends Component {
                     <CoursesInput disabled={this.state.disabled}  value={this.props.data.courseID ? this.props.data.courseID : ''} 
                     handleChange={this.handleChange} />
                 </Col>
+                <Col xs={2}> 
+                    <Label for="reminderDate">Wiedervorlage</Label>
+                    <Input disabled={this.state.disabled}
+                        type="date" value={this.props.data.reminderDate ? this.props.data.reminderDate : ''}
+                        id="reminderDate" placeholder="date placeholder" onChange={value => this.handleChange('reminderDate', value)}
+                    />
+                </Col>
+                <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
+                        <a href={this.props.data.caseHref ? this.props.data.caseHref : ''}><GrMailOption /></a>
+                </Col>
+                
             </Row>
         </FormGroup>
 

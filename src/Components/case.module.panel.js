@@ -20,7 +20,8 @@ export default class CaseModulePanel extends Component {
         modules: null,
         moduleModalOpen: false,
         selected: [],
-        moduleProf: null
+        addModuleData: null,
+
     } 
 
     componentDidMount () {
@@ -58,10 +59,13 @@ export default class CaseModulePanel extends Component {
             return null
         })
         addArray.map((s, idx) => {
-            /*let moduleProf = this.getProfByModule(s.professorID)
-             emailadresse, profname, proftitel, modulname
+            setTimeout(() => {
+                this.getDataByModule(s)
+            }, 2000)
+            console.log('### addModuleData', this.state.addModuleData)
+            /* emailadresse, profname, proftitel, modulname
             let newhref = "mailto:" + {moduleProf}  */ 
-            let newEntry = { caseID: this.props.data.caseID, module_ID: s}
+            let newEntry = { caseID: this.props.data.caseID, module_ID: s, begruendung: 'keine'}
             this.caseXmoduleDB.data(newEntry).create(() => {
                 if (idx === addArray.length - 1) {
                     setTimeout(() => {
@@ -75,8 +79,11 @@ export default class CaseModulePanel extends Component {
         this.setState({ moduleModalOpen: false })
     }
 
-    getProfByModule = (professorID) => {
-        this.caseXmDB.getProfByModule(professorID)
+    getDataByModule = (moduleID) => {
+        this.caseXmDB.getDataByModule(moduleID, addModuleData => {
+            if(addModuleData && addModuleData.length > 0) addModuleData = addModuleData[0]
+            this.setState({ addModuleData })
+          })
     }
 
     getCasesXModules = () => {

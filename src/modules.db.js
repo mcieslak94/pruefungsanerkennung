@@ -55,6 +55,18 @@ function ModuleDatabase() {
           cb(rows)
         });
       })
+    },
+    getDataByModule(moduleID, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT moduleName, titel, profName, profEmailadress FROM module 
+                          LEFT JOIN professor ON professor.professorID = module.professorID 
+                          WHERE moduleID = ${moduleID}`
+                          console.log('## sql', sql)                  
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }
