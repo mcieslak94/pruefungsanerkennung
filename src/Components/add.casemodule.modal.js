@@ -22,7 +22,6 @@ export default class AddCaseModuleModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        console.log('### update')
         if (!_.isEqual(this.props.modules, prevProps.modules) && this.state.modules) this.setInitSelected()
     }
     
@@ -40,17 +39,19 @@ export default class AddCaseModuleModal extends Component {
     handleSave = () => {
         this.props.onSubmit(this.state.selected)
         this.setState({  selected: [] })
+        console.log('### selected', this.state.selected)
     }
-
+    
     getModules = () => {
         this.module.getAll(modules => {
             this.setState({ modules }, () => this.setInitSelected())
-    })
-
+        })
+        
     }
-
+    
     setInitSelected = () => {
         if (this.props.modules && this.props.modules.length > 0) {
+            console.log('### props.modules', this.props.modules)
             let selected = []
             selected = this.state.modules.filter(m => this.props.modules.findIndex(pm => pm.moduleID === m.moduleID) !== -1)
             selected = selected.map(x => x.moduleID)

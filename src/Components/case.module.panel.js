@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import { Row, Col, Table, Button} from 'reactstrap'
 import AddCaseModuleModal from './add.casemodule.modal';
+import { GrMailOption } from "react-icons/gr";
+import '../App.css';
+
 import _ from 'lodash'
+
 const electron = window.require('electron')
 
 export default class CaseModulePanel extends Component {
@@ -15,15 +19,24 @@ export default class CaseModulePanel extends Component {
     state = { 
         modules: null,
         moduleModalOpen: false,
-        selected: []
+        selected: [],
+        moduleProf: null
     } 
 
     componentDidMount () {
-        if(this.props.data && this.props.data.caseID) this.getCasesXModules()
+        if(this.props.data && this.props.data.caseID){ 
+            this.setState({ modules: [] })
+            this.getCasesXModules()
+            console.log('### modules', this.state.modules)
+        }
     }
 
     componentDidUpdate (prevProps) {
+        console.log('### data', this.props.data)
+        console.log('### prevProps.data', prevProps.data)
+        console.log('### equal', !_.isEqual(this.props.data, prevProps.data))
         if(!_.isEqual(this.props.data, prevProps.data)) this.getCasesXModules()
+        console.log('### modules', this.state.modules)
     }
 
     addModulesToTable = (selected) => {
@@ -45,7 +58,10 @@ export default class CaseModulePanel extends Component {
             return null
         })
         addArray.map((s, idx) => {
-            let newEntry = { caseID: this.props.data.caseID, module_ID: s }
+            /*let moduleProf = this.getProfByModule(s.professorID)
+             emailadresse, profname, proftitel, modulname
+            let newhref = "mailto:" + {moduleProf}  */ 
+            let newEntry = { caseID: this.props.data.caseID, module_ID: s}
             this.caseXmoduleDB.data(newEntry).create(() => {
                 if (idx === addArray.length - 1) {
                     setTimeout(() => {
@@ -59,6 +75,10 @@ export default class CaseModulePanel extends Component {
         this.setState({ moduleModalOpen: false })
     }
 
+    getProfByModule = (professorID) => {
+        this.caseXmDB.getProfByModule(professorID)
+    }
+
     getCasesXModules = () => {
         this.caseXmDB.getCasesXModules(this.props.data.caseID, modules => {
             this.setState({ modules })
@@ -70,25 +90,32 @@ export default class CaseModulePanel extends Component {
         <div>
             <Row xs={2}>
                 <Col xs={10}>
-                <Table size="sm" hover>
+                <Table size="sm" bordered hover>
                     <thead>
-                        <tr>
+                        <tr style={{textAlign:'center'}}>
                             <th>#</th>
                             <th>Modulname</th>
                             <th>Name des Fachkollegen</th>
-                            <th>Rückmeldung erhalten</th>
+                            <th>Rückmeldung</th>
+                            <th>Erinnerung</th>
                             <th>Begründung</th>
                         </tr>
                     </thead>
+                    
                     <tbody>
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr key={'module-tr-key-' + idx}>
                                 <td>{idx+1}</td>
                                 <td>{m.moduleName}</td>
-                                <td>{m.profName}</td>
+                                <td>{m.titel} {m.profName}</td>
                                 <td>{m.requestActive}</td>
+                                <td id="child" style={{textAlign:'center', fontSize:'15px'}}>
+                                    <a href={m.cXmhref}><GrMailOption /></a>
+                                </td>
                                 <td>{m.begruendung}</td>
                             </tr>
+                            
+
                         )}
                     </tbody>
                 </Table>

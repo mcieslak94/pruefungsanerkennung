@@ -125,3 +125,10 @@ body {
   -moz-box-shadow: inset 0px 0px 8px 0px #CCC;
   -webkit-box-shadow: inset 0px 0px 8px 0px #CCC;   
 }
+
+#child {
+  display: table-cell;    
+  vertical-align: middle;
+  padding-top: 0px;
+  padding-bottom: 6px;
+}
