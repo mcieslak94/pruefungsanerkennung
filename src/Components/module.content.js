@@ -101,8 +101,6 @@ export default class ModuleContent extends Component {
                 courseID: c,
                 module_ID: this.props.data.moduleID
             }
-            console.log('### course', data.courseID)
-            console.log('### module', data.module_ID)
             this.moduleExtraDB.deleteCourseXmodule(data, (changes) => {
             this.getCourseXmodule()
                 return null

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { Row, Col, Table, Button} from 'reactstrap'
+import { Row, Col, Table, Button, CustomInput} from 'reactstrap'
 import AddCaseModuleModal from './add.casemodule.modal';
+import AddActiveModal from './add.active.modal';
 import { GrMailOption } from "react-icons/gr";
 import '../App.css';
 
@@ -19,25 +20,21 @@ export default class CaseModulePanel extends Component {
     state = { 
         modules: null,
         moduleModalOpen: false,
+        reasonModalOpen: false,
         selected: [],
         addModuleData: null,
-
+        activeModule: null
     } 
 
     componentDidMount () {
         if(this.props.data && this.props.data.caseID){ 
             this.setState({ modules: [] })
             this.getCasesXModules()
-            console.log('### modules', this.state.modules)
         }
     }
 
     componentDidUpdate (prevProps) {
-        console.log('### data', this.props.data)
-        console.log('### prevProps.data', prevProps.data)
-        console.log('### equal', !_.isEqual(this.props.data, prevProps.data))
         if(!_.isEqual(this.props.data, prevProps.data)) this.getCasesXModules()
-        console.log('### modules', this.state.modules)
     }
 
     addModulesToTable = (selected) => {
@@ -62,10 +59,7 @@ export default class CaseModulePanel extends Component {
             setTimeout(() => {
                 this.getDataByModule(s)
             }, 2000)
-            console.log('### addModuleData', this.state.addModuleData)
-            /* emailadresse, profname, proftitel, modulname
-            let newhref = "mailto:" + {moduleProf}  */ 
-            let newEntry = { caseID: this.props.data.caseID, module_ID: s, begruendung: 'keine'}
+            let newEntry = { caseID: this.props.data.caseID, module_ID: s, begruendung: 'keine', requestActive: 0, requestDate: new Date()}
             this.caseXmoduleDB.data(newEntry).create(() => {
                 if (idx === addArray.length - 1) {
                     setTimeout(() => {
@@ -92,6 +86,34 @@ export default class CaseModulePanel extends Component {
         })    
     }   
 
+    toggleRueckruf = (caseXmodule) => {
+        this.setState({ activeModule: caseXmodule})
+        let caseXmoduleEntry = {
+            requestActive: caseXmodule.requestActive===1 ? 0 : 1,
+        }
+        if(caseXmodule.requestActive===0){
+            this.setState({ reasonModalOpen: !this.state.reasonModalOpen })
+        }
+        let data = {
+                value: caseXmoduleEntry,
+                selector: { case_module_ID: caseXmodule.case_module_ID }
+                }
+        this.caseXmoduleDB.data(data).update(() => this.getCasesXModules())
+    }
+
+    addReason = (begruendung, anerkannt) => {
+        let caseXmoduleEntry = {
+            begruendung: begruendung,
+            anerkannt: !anerkannt
+        }
+        let data = {
+            value: caseXmoduleEntry,
+            selector: { case_module_ID: this.state.activeModule.case_module_ID }
+            }
+        this.caseXmoduleDB.data(data).update(() => this.getCasesXModules())
+        this.setState({ reasonModalOpen: !this.state.reasonModalOpen, activeModule: null })
+    }
+
     render = () => {
     return ( 
         <div>
@@ -106,6 +128,7 @@ export default class CaseModulePanel extends Component {
                             <th>Rückmeldung</th>
                             <th>Erinnerung</th>
                             <th>Begründung</th>
+                            <th>Anerkannt</th>
                         </tr>
                     </thead>
                     
@@ -115,11 +138,16 @@ export default class CaseModulePanel extends Component {
                                 <td>{idx+1}</td>
                                 <td>{m.moduleName}</td>
                                 <td>{m.titel} {m.profName}</td>
-                                <td>{m.requestActive}</td>
+                                <td style={{textAlign:'center'}}>
+                                    <CustomInput disabled={this.props.disabled} checked={m.requestActive===1} type="checkbox" id={'ruckmeldung-'+ idx} onChange={() => this.toggleRueckruf(m)}/>
+                                </td>
                                 <td id="child" style={{textAlign:'center', fontSize:'15px'}}>
                                     <a href={m.cXmhref}><GrMailOption /></a>
                                 </td>
                                 <td>{m.begruendung}</td>
+                                <td style={{textAlign:'center'}}>
+                                    <CustomInput disabled={this.props.disabled} checked={m.anerkannt===1} type="checkbox" id={'anerkannt-'+ idx}/>
+                                </td>
                             </tr>
                             
 
@@ -140,6 +168,11 @@ export default class CaseModulePanel extends Component {
                 size={300}
                 toggle={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}
                 onSubmit={this.addModulesToTable}
+            />
+            <AddActiveModal className="app-rename-modal"
+                open={this.state.reasonModalOpen}
+                toggle={() => this.setState({ reasonModalOpen: !this.state.reasonModalOpen })}
+                onSubmit={this.addReason}
             />
         </div>
     );
