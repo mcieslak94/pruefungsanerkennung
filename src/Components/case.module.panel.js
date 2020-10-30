@@ -93,6 +93,12 @@ export default class CaseModulePanel extends Component {
         }
         if(caseXmodule.requestActive===0){
             this.setState({ reasonModalOpen: !this.state.reasonModalOpen })
+        } else {
+            caseXmoduleEntry = {
+                requestActive: caseXmodule.requestActive===1 ? 0 : 1,
+                begruendung: 'keine',
+                anerkannt: 0
+            }
         }
         let data = {
                 value: caseXmoduleEntry,
@@ -104,7 +110,7 @@ export default class CaseModulePanel extends Component {
     addReason = (begruendung, anerkannt) => {
         let caseXmoduleEntry = {
             begruendung: begruendung,
-            anerkannt: !anerkannt
+            anerkannt: anerkannt
         }
         let data = {
             value: caseXmoduleEntry,

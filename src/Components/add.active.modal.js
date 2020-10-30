@@ -5,7 +5,7 @@ export default class AddActiveModal extends Component {
     state = {
         begruendung: null,
         disableReason: true,
-        anerkannt: false
+        anerkannt: 0
     }
 
     handleChange = ( e ) => {
