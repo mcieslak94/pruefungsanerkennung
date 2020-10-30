@@ -55,6 +55,7 @@ export default class BaseDataView extends Component {
         }
         this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
+    
     getPage() {
         switch (this.state.detail) {
           case 0: return <ProfBaseDataContent
@@ -110,7 +111,6 @@ export default class BaseDataView extends Component {
             selector: { templateID: template.templateID }
         }
         this.templatesDB.data(data2).update(() => this.getTemplates())
-        console.log('### template', hrefTemplate)
     }
 
     addProf = prof => {

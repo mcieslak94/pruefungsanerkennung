@@ -7,8 +7,8 @@ class CoursesInput extends Component {
 
     constructor(props) {
         super(props)
-        const DataBaseConnector = electron.remote.require('./database.connector.js')
-        this.course = DataBaseConnector('course')
+        const CourseConnector = electron.remote.require('./course.db.js')
+        this.courseDB = CourseConnector()
     }
 
     state= {
@@ -21,11 +21,11 @@ class CoursesInput extends Component {
 
     getCourses = () => {
         let data = {
-            criteria: 'courseName'
+            intern: '1'
         }
-        this.course.data(data).getAllAsc(courses => this.setState({ courses }))
+        this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
-
+    
     render () {
         return (
            <Input disabled={this.props.disabled}  type={'select'} value={this.props.value} placeholder='Studiengang wählen...' onChange={value => this.props.handleChange('courseID', value)}>
