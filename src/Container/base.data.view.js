@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Col, Row } from 'reactstrap'
-import BaseDateList from '../Components/base.date.list'
-import ProfBaseDateContent from '../Components/prof.base.date.content'
-import CourseBaseDateContent from '../Components/course.base.date.content'
+import BaseDataList from '../Components/base.data.list'
+import ProfBaseDataContent from '../Components/prof.base.data.content'
+import CourseBaseDataContent from '../Components/course.base.data.content'
 /* import moment from 'moment'
  */
 const electron = window.require('electron')
@@ -45,12 +45,12 @@ export default class BaseDataView extends Component {
     }
     getPage() {
         switch (this.state.detail) {
-          case 0: return <ProfBaseDateContent
+          case 0: return <ProfBaseDataContent
           detail={this.state.detail}
           data={this.state.profs != null && this.state.detail != null ? this.state.profs : null}
           saveChanges={this.saveProf} addProf={this.addProf} deleteProf={this.deleteProf}
       />
-          case 1: return <CourseBaseDateContent
+          case 1: return <CourseBaseDataContent
           detail={this.state.detail}
           data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
           saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.deleteCourse}
@@ -115,7 +115,7 @@ export default class BaseDataView extends Component {
             </Row>
             <Row className='app-body'>
                 <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
-                    <BaseDateList
+                    <BaseDataList
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })}
                         active={this.state.detail}

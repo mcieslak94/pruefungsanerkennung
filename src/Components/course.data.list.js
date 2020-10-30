@@ -1,23 +1,23 @@
 import React, {Component} from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
-class ProfBaseDateList extends Component {
+class CourseBaseDataList extends Component {
 
     render () {
         return (
             <>
             <ListGroup >
                 {this.props.data && this.props.data.length > 0 && this.props.data.map((o, idx) => 
-                <ListGroupItem  key={'prof-base-date-list-item' + idx}
+                <ListGroupItem  key={'course-base-date-list-item' + idx}
                     active={this.props.active === idx}
                     onClick={() => this.props.onChange(idx)}
                     tag="button" action>
-                    <span>{(o.titel ? o.titel : '') + ' ' + (o.profName ? o.profName : '')}</span>
+                    <span>{(o.courseName ? o.courseName : '')}</span>
                 </ListGroupItem>)}
             </ListGroup>
             </>
         )}
 }
 
-export default ProfBaseDateList 
+export default CourseBaseDataList 
 

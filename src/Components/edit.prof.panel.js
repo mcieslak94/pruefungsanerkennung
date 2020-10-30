@@ -3,7 +3,7 @@ import { Row, Col, FormGroup, Label, Input} from 'reactstrap'
 import '../App.css';
 
 
-export default class EditProfBaseDatePanel extends Component {
+export default class EditProfBaseDataPanel extends Component {
 
     state = { 
         form: {

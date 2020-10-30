@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import { Button, Col, Row } from 'reactstrap';
 import EditFooter from './globals/edit.footer';
-import CourseBaseDateList from './course.date.list';
-import EditCourseBaseDatePanel from './edit.course.panel';
-import AddCourseModal from './addBaseDate/add.course.modal';
-import DeleteModal from './addBaseDate/delete.modal';
+import CourseBaseDataList from './course.data.list';
+import EditCourseBaseDataPanel from './edit.course.panel';
+import AddCourseModal from './addBaseData/add.course.modal';
+import DeleteModal from './addBaseData/delete.modal';
 
-export default class CourseBaseDateContent extends Component {
+export default class CourseBaseDataContent extends Component {
 
     constructor(props) {
         super(props);
@@ -55,7 +55,7 @@ export default class CourseBaseDateContent extends Component {
             onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
         </Col>
         <Col xs={4} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
-            <CourseBaseDateList
+            <CourseBaseDataList
             onAdd={() => this.setState({ addModalOpen: true })}
             onChange={value => this.setState({ coursedetail: value })}
             active={this.state.coursedetail}
@@ -63,7 +63,7 @@ export default class CourseBaseDateContent extends Component {
         </Col>
         <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
         <Col xs={6}>
-            <EditCourseBaseDatePanel 
+            <EditCourseBaseDataPanel 
             disabled={this.state.disabled}
             profdetail={this.state.coursedetail}
             data={this.props.data != null && this.state.coursedetail != null ? this.props.data[this.state.coursedetail] : null}

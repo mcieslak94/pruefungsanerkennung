@@ -3,7 +3,7 @@ import { Row, Col, FormGroup, Label, Input} from 'reactstrap'
 import '../App.css';
 
 
-export default class EditCourseBaseDatePanel extends Component {
+export default class EditCourseBaseDataPanel extends Component {
 
     state = { 
         antragChecked: false,

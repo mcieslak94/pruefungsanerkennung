@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { ListGroup, ListGroupItem } from 'reactstrap';
 
-class BaseDateList extends Component {
+class BaseDataList extends Component {
 
     render () {
         return (
@@ -18,4 +18,4 @@ class BaseDateList extends Component {
         )}
 }
 
-export default BaseDateList
+export default BaseDataList
