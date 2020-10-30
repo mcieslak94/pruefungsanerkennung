@@ -3,6 +3,8 @@ import { Col, Row } from 'reactstrap'
 import BaseDataList from '../Components/base.data.list'
 import ProfBaseDataContent from '../Components/prof.base.data.content'
 import CourseBaseDataContent from '../Components/course.base.data.content'
+import EmailTemplateContent from '../Components/template.content'
+import _ from 'lodash'
 /* import moment from 'moment'
  */
 const electron = window.require('electron')
@@ -15,11 +17,13 @@ export default class BaseDataView extends Component {
         const CourseConnector = electron.remote.require('./course.db.js')
         this.courseDB = CourseConnector()
         this.professorDB = DataBaseConnector('professor')
+        this.templatesDB = DataBaseConnector('templates')
     }
 
     state = {
-        baseData: ['Professoren', 'Studiengänge'],
+        baseData: ['Professoren', 'Studiengänge', 'E-Mail Vorlagen'],
         courses: null, 
+        templates: null, 
         profs: null,
         detail: null,
         addModalOpen: false
@@ -28,6 +32,7 @@ export default class BaseDataView extends Component {
     componentDidMount() {
         this.getProfs()
         this.getCourses()
+        this.getTemplates()
     }
 
     getProfs = () => {
@@ -37,6 +42,13 @@ export default class BaseDataView extends Component {
         this.professorDB.data(data).getAllAsc(profs => this.setState({ profs }))
     }
 
+    getTemplates = () => {
+        let data = {
+            criteria: 'templateBetreff'
+        }
+        this.templatesDB.data(data).getAllAsc(templates => this.setState({ templates }))
+    }
+    
     getCourses = () => {
         let data = {
             intern: '1'
@@ -46,15 +58,17 @@ export default class BaseDataView extends Component {
     getPage() {
         switch (this.state.detail) {
           case 0: return <ProfBaseDataContent
-          detail={this.state.detail}
-          data={this.state.profs != null && this.state.detail != null ? this.state.profs : null}
-          saveChanges={this.saveProf} addProf={this.addProf} deleteProf={this.deleteProf}
-      />
+            detail={this.state.detail}
+            data={this.state.profs != null && this.state.detail != null ? this.state.profs : null}
+            saveChanges={this.saveProf} addProf={this.addProf} deleteProf={this.deleteProf} />
           case 1: return <CourseBaseDataContent
-          detail={this.state.detail}
-          data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
-          saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.deleteCourse}
-      /> 
+            detail={this.state.detail}
+            data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
+            saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.deleteCourse} />  
+          case 2: return <EmailTemplateContent
+            detail={this.state.detail}
+            data={this.state.templates != null && this.state.detail != null ? this.state.templates : null}
+            saveChanges={this.saveTemplate} /> 
           default: return <></>;
     }
 }
@@ -73,6 +87,30 @@ export default class BaseDataView extends Component {
             selector: { courseID: course.courseID }
         }
         this.courseDB.data(data).update(() => this.getCourses())
+    }
+
+    saveTemplate = (template) => {
+        let data = {
+            value: template,
+            selector: { templateID: template.templateID }
+        }
+        this.templatesDB.data(data).update(() => this.getTemplates())
+        
+        let text = template.templateText
+        let textHref = _.replace(text, new RegExp(" ", "g"), "%20")
+        let betreff = template.templateBetreff
+        let betreffHref = _.replace(betreff, new RegExp(" ", "g"), "%20")
+        let hrefTemplate = {
+            hrefText: textHref,
+            hrefBetreff: betreffHref
+        }
+        
+        let data2 = {
+            value: hrefTemplate,
+            selector: { templateID: template.templateID }
+        }
+        this.templatesDB.data(data2).update(() => this.getTemplates())
+        console.log('### template', hrefTemplate)
     }
 
     addProf = prof => {
