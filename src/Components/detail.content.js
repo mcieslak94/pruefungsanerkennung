@@ -94,7 +94,7 @@ export default class DetailContent extends Component {
                     <CoursesInput disabled={this.state.disabled}  value={this.props.data.courseID ? this.props.data.courseID : ''} 
                     handleChange={this.handleChange} />
                 </Col>
-                <Col xs={2}> 
+                <Col xs={3}> 
                     <Label for="reminderDate">Wiedervorlage</Label>
                     <Input disabled={this.state.disabled}
                         type="date" value={this.props.data.reminderDate ? this.props.data.reminderDate : ''}
