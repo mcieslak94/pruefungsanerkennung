@@ -23,6 +23,16 @@ function DatabaseCase() {
           cb(this.changes)
         });
       })
+    },
+    reminderCases(dateString, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT caseFirstName, caseLastName, reminderDate FROM cases WHERE reminderDate <= '${dateString}';`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(this.changes)
+          cb(rows)
+        });
+      })
     }
   })
 }

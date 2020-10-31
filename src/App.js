@@ -10,10 +10,11 @@ import UniversityView from './Container/university.view.js';
 import ArchivView from './Container/archiv.view.js';
 
 class App extends Component {
-  state = {
-    current: 0
-  }
   
+  state = {
+    current: 0,
+  }
+
   getPage() {
     switch (this.state.current) {
       case 0: return <MainView />
