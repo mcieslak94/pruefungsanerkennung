@@ -42,11 +42,21 @@ export default class Notifications extends Component {
                         Erinnerungen <Badge color={this.state.casesToRemind && this.state.casesToRemind.length === 0 ? "secondary" : "danger"}>{ this.state.casesToRemind ? this.state.casesToRemind.length : 0 }</Badge>
                     </DropdownToggle>
                     <DropdownMenu right>
-                        <DropdownItem header>Header</DropdownItem>
-                        <DropdownItem disabled>Action</DropdownItem>
-                        <DropdownItem>Another Action</DropdownItem>
+                        <DropdownItem header>Fälle, bei denen eine Erinnerungs-E-Mail fällig ist</DropdownItem>
+                        {this.state.casesToRemind && this.state.casesToRemind.length > 0 && this.state.casesToRemind.map((c, idx) => 
+                        <DropdownItem  key={'reminder-cases-item' + idx}
+                            onClick={() => this.props.onChange(idx)}
+                            tag="button" action>
+                            <span>{(c.caseLastName ? c.caseLastName : '') + ', ' + (c.caseFirstName ? c.caseFirstName : '')}</span>
+                        </DropdownItem>)}
                         <DropdownItem divider/>
-                        <DropdownItem>Another Really Really Long Action</DropdownItem>
+                        <DropdownItem header>Module, bei denen eine Erinnerungs-E-Mail fällig ist</DropdownItem>
+                        {this.state.casesToRemind && this.state.casesToRemind.length > 0 && this.state.casesToRemind.map((c, idx) => 
+                        <DropdownItem  key={'reminder-cases-item' + idx}
+                            onClick={() => this.props.onChange(idx)}
+                            tag="button" action>
+                            <span>{(c.caseLastName ? c.caseLastName : '') + ', ' + (c.caseFirstName ? c.caseFirstName : '')}</span>
+                        </DropdownItem>)}
                     </DropdownMenu>
                 </Dropdown>
             </div>
