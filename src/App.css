@@ -111,6 +111,22 @@ body {
   -moz-box-shadow: inset 0px 0px 8px 0px #CCC;
   -webkit-box-shadow: inset 0px 0px 8px 0px #CCC;   
 }
+
+.module-edit-footer {
+  position: fixed;
+  background: #fff;
+  bottom: 0;
+  left: 25%;
+  right: 0;
+  height: 43px;
+  z-index: 1;
+  padding-top: 8px;
+  padding-left: 10px;
+  box-shadow: inset 0px 0px 8px 0px #CCC;
+  -moz-box-shadow: inset 0px 0px 8px 0px #CCC;
+  -webkit-box-shadow: inset 0px 0px 8px 0px #CCC;   
+}
+
 .header-row {
   position: fixed;
   background: #fff;

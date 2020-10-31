@@ -58,9 +58,9 @@ export default class DetailContent extends Component {
     return this.props.data
     ?
     <>
-    <div style={{ paddingBottom: "70px", paddingTop: "40px" }}>
+    <div style={{ paddingBottom: "70px"}}>
         <Form>
-        <h3 className='header-row'>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
+        <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
         
         <FormGroup>
             <Row xs={2} style={{ padding: 16 }}>

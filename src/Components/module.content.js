@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Form, FormGroup, Row, Col, Label, Input, CustomInput } from 'reactstrap'
-import EditFooter from './globals/edit.footer';
+import ModuleEditFooter from './globals/module.edit.footer';
 import ProfsInput from './inputField.profs';
 
 const electron = window.require('electron')
@@ -142,8 +142,8 @@ export default class ModuleContent extends Component {
     render = () => {
     return this.props.data
     ? 
-    <div style={{ paddingBottom: "70px", paddingTop: "40px" }}>
-    <h3 className='header-row'>{(this.props.data.moduleName ? this.props.data.moduleName : '')}</h3>
+    <div style={{ paddingBottom: "70px"}}>
+    <h3>{(this.props.data.moduleName ? this.props.data.moduleName : '')}</h3>
     <Form>
            <FormGroup>
                 <Row xs={2} style={{ padding: 16 }}>
@@ -185,7 +185,7 @@ export default class ModuleContent extends Component {
         </FormGroup>
             
 </Form>
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
+    <ModuleEditFooter className="module-edit-footer" editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
     </div> 
     : <></>    
 }
