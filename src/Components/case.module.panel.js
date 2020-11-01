@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Table, Button, CustomInput} from 'reactstrap'
+import { Row, Col, Table, Button, CustomInput, Label, Input} from 'reactstrap'
 import AddCaseModuleModal from './add.casemodule.modal';
 import AddActiveModal from './add.active.modal';
 import { GrMailOption } from "react-icons/gr";
@@ -122,6 +122,47 @@ export default class CaseModulePanel extends Component {
         this.setState({ reasonModalOpen: !this.state.reasonModalOpen, activeModule: null })
     }
 
+
+    /**
+     * saveCase = (student) => {
+        let data = {
+            value: student,
+            selector: { caseID: this.state.cases[this.state.detail].caseID }
+        }
+        this.casesDB.data(data).update(() => this.getCases())
+    }
+    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => 
+        <option key={'courses-option-' + c.courseID} value={c.courseID}>{c.courseName}</option>)
+    }
+           
+     */
+
+    handleChange = (prop, e) => {
+        let tempForm = this.props.data
+        tempForm[prop] = e.target.value
+        this.setState({ tempForm })
+    }
+/**
+ * 
+ updateCaseXmodules = (modules) => {
+     {modules && modules.length > 0 && modules.map((m) => { 
+         m.reminderDays
+         let data = {
+             value: m,
+             selector: { case_module_ID: m.case_module_ID }
+         }
+         this.caseXmoduleDB.data(data).update(() => this.getCasesXModules())
+         return -1
+     })
+     }
+     let data = {
+         value: m,
+         selector: { caseID: this.props.data.caseID }
+     }
+     this.caseXmoduleDB.data(data).update(() => this.getCasesXModules())
+ }
+ */
+
     render = () => {
     return ( 
         <div>
@@ -165,9 +206,16 @@ export default class CaseModulePanel extends Component {
                 
                 </Col>
                 {!this.props.archiv ?
-                <Col xs={2}>
-                    <Button disabled={this.props.disabled} color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>
-                </Col> : <></>} 
+                    <Col xs={2}>
+                        <Button disabled={this.props.disabled} color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>
+                        <hr />
+                        <Label for="moduleReminderDate">Wiedervorlage am</Label>
+                        <Input disabled={this.props.disabled}
+                            type="date" value={this.props.data.moduleReminderDate ? this.props.data.moduleReminderDate : ''}
+                            id="moduleReminderDate" placeholder="days placeholder" onChange={value => this.handleChange('moduleReminderDate', value)}
+                        />
+                    </Col> 
+                : <></> } 
             </Row>
 
             <AddCaseModuleModal className="app-case-module"
@@ -183,7 +231,7 @@ export default class CaseModulePanel extends Component {
                 onSubmit={this.addReason}
             />
         </div>
-    );
+    )
     }
 }
 
