@@ -6,7 +6,7 @@ import CaseModulePanel from './case.module.panel';
 import CoursesInput from '../Components/inputField.courses'
 import EditFooter from './globals/edit.footer';
 import { GrMailOption } from "react-icons/gr";
-import { GenerateTemplate } from '../utils/mail.template.util';
+import { CreateTemplate } from '../utils/mail.template.util';
 
 export default class DetailContent extends Component {
 
@@ -103,7 +103,7 @@ export default class DetailContent extends Component {
                     />
                 </Col>
                 <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
-                        <a href={GenerateTemplate('missingDocumnets', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a>
+                        <a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a>
                 </Col>
                 
             </Row>

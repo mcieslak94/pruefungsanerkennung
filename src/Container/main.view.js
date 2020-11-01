@@ -34,8 +34,6 @@ export default class MainView extends Component {
     }
     componentDidUpdate(prevProps) {
         if (prevProps.detail !== this.props.detail) {
-            console.log('### this.props.detail', this.props.detail)
-            console.log('### idx ', this.state.cases.findIndex(c => c.caseID === this.props.detail))
             this.setState({ detail: this.state.cases.findIndex(c => c.caseID === this.props.detail) })
         }
     }
