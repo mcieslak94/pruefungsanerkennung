@@ -2,11 +2,6 @@ import React, {Component} from 'react'
 import DetailListItem from './detail.list.item'
 import { ListGroup } from 'reactstrap';
 import DetailListHeader from './detail.list.header';
-import List from 'devextreme-react/list';
-
-function ItemTemplate(data) {
-    return <div>{(data.caseLastName ? data.caseLastName : '') + ', ' + (data.caseFirstName ? data.caseFirstName : '')}</div>;
-  }
 
 class DetailList extends Component {
     constructor() {
@@ -19,7 +14,7 @@ class DetailList extends Component {
     render () {
         return (
             <>
-                <DetailListHeader onAdd={this.props.onAdd} />
+                <DetailListHeader onAdd={this.props.onAdd} onSearch={this.props.onSearch} />
                 <ListGroup>
                 {this.props.data && this.props.data.length > 0 && this.props.data.map((o, idx) => <DetailListItem
                     key={'detail-list-item' + idx}
@@ -28,17 +23,6 @@ class DetailList extends Component {
                     listItemClickHandler={() => this.props.onChange(idx)}
                     />)}
                 </ListGroup>                
-                    <React.Fragment>
-                        <div className="list-container">
-                        <List
-                            dataSource={this.props.data}
-                            height={400}
-                            itemRender={ItemTemplate}
-                            searchExpr={"caseLastName"}
-                            searchEnabled={true}
-                            searchMode={this.state.searchMode} />
-                        </div>
-                    </React.Fragment>
             </>
         )}
 }

@@ -15,16 +15,17 @@ class App extends Component {
   
   state = {
     current: 0,
+    detail: null
   }
 
   getPage() {
     switch (this.state.current) {
-      case 0: return <MainView />
+      case 0: return <MainView detail={this.state.detail} />
       case 1: return <ModuleOverview />  
       case 2: return <BaseDataView />
       case 3: return <UniversityView />
       case 4: return <ArchivView />
-      default: return <MainView />;
+      default: return <MainView detail={this.state.detail} />;
     }
 
     
@@ -37,7 +38,7 @@ class App extends Component {
         return (
       
           <Container fluid>
-            <Navigation changeSite={(value) => this.setState({current: value})}/>
+            <Navigation changeSite={(value) => this.setState({current: value})} setDetail={idx => this.setState({ detail: idx })}/>
             {this.getPage()}
           </Container>
       );

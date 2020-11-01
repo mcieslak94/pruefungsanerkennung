@@ -24,12 +24,20 @@ export default class MainView extends Component {
         courses: null, 
         cases: null,
         tests: null,
-        addModalOpen: false
+        addModalOpen: false,
+        searchString: null
     }
 
     componentDidMount() {
         this.getCases()
         this.getCourses()
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.detail !== this.props.detail) {
+            console.log('### this.props.detail', this.props.detail)
+            console.log('### idx ', this.state.cases.findIndex(c => c.caseID === this.props.detail))
+            this.setState({ detail: this.state.cases.findIndex(c => c.caseID === this.props.detail) })
+        }
     }
 
     getCourses = () => {
@@ -39,7 +47,7 @@ export default class MainView extends Component {
         this.course.data(data).getAllAsc(courses => this.setState({ courses }))
     }
 
-    getCases = () => {
+    getCases = (searchString = null) => {
         let data = {
             criteria: 'caseLastName'
         }
@@ -63,7 +71,19 @@ export default class MainView extends Component {
         }
         this.casesDB.data(data).update(() => this.getCases())
     }
-         
+
+    filterCases = () => {
+        if (!this.state.searchString || this.state.searchString.length < 1) return  this.state.cases
+        let splitted = this.state.searchString.toLowerCase().split(' ') 
+        return this.state.cases.filter(c => {
+            let match = false
+            splitted.forEach(s => {
+                match = c.caseFirstName.toLowerCase().includes(s) || c.caseLastName.toLowerCase().includes(s) || c.mNumber.toString().includes(s)
+            });
+            return match
+        })
+    }
+     
     render = () => {
         return <>    
             <Row className='app-header'>
@@ -79,7 +99,8 @@ export default class MainView extends Component {
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })}
                         active={this.state.detail}
-                        data={this.state.cases}
+                        onSearch={searchString => this.setState({ searchString })}
+                        data={this.filterCases()}
                     />
                 </Col>
                 <Col xs={10} className='app-content' style={{ maxHeight: '83vh' }}>

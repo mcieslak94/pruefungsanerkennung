@@ -25,7 +25,7 @@ const Navigation = (props) => {
                     <NavLink onClick={() => props.changeSite(4)} className='pointer' >Archiv</NavLink>
                 </NavItem>
             </Nav>
-            <Notifications />
+            <Notifications setDetail={props.setDetail} />
           
         </Navbar>
 
