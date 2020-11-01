@@ -1,3 +1,5 @@
+import 'devextreme/dist/css/dx.common.css';
+import 'devextreme/dist/css/dx.light.css';
 import React, { Component } from 'react';
 import Navigation from './Components/globals/navigation.js'
 import './App.css';

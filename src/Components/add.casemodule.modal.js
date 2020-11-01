@@ -54,7 +54,8 @@ export default class AddCaseModuleModal extends Component {
             selected = this.state.modules.filter(m => this.props.modules.findIndex(pm => pm.moduleID === m.moduleID) !== -1)
             selected = selected.map(x => x.moduleID)
             this.setState({ selected })
-        }
+        } else this.setState({ selected: [] })
+
     }
 
 

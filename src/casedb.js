@@ -33,7 +33,17 @@ function DatabaseCase() {
           cb(rows)
         });
       })
-    }
+    },
+    reminderModules(dateString, cb) {
+    getConnection(function (db) {
+      let sql = `SELECT caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}';`
+      db.all(sql, [], (err, rows) => {
+        if (err) throw err;
+        cb(this.changes)
+        cb(rows)
+      });
+    })
+  }
   })
 }
 
