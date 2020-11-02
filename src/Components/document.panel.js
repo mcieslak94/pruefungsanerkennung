@@ -7,7 +7,7 @@ export default class DocumentsPanel extends Component {
 
     state = { 
         progressValue: 0
-    } 
+    }  
         
     getProgressValue = () => {
             var value = 0;

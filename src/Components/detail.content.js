@@ -114,8 +114,8 @@ export default class DetailContent extends Component {
         <Row style={{ padding: 16 }}>
             <Col xs={12}>
                 <CaseProofPanel 
-                disabled={this.state.disabled} 
                 data={this.props.data}
+                disabled={this.state.disabled} 
                 />
             </Col>
         </Row>

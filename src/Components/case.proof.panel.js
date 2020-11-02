@@ -17,9 +17,6 @@ export default class CaseProofPanel extends Component {
         this.ExtCourseData = DatabaseUni()
     }
     state = { 
-        internChecked: false,
-        germanyChecked: false,
-        moreChecked: false,
         progressValue: 0, 
         extCourses: null,
         extCourseModalOpen: false,
@@ -44,26 +41,44 @@ export default class CaseProofPanel extends Component {
 
     getProgressValue = () => {
             var value = 0;
-            if(this.state.internChecked && this.state.germanyChecked && this.state.moreChecked){
+            if(this.props.data.intern && this.props.data.inGermany && this.props.data.otherChecks){
                 return 100;
             }
-            this.state.internChecked ? value += 33.3 : value += 0;
-            this.state.germanyChecked ? value += 33.3 : value += 0;
-            this.state.moreChecked ? value += 33.3 : value += 0;
+            this.props.data.intern ? value += 33.3 : value += 0;
+            this.props.data.inGermany ? value += 33.3 : value += 0;
+            this.props.data.otherChecks ? value += 33.3 : value += 0;
     
             return value;
     };
 
     toggleIntern = () => {
-        this.setState({ internChecked: !this.state.internChecked })
+        if (this.props.data.intern === 0){
+            this.props.data.intern = 1
+            this.setState({intern: 1})
+        } else {
+            this.props.data.intern = 0
+            this.setState({intern: 0})
+        }
     }
 
     toggleGermany = () => {
-        this.setState({ germanyChecked: !this.state.germanyChecked })
+        if (this.props.data.inGermany === 0){
+            this.props.data.inGermany = 1
+            this.setState({inGermany: 1})
+        } else {
+            this.props.data.inGermany = 0
+            this.setState({inGermany: 0})
+        }
     }
 
     toggleMore = () => {
-        this.setState({ moreChecked: !this.state.moreChecked })
+        if (this.props.data.otherChecks === 0){
+            this.props.data.otherChecks = 1
+            this.setState({otherChecks: 1})
+        } else {
+            this.props.data.otherChecks = 0
+            this.setState({otherChecks: 0})
+        }
     }
     
     saveUniversity = (prop, e) => {
@@ -125,13 +140,13 @@ export default class CaseProofPanel extends Component {
             <Row xs={2}>
                 <Col xs={6}>
                     <FormGroup>
-                        <div className="documentChecks">
-                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.internChecked} 
-                            onChange={this.toggleIntern} id="hochschulinternCheckbox" label="Hochschulinterner Wechsel?"/>
-                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.germanyChecked} 
-                            onChange={this.toggleGermany} id="germanyCheckbox" label="Institution in Deutschland?" />
-                            <CustomInput disabled={this.props.disabled} type="checkbox" defaultChecked={this.state.moreChecked} 
-                            onChange={this.toggleMore} id="moreCheckbox" label="weitere Überprüfung notwendig?"/>
+                        <div className="instChecked">
+                            <CustomInput disabled={this.props.disabled} type="checkbox" checked={this.props.data.intern} 
+                            onChange={this.toggleIntern} id="intern" label="Hochschulinterner Wechsel?"/>
+                            <CustomInput disabled={this.props.disabled} type="checkbox" checked={this.props.data.inGermany} 
+                            onChange={this.toggleGermany} id="inGermany" label="Institution in Deutschland?" />
+                            <CustomInput disabled={this.props.disabled} type="checkbox" checked={this.props.data.otherChecks} 
+                            onChange={this.toggleMore} id="otherChecks" label="weitere Überprüfung notwendig?"/>
                         </div>
                     </FormGroup>
                 </Col>
