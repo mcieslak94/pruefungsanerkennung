@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
+import { GrMailOption } from 'react-icons/gr';
 import { Progress, Row, Col, FormGroup, CustomInput} from 'reactstrap'
 import '../App.css';
+import { CreateTemplate } from '../utils/mail.template.util';
 
 
 export default class DocumentsPanel extends Component {
@@ -89,7 +91,7 @@ export default class DocumentsPanel extends Component {
     return ( 
         <div>
             
-            <Row>
+            <Row xs={3}>
                 <Col xs={2}>
                     <FormGroup>
                         <div className="documentChecks">
@@ -102,17 +104,20 @@ export default class DocumentsPanel extends Component {
                         </div>
                     </FormGroup>
                 </Col>
-                <Col xs={3}>
+                <Col xs={1}>
                     <FormGroup>
                         <div className="documentComplete">
                             <CustomInput disabled={!(this.props.data.docAntrag>=1)} checked={this.props.data.docAntrag>1} type="checkbox" 
-                            id="docAntragComplete" onChange={this.toggleAntragComplete} label="Vollständig?"/>
+                            id="docAntragComplete" onChange={this.toggleAntragComplete} label="Vollständig?"/> 
                             <CustomInput disabled={!(this.props.data.docNoten>0)} checked={this.props.data.docNoten>1} type="checkbox" 
                             id="docNotenComplete" onChange={this.toggleGradesComplete} label="Vollständig?"/>
                             <CustomInput disabled={!(this.props.data.docHandbuch>0)} checked={this.props.data.docHandbuch>1} type="checkbox" 
                             id="docHandbuchComplete" onChange={this.toggleModulComplete} label="Vollständig?"/>
                         </div>
                     </FormGroup>
+                </Col>
+                <Col xs={3} >
+                    <div style={{fontSize:'30px'}}><a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a></div>
                 </Col>
                 <Col xs={6}>
                     <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
