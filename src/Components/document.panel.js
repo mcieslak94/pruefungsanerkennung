@@ -92,7 +92,7 @@ export default class DocumentsPanel extends Component {
         <div>
             
             <Row xs={3}>
-                <Col xs={2}>
+                <Col xs={3}>
                     <FormGroup>
                         <div className="documentChecks">
                             <CustomInput disabled={this.props.disabled} checked={this.props.data.docAntrag>0} type="checkbox" 
@@ -104,7 +104,7 @@ export default class DocumentsPanel extends Component {
                         </div>
                     </FormGroup>
                 </Col>
-                <Col xs={1}>
+                <Col xs={2}>
                     <FormGroup>
                         <div className="documentComplete">
                             <CustomInput disabled={!(this.props.data.docAntrag>=1)} checked={this.props.data.docAntrag>1} type="checkbox" 
@@ -116,7 +116,7 @@ export default class DocumentsPanel extends Component {
                         </div>
                     </FormGroup>
                 </Col>
-                <Col xs={3} >
+                <Col xs={1} >
                     <div style={{fontSize:'30px'}}><a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a></div>
                 </Col>
                 <Col xs={6}>
