@@ -8,7 +8,7 @@ class ModuleList extends Component {
     render () {
         return (
             <>
-                <ModuleListHeader onAdd={this.props.onAdd} />
+                <ModuleListHeader onAdd={this.props.onAdd} onSearch={this.props.onSearch} />
                 <ListGroup>
                 {this.props.data && this.props.data.length > 0 && this.props.data.map((o, idx) => <ModuleListItem
                     key={'module-list-item' + idx}

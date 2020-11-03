@@ -20,7 +20,7 @@ export default class MainView extends Component {
           this.getModules()          
       }
 
-    getModules = () => {
+    getModules = (searchString = null) => {
         let data = {
             criteria: 'moduleName'
         }
@@ -41,6 +41,18 @@ export default class MainView extends Component {
       this.module.data(data).update(() => this.getModules())
   }
 
+  filterModules = () => {
+    if (!this.state.searchString || this.state.searchString.length < 1) return  this.state.modules
+    let splitted = this.state.searchString.toLowerCase().split(' ') 
+    return this.state.modules.filter(c => {
+        let match = false
+        splitted.forEach(s => {
+            match = c.moduleName.toLowerCase().includes(s) 
+        });
+        return match
+    })
+}
+
     render () {
         return (
             <>
@@ -53,7 +65,8 @@ export default class MainView extends Component {
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })} 
                         active={this.state.detail}
-                        data={this.state.modules}
+                        onSearch={searchString => this.setState({ searchString })}
+                        data={this.filterModules()}
                     />
                 </Col>
                 <Col xs={9} className='app-content' style={{ maxHeight: '83vh' }}>
