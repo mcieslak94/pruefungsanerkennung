@@ -24,18 +24,24 @@ export default class Notifications extends Component {
     
         getDueReminder = () => {
             let today = new Date()
-            let dateString = '' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + today.getDate()   
+            var day
+            if(today.getDate()<10){
+                day = "0" + today.getDate()
+            }else{
+                day = today.getDate()
+            }
+            let dateString = '' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + day    
             this.casesDB.reminderCases(dateString, casesToRemind => this.setState({ casesToRemind }))
         }
 
         getDueModuleReminder = () => {
             let today = new Date()
             var day
-            if(today.getDate()<10)
+            if(today.getDate()<10){
                 day = "0" + today.getDate()
-            else
+            }else{
                 day = today.getDate()
-
+            }
             let dateString = '' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + day    
             this.casesDB.reminderModules(dateString, modulesToRemind => this.setState({ modulesToRemind }))
         }
