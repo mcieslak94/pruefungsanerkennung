@@ -36,15 +36,35 @@ function DatabaseCase() {
       })
     },
     reminderModules(dateString, cb) {
-    getConnection(function (db) {
-      let sql = `SELECT caseID,  caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}';`
-      db.all(sql, [], (err, rows) => {
-        if (err) throw err;
-        cb(this.changes)
-        cb(rows)
-      });
-    })
-  }
+      getConnection(function (db) {
+        let sql = `SELECT caseID,  caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}';`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(this.changes)
+          cb(rows)
+        });
+      })
+    },
+    getActiveCasesAsc(cb) {
+      getConnection(function (db) {
+        let sql = `SELECT * FROM cases WHERE state != "abgeschlossen" ORDER BY "caseLastName" ASC;`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(this.changes)
+          cb(rows)
+        });
+      })
+    },
+    getInactiveCasesAsc(cb) {
+      getConnection(function (db) {
+        let sql = `SELECT * FROM cases WHERE state = "abgeschlossen" ORDER BY "caseLastName" ASC;`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(this.changes)
+          cb(rows)
+        });
+      })
+    }
   })
 }
 

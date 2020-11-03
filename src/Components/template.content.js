@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Col, Row } from 'reactstrap';
-import EditFooter from './globals/edit.footer';
+import EditModuleFooter from './globals/module.edit.footer';
 import TemplateList from './template.list';
 import TemplatePanel from './edit.templates.panel';
 
@@ -53,7 +53,7 @@ export default class EmailTemplateContent extends Component {
             />
         </Col>
     </Row>   
-            <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+            <EditModuleFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
     </div> 
     </>
     : <></>    

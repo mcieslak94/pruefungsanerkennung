@@ -46,10 +46,7 @@ export default class MainView extends Component {
     }
 
     getCases = (searchString = null) => {
-        let data = {
-            criteria: 'caseLastName'
-        }
-        this.casesDB.data(data).getAllAsc(cases => this.setState({ cases }))
+        this.caseDB.getActiveCasesAsc(cases => this.setState({ cases }))
     }
 
     addCase = student => {
@@ -63,6 +60,20 @@ export default class MainView extends Component {
     }
 
     saveCase = (student) => {
+        student = { 
+            state:'in Bearbeitung'
+    }
+        let data = {
+            value: student,
+            selector: { caseID: this.state.cases[this.state.detail].caseID }
+        }
+        this.casesDB.data(data).update(() => this.getCases())
+    }
+
+    closeCase = (student) => {
+        student = { 
+            state:'abgeschlossen'
+    }
         let data = {
             value: student,
             selector: { caseID: this.state.cases[this.state.detail].caseID }
@@ -106,6 +117,7 @@ export default class MainView extends Component {
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
                         saveChanges={this.saveCase} resetChanges={this.resetCase} 
+                        closeCase={this.closeCase}
                     />
                 </Col>
             </Row>

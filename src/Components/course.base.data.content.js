@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import { Button, Col, Row } from 'reactstrap';
-import EditFooter from './globals/edit.footer';
+import EditModuleFooter from './globals/module.edit.footer';
 import CourseBaseDataList from './course.data.list';
 import EditCourseBaseDataPanel from './edit.course.panel';
 import AddCourseModal from './addBaseData/add.course.modal';
@@ -71,7 +71,7 @@ export default class CourseBaseDataContent extends Component {
             />
         </Col>
     </Row>   
-            <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+            <EditModuleFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
             <AddCourseModal className="app-modal-addCourse"
                 open={this.state.courseModalOpen}
                 toggle={() => this.setState({ courseModalOpen: !this.state.courseModalOpen })}

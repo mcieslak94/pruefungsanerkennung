@@ -13,6 +13,7 @@ class ArchivListHeader extends Component {
                     name="search"
                     id="exampleSearch"
                     placeholder="search placeholder"
+                    onChange={e => this.props.onSearch(e.target.value)}
                     />
                 </FormGroup>
             </Col>

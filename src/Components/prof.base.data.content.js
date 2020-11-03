@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Button, Col, Row } from 'reactstrap';
 import EditProfBaseDataPanel from './edit.prof.panel';
-import EditFooter from './globals/edit.footer';
+import EditModuleFooter from './globals/module.edit.footer';
 import ProfBaseDataList from './prof.data.list';
 import AddProfModal from './addBaseData/add.prof.modal';
 import DeleteModal from './addBaseData/delete.modal';
@@ -70,7 +70,7 @@ export default class ProfBaseDataContent extends Component {
             />
         </Col>
     </Row>   
-            <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
+            <EditModuleFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.setChangeMode} />
             <AddProfModal className="app-modal-addProf"
                 open={this.state.profModalOpen}
                 toggle={() => this.setState({ profModalOpen: !this.state.profModalOpen })}

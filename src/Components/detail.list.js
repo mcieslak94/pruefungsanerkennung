@@ -4,13 +4,7 @@ import { ListGroup } from 'reactstrap';
 import DetailListHeader from './detail.list.header';
 
 class DetailList extends Component {
-    constructor() {
-        super();
-        this.state = { 
-          searchMode: 'contains'
-        };
-      }
-
+    
     render () {
         return (
             <>

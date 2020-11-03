@@ -19,47 +19,34 @@ export default class ArchivView extends Component {
 
     state = {
         detail: null,
-        courses: null, 
         cases: null,
-        tests: null,
-        addModalOpen: false
+        addModalOpen: false,
+        searchString: null
     }
 
     componentDidMount() {
         this.getCases()
-        this.getCourses()
     }
 
-    getCourses = () => {
-        let data = {
-            criteria: 'courseName'
-        }
-        this.course.data(data).getAllAsc(courses => this.setState({ courses }))
+    getCases = (searchString = null) => {
+        this.caseDB.getInactiveCasesAsc(cases => this.setState({ cases }))
     }
 
-    getCases = () => {
-        let data = {
-            criteria: 'caseLastName'
-        }
-        this.casesDB.data(data).getAllAsc(cases => this.setState({ cases }))
-    }
-
-    addCase = student => {
-        this.casesDB.data(student).create(() => {
-                            this.getCases()
-                        })
-    }
 
     resetCase = () => {
         this.getCases()
     }
 
-    saveCase = (student) => {
-        let data = {
-            value: student,
-            selector: { caseID: this.state.cases[this.state.detail].caseID }
-        }
-        this.casesDB.data(data).update(() => this.getCases())
+    filterCases = () => {
+        if (!this.state.searchString || this.state.searchString.length < 1) return  this.state.cases
+        let splitted = this.state.searchString.toLowerCase().split(' ') 
+        return this.state.cases.filter(c => {
+            let match = false
+            splitted.forEach(s => {
+                match = c.caseFirstName.toLowerCase().includes(s) || c.caseLastName.toLowerCase().includes(s) || c.mNumber.toString().includes(s)
+            });
+            return match
+        })
     }
           
     render = () => {
@@ -77,7 +64,8 @@ export default class ArchivView extends Component {
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })}
                         active={this.state.detail}
-                        data={this.state.cases}
+                        onSearch={searchString => this.setState({ searchString })}
+                        data={this.filterCases()}
                     />
                 </Col>
                 <Col xs={9} className='app-content' style={{ maxHeight: '89vh' }}>

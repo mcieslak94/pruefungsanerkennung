@@ -61,53 +61,59 @@ export default class DetailContent extends Component {
     <>
     <div style={{ paddingBottom: "70px"}}>
         <Form>
-        <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
-        
-        <FormGroup>
-            <Row xs={2} style={{ padding: 16 }}>
-                <Col>
-                    <Label for="caseFirstName">Vorname</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.caseFirstName ? this.props.data.caseFirstName : ''} 
-                    onChange= {value => this.handleChange('caseFirstName', value)} />
-                </Col>
-                <Col>
-                    <Label for="caseLastName">Nachname</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.caseLastName ? this.props.data.caseLastName : ''} 
-                    onChange={value => this.handleChange('caseLastName', value)} />
-                </Col>
-                <Col> 
-                    <Label for="mNumber">Matrikelnummer</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.mNumber ? this.props.data.mNumber : ''} 
-                    onChange={value => this.handleChange('mNumber', value)} />
-                </Col>
-                <Col> 
-                    <Label for="email">E-Mail-Adresse</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.email ? this.props.data.email : ''} 
-                    onChange={value => this.handleChange('email', value)} />
-                </Col>
-                <Col> 
-                    <Label for="geschlecht">Geschlecht</Label>
-                    <Input disabled={this.state.disabled} type='text' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
-                    onChange={value => this.handleChange('geschlecht', value)} />
-                </Col>
-                <Col>
-                <Label for="courseID">Studiengang</Label>
-                    <CoursesInput disabled={this.state.disabled}  value={this.props.data.courseID ? this.props.data.courseID : ''} 
-                    handleChange={this.handleChange} />
-                </Col>
-                <Col xs={3}> 
-                    <Label for="reminderDate">Wiedervorlage</Label>
-                    <Input disabled={this.state.disabled}
-                        type="date" value={this.props.data.reminderDate ? this.props.data.reminderDate : ''}
-                        id="reminderDate" placeholder="date placeholder" onChange={value => this.handleChange('reminderDate', value)}
-                    />
-                </Col>
-                <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
-                        <a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a>
-                </Col>
-                
+            <Row>
+            <Col xs={10}>
+                <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
+            </Col>
+            <Col xs={2}>
+                Status: {(this.props.data.state ? this.props.data.state : 'nicht angegeben')}
+            </Col>
             </Row>
-        </FormGroup>
+            <FormGroup>
+                <Row xs={2} style={{ padding: 16 }}>
+                    <Col>
+                        <Label for="caseFirstName">Vorname</Label>
+                        <Input disabled={this.state.disabled} type='text' value={this.props.data.caseFirstName ? this.props.data.caseFirstName : ''} 
+                        onChange= {value => this.handleChange('caseFirstName', value)} />
+                    </Col>
+                    <Col>
+                        <Label for="caseLastName">Nachname</Label>
+                        <Input disabled={this.state.disabled} type='text' value={this.props.data.caseLastName ? this.props.data.caseLastName : ''} 
+                        onChange={value => this.handleChange('caseLastName', value)} />
+                    </Col>
+                    <Col> 
+                        <Label for="mNumber">Matrikelnummer</Label>
+                        <Input disabled={this.state.disabled} type='text' value={this.props.data.mNumber ? this.props.data.mNumber : ''} 
+                        onChange={value => this.handleChange('mNumber', value)} />
+                    </Col>
+                    <Col> 
+                        <Label for="email">E-Mail-Adresse</Label>
+                        <Input disabled={this.state.disabled} type='text' value={this.props.data.email ? this.props.data.email : ''} 
+                        onChange={value => this.handleChange('email', value)} />
+                    </Col>
+                    <Col> 
+                        <Label for="geschlecht">Geschlecht</Label>
+                        <Input disabled={this.state.disabled} type='text' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
+                        onChange={value => this.handleChange('geschlecht', value)} />
+                    </Col>
+                    <Col>
+                    <Label for="courseID">Studiengang</Label>
+                        <CoursesInput disabled={this.state.disabled}  value={this.props.data.courseID ? this.props.data.courseID : ''} 
+                        handleChange={this.handleChange} />
+                    </Col>
+                    <Col xs={3}> 
+                        <Label for="reminderDate">Wiedervorlage</Label>
+                        <Input disabled={this.state.disabled}
+                            type="date" value={this.props.data.reminderDate ? this.props.data.reminderDate : ''}
+                            id="reminderDate" placeholder="date placeholder" onChange={value => this.handleChange('reminderDate', value)}
+                        />
+                    </Col>
+                    <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
+                            <a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a>
+                    </Col>
+                    
+                </Row>
+            </FormGroup>
 
         <hr />
         <h4>Prüfung der Institution</h4>
@@ -142,7 +148,7 @@ export default class DetailContent extends Component {
         </Row>
         </Form>
     </div> 
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
+    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} closeCase={this.props.closeCase} />
     </>
     : <></>    
 }
