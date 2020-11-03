@@ -122,46 +122,11 @@ export default class CaseModulePanel extends Component {
         this.setState({ reasonModalOpen: !this.state.reasonModalOpen, activeModule: null })
     }
 
-
-    /**
-     * saveCase = (student) => {
-        let data = {
-            value: student,
-            selector: { caseID: this.state.cases[this.state.detail].caseID }
-        }
-        this.casesDB.data(data).update(() => this.getCases())
-    }
-    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => 
-        <option key={'courses-option-' + c.courseID} value={c.courseID}>{c.courseName}</option>)
-    }
-           
-     */
-
     handleChange = (prop, e) => {
         let tempForm = this.props.data
         tempForm[prop] = e.target.value
         this.setState({ tempForm })
     }
-/**
- * 
- updateCaseXmodules = (modules) => {
-     {modules && modules.length > 0 && modules.map((m) => { 
-         m.reminderDays
-         let data = {
-             value: m,
-             selector: { case_module_ID: m.case_module_ID }
-         }
-         this.caseXmoduleDB.data(data).update(() => this.getCasesXModules())
-         return -1
-     })
-     }
-     let data = {
-         value: m,
-         selector: { caseID: this.props.data.caseID }
-     }
-     this.caseXmoduleDB.data(data).update(() => this.getCasesXModules())
- }
- */
 
     render = () => {
     return ( 
@@ -224,6 +189,7 @@ export default class CaseModulePanel extends Component {
                 size={300}
                 toggle={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}
                 onSubmit={this.addModulesToTable}
+                course={this.props.data.courseID}
             />
             <AddActiveModal className="app-rename-modal"
                 open={this.state.reasonModalOpen}

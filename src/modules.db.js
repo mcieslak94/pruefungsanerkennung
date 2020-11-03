@@ -61,7 +61,18 @@ function ModuleDatabase() {
         let sql = `SELECT moduleName, titel, profName, profEmailadress FROM module 
                           LEFT JOIN professor ON professor.professorID = module.professorID 
                           WHERE moduleID = ${moduleID}`
-                          console.log('## sql', sql)                  
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
+    },
+    getModulesByCourse(courseID, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT DISTINCT moduleName FROM module 
+                    LEFT JOIN courseXmodule ON module.moduleID = courseXmodule.module_ID 
+                    WHERE courseXmodule.courseID = ${courseID} order by  "courseName" ASC`
+        console.log('### sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)

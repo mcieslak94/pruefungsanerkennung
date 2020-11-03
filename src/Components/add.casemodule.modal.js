@@ -7,7 +7,9 @@ export default class AddCaseModuleModal extends Component {
     constructor(props) {
         super(props)
         const DataBaseConnector = electron.remote.require('./database.connector.js')
+        const ModulesDBConnector = electron.remote.require('./modules.db.js')
         this.module = DataBaseConnector('module')
+        this.modulesDB = ModulesDBConnector()
     }
 
 
@@ -22,7 +24,8 @@ export default class AddCaseModuleModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!_.isEqual(this.props.modules, prevProps.modules) && this.state.modules) this.setInitSelected()
+        if (!_.isEqual(this.props.course, prevProps.course) && this.props.course) { this.getModules() }
+        if (!_.isEqual(this.props.modules, prevProps.modules) && this.state.modules) { this.setInitSelected() }
     }
     
     onChange = (id) => {
@@ -38,11 +41,12 @@ export default class AddCaseModuleModal extends Component {
 
     handleSave = () => {
         this.props.onSubmit(this.state.selected)
-        this.setState({  selected: [] })
+        this.setState({  selected: [], modules: null })
     }
     
     getModules = () => {
-        this.module.getAll(modules => {
+        console.log('### courseID', this.props.course)
+        this.modulesDB.getModulesByCourse((this.props.course), modules => {
             this.setState({ modules }, () => this.setInitSelected())
         })
         
@@ -57,8 +61,6 @@ export default class AddCaseModuleModal extends Component {
         } else this.setState({ selected: [] })
 
     }
-
-
 
     render = () => {
         return  (
