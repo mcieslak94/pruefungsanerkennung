@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import { Form, FormGroup, Row, Col } from 'reactstrap'
-import CaseModulePanel from '../case.module.panel';
+import { Form, FormGroup, Row, Col, Table, CustomInput } from 'reactstrap'
+import _ from 'lodash'
 
 const electron = window.require('electron')
 
@@ -17,6 +17,8 @@ export default class ArchivContent extends Component {
             course: null
         }
         const DataBaseConnector = electron.remote.require('./database.connector.js')
+        const CaseXMConnector = electron.remote.require('./modules.db.js')
+        this.caseXmoduleDB = CaseXMConnector()
         this.universityDB = DataBaseConnector('university')
         this.courseDB = DataBaseConnector('course')
         this.moduleDB = DataBaseConnector('module')
@@ -24,8 +26,11 @@ export default class ArchivContent extends Component {
 
     componentDidMount() {
         this.getCourses()
-        this.getModules()
         this.getUnis()
+    }
+
+    componentDidUpdate (prevProps) {
+        if(!_.isEqual(this.props.data, prevProps.data)) this.getCasesXModules()
     }
 
     getUnis = () => {
@@ -36,9 +41,11 @@ export default class ArchivContent extends Component {
         this.courseDB.getAll(course => this.setState({ course }))
     }
 
-    getModules = () => {
-        this.moduleDB.getAll(modules => this.setState({ modules }))
-    }
+    getCasesXModules = () => {
+        this.caseXmoduleDB.getCasesXModules(this.props.data.caseID, modules => {
+            this.setState({ modules })
+        })    
+    }   
 
     getUniversity = () => {
         let idx = this.state.universities && this.state.universities.length > 0 && (this.state.universities.findIndex(m => m.universityID === this.props.data.universityID))
@@ -96,14 +103,43 @@ export default class ArchivContent extends Component {
         </Row>
         <hr />
         <h4>Module</h4>
-        <Row style={{ padding: 16 }}>
-            <Col xs={12}>
-                <CaseModulePanel archiv={this.state.archiv}
-                data={this.props.data} 
-                disabled={this.state.disabled} 
-                onSubmit={() => this.setState({ moduleModalOpen: true })}/>
-            </Col>
-        </Row>
+        <Row xs={2} disabled>
+                <Col xs={10}>
+                <Table size="sm" bordered>
+                    <thead>
+                        <tr style={{textAlign:'center'}}>
+                            <th>#</th>
+                            <th>Modulname</th>
+                            <th>Name des Fachkollegen</th>
+                            <th>Rückmeldung</th>
+                            <th>Begründung</th>
+                            <th>Anerkannt</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
+                            <tr key={'module-tr-key-' + idx}>
+                                <td>{idx+1}</td>
+                                <td>{m.moduleName}</td>
+                                <td>{m.titel} {m.profName}</td>
+                                <td style={{textAlign:'center'}}>
+                                    <CustomInput disabled checked={m.requestActive===1} type="checkbox" id={'ruckmeldung-'+ idx} onChange={() => this.toggleRueckruf(m)}/>
+                                </td>
+                                <td>{m.begruendung}</td>
+                                <td style={{textAlign:'center'}}>
+                                    <CustomInput disabled checked={m.anerkannt===1} type="checkbox" id={'anerkannt-'+ idx}/>
+                                </td>
+                            </tr>
+                            
+
+                        )}
+                    </tbody>
+                </Table>
+                
+                </Col>
+                    
+            </Row>
         </Form>
     </div> 
     </>

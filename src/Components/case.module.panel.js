@@ -14,8 +14,8 @@ export default class CaseModulePanel extends Component {
         super(props)
         const DataBaseConnector = electron.remote.require('./database.connector.js')
         const CaseXMConnector = electron.remote.require('./modules.db.js')
-        this.caseXmDB = CaseXMConnector()
         this.caseXmoduleDB = DataBaseConnector('caseXmodule')
+        this.caseXmDB = CaseXMConnector()
     }
     state = { 
         modules: null,
