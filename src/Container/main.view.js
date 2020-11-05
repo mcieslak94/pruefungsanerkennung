@@ -14,8 +14,8 @@ export default class MainView extends Component {
         const DatabaseCase = electron.remote.require('./casedb.js')
         this.casesDB = DataBaseConnector('cases')
         this.course = DataBaseConnector('course')
-        this.universityDB = DataBaseConnector('university')
         this.caseDB = DatabaseCase()
+        this.universityDB = DataBaseConnector('university')
     }
 
 
