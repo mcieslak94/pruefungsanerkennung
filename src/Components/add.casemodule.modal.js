@@ -101,7 +101,6 @@ export default class AddCaseModuleModal extends Component {
                                         onChange= {value => this.changeExtModule('extModuleName', value)} />
                                 </Col>
 {/*                                    <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
-                                        {console.log('## modules', this.props.modules && this.props.modules[this.props.modules.findIndex(m => m.moduleID === c.moduleID) !== -1].extModuleName)}
 */}                            </Row> 
                         )}
                     </FormGroup>

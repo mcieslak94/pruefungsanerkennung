@@ -16,7 +16,6 @@ function DatabaseCase() {
   return ({
     updateCase(caseID, prop, value, cb) {
       getConnection(function (db) {
-        console.log(caseID, prop, value)
         let sql = `UPDATE cases SET ${prop} = ${value} WHERE caseID = ${caseID}`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;

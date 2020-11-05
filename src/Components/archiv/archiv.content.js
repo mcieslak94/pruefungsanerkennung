@@ -94,7 +94,7 @@ export default class ArchivContent extends Component {
         <hr />
         <h4>Dokumente</h4>
         <Row xs={2} style={{ padding: 16 }}>
-            <Col xs={3}> <span>Prüfungsanerkennungsantrag: </span> </Col>
+            <Col xs={3}> <span>Antrag Prüfungsanerkennung: </span> </Col>
             <Col xs={9}> <span>{this.props.data.docAntrag === 0 ? 'Der Antrag wurde nicht eingereicht' : this.props.data.docAntrag === 1 ? 'nicht vollständig' : 'vollständig'}</span> </Col>
             <Col xs={3}> <span>Notenspiegel:</span> </Col>
             <Col xs={9}> <span>{this.props.data.docNoten === 0 ? ' Der Notenspiegel wurde nicht eingereicht' : this.props.data.docNoten === 1 ? 'nicht vollständig' : 'vollständig'}</span> </Col>
