@@ -77,6 +77,7 @@ export default class ArchivContent extends Component {
             </Row>
         </FormGroup>
         <hr />
+        <h4>Ehemalige Institution</h4>
         <Row xs={2} style={{ padding: 16 }}>
             <Col xs={3}> <span>Ehemalige Institution: </span> </Col>
             <Col xs={9}> <span>{this.getUniversity()}</span> </Col>
