@@ -60,9 +60,9 @@ export default class MainView extends Component {
     }
 
     saveCase = (student) => {
-        student = { 
-            state:'in Bearbeitung'
-    }
+        let tempStudent = student
+        let prop = 'state'
+        tempStudent[prop] = 'in Bearbeitung'
         let data = {
             value: student,
             selector: { caseID: this.state.cases[this.state.detail].caseID }
