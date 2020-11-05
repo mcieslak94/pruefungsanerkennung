@@ -8,7 +8,7 @@ class UniversityList extends Component {
     render () {
         return (
             <>
-                <UniversityListHeader onAdd={this.props.onAdd} />
+                <UniversityListHeader onAdd={this.props.onAdd} onSearch={this.props.onSearch} />
                 <ListGroup>
                 {this.props.data && this.props.data.length > 0 && this.props.data.map((o, idx) => <UniversityListItem
                     key={'university-list-item' + idx}

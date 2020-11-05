@@ -17,17 +17,30 @@ export default class UniversityView extends Component {
     state = {
         universities: null,
         detail: null,
+        searchString: null
     }
 
     componentDidMount() {
         this.getUniversities()
     }
 
-    getUniversities = () => {
+    getUniversities = (searchString = null) => {
         let data = {
             criteria: 'universityName'
         }
         this.universityDB.data(data).getAllAsc(universities => this.setState({ universities }))
+    }
+
+    filterUniversities = () => {
+        if (!this.state.searchString || this.state.searchString.length < 1) return  this.state.universities
+        let splitted = this.state.searchString.toLowerCase().split(' ') 
+        return this.state.universities.filter(c => {
+            let match = false
+            splitted.forEach(s => {
+                match = c.universityName.toLowerCase().includes(s)
+            });
+            return match
+        })
     }
 
     render = () => {
@@ -40,7 +53,8 @@ export default class UniversityView extends Component {
                     <UniversityList
                         onChange={value => this.setState({ detail: value })}
                         active={this.state.detail}
-                        data={this.state.universities}
+                        onSearch={searchString => this.setState({ searchString })}
+                        data={this.filterUniversities()}
                     />
                 </Col>
                 <Col xs={9} style={{ maxHeight: '75vh' }}> 

@@ -22,7 +22,6 @@ function UniversityDBConnector() {
                   LEFT JOIN module ON module.moduleID = caseXmodule.module_ID
                   LEFT JOIN university ON cases.universityID = university.universityID 
                   WHERE university.universityID = "${data.universityID}" AND cases.state = "abgeschlossen" order by  "courseName" ASC, "extModuleName" ASC`
-        console.log('## sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)
