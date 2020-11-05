@@ -98,14 +98,12 @@ export default class CaseProofPanel extends Component {
         this.course.data(extCourse).create(() => {
                             this.getExtCourses()
                         })
-        console.log('this.state.extCourse', this.state.extCourses)
     }
     
     addUniversity = (university) => {
         this.uniDB.data(university).create(() => {
             this.getUnis()
         })
-        console.log('this.state.universities', this.state.universities)
     }
     
     render = () => {

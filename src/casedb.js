@@ -27,7 +27,6 @@ function DatabaseCase() {
     reminderCases(dateString, cb) {
       getConnection(function (db) {
         let sql = `SELECT caseID, caseFirstName, caseLastName, reminderDate FROM cases WHERE reminderDate <= '${dateString}';`
-        console.log('### sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)

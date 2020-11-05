@@ -37,7 +37,6 @@ function ModuleDatabase() {
         console.log('### course', data.courseID)
         console.log('### module', data.module_ID)
         let sql = `DELETE FROM courseXmodule WHERE courseID = "${data.courseID}" AND module_ID = "${data.module_ID}"`
-        console.log('### sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)
@@ -69,10 +68,9 @@ function ModuleDatabase() {
     },
     getModulesByCourse(courseID, cb) {
       getConnection(function (db) {
-        let sql = `SELECT DISTINCT moduleName FROM module 
+        let sql = `SELECT moduleName, moduleID FROM module 
                     LEFT JOIN courseXmodule ON module.moduleID = courseXmodule.module_ID 
                     WHERE courseXmodule.courseID = ${courseID} order by  "courseName" ASC`
-        console.log('### sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(rows)

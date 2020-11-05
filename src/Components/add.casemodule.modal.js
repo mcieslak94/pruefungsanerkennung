@@ -45,7 +45,6 @@ export default class AddCaseModuleModal extends Component {
     }
     
     getModules = () => {
-        console.log('### courseID', this.props.course)
         this.modulesDB.getModulesByCourse((this.props.course), modules => {
             this.setState({ modules }, () => this.setInitSelected())
         })
@@ -70,8 +69,8 @@ export default class AddCaseModuleModal extends Component {
                 <ModalBody>
                     <FormGroup>
                         <Label for="selectModule"></Label>
-                        {this.state.modules && this.state.modules.length > 0 && this.state.modules.map(c => 
-                            <Row key={'module-select-list-'+c.moduleID}>
+                        {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((c, idx) => 
+                            <Row key={'module-select-list-'+ idx}>
                                 <Col>
                                 <CustomInput
                                     type="checkbox"
