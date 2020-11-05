@@ -16,12 +16,12 @@ function UniversityDBConnector() {
   return ({
     getExternModules(data, cb) {
       getConnection(function (db) {
-        let sql = `SELECT DISTINCT moduleNameExt, courseName, anerkannt, moduleName From module 
-        LEFT JOIN moduleXuniversity ON module.moduleID = moduleXuniversity.moduleID 
-        LEFT JOIN university ON university.universityID = moduleXuniversity.universityID 
-        LEFT JOIN courseXmodule ON moduleXuniversity.moduleID = courseXmodule.module_ID
-        LEFT JOIN course ON moduleXuniversity.courseExt_ID = course.courseID
-        WHERE moduleXuniversity.universityID = "${data.universityID}" order by  "courseNameExt" ASC, "moduleNameExt" ASC`
+        let sql = `SELECT caseFirstName, courseName, universityName, anerkannt, moduleName, extModuleName FROM cases 
+        LEFT JOIN course ON cases.extCourseID = course.courseID
+                  LEFT JOIN caseXmodule ON cases.caseID = caseXmodule.caseID
+                  LEFT JOIN module ON module.moduleID = caseXmodule.module_ID
+                  LEFT JOIN university ON cases.universityID = university.universityID 
+                  WHERE university.universityID = "${data.universityID}" AND cases.state = "abgeschlossen" order by  "courseName" ASC, "extModuleName" ASC`
         console.log('## sql', sql)
         db.all(sql, [], (err, rows) => {
           if (err) throw err;

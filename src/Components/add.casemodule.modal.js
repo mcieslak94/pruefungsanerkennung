@@ -1,5 +1,5 @@
 import React, {Component} from 'react' 
-import { ModalHeader, Modal, ModalBody, ModalFooter, Button, FormGroup, Label, Row, Col, CustomInput } from 'reactstrap'
+import { ModalHeader, Modal, ModalBody, ModalFooter, Button, FormGroup, Label, Row, Col, CustomInput, Input } from 'reactstrap'
 import _ from 'lodash'
 const electron = window.require('electron')
 
@@ -16,7 +16,8 @@ export default class AddCaseModuleModal extends Component {
     state = {
         detail: null,
         modules: null,
-        selected: []
+        selected: [],
+        extModuleName: null
     }
 
     componentDidMount() {
@@ -31,10 +32,10 @@ export default class AddCaseModuleModal extends Component {
     onChange = (id) => {
         let tempModules = this.state.selected || []
         let modIdx = tempModules.findIndex(m => m === id)
-        if (modIdx === -1)  tempModules.push(id) 
+        if (modIdx === -1)  tempModules.push({id: id, extModuleName: null}) 
         else delete tempModules[modIdx] 
         
-        tempModules = tempModules.filter(x => x != null)
+        tempModules = tempModules.filter(x => x.id != null)
         this.setState({ selected: tempModules })
 
     }
@@ -60,6 +61,19 @@ export default class AddCaseModuleModal extends Component {
         } else this.setState({ selected: [] })
 
     }
+    getExtName = (moduleID) => {
+        let idx = this.props.modules && this.props.modules.length > 0 && (this.props.modules.findIndex(m => m.moduleID === moduleID))
+            if(idx === 0 || idx >= 1){
+                let tempModule = this.props.modules[idx]
+                return tempModule.extModuleName
+            }
+        }
+
+    changeExtModule = (prop, e) => {
+        let tempExtName = e.target.value
+        this.setState({ tempExtName })
+    }
+            
 
     render = () => {
         return  (
@@ -70,7 +84,7 @@ export default class AddCaseModuleModal extends Component {
                     <FormGroup>
                         <Label for="selectModule"></Label>
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((c, idx) => 
-                            <Row key={'module-select-list-'+ idx}>
+                            <Row xs={2} key={'module-select-list-'+ idx}>
                                 <Col>
                                 <CustomInput
                                     type="checkbox"
@@ -79,10 +93,19 @@ export default class AddCaseModuleModal extends Component {
                                     label={c.moduleName} 
                                     onChange={(value) => this.onChange(c.moduleID, c)}/>
                                 </Col>
-                            </Row> 
+                                <Col>
+
+                                <Input disabled={!(this.state.selected && this.state.selected.length > 0 && (this.state.selected.findIndex(m => m === c.moduleID) !== -1))} type='text' 
+                                        placeholder={'Name des externen Moduls'} 
+                                        value={this.getExtName(c.moduleID)} 
+                                        onChange= {value => this.changeExtModule('extModuleName', value)} />
+                                </Col>
+{/*                                    <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
+                                        {console.log('## modules', this.props.modules && this.props.modules[this.props.modules.findIndex(m => m.moduleID === c.moduleID) !== -1].extModuleName)}
+*/}                            </Row> 
                         )}
-                        {/* <option key={'modules-option-' + c.moduleID} value={c.moduleID}>{c.moduleName}</option>)} */}
                     </FormGroup>
+                    
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.handleSave}>Speichern</Button>{' '}

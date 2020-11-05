@@ -186,10 +186,11 @@ export default class CaseModulePanel extends Component {
             <AddCaseModuleModal className="app-case-module"
                 modules={this.state.modules}
                 open={this.state.moduleModalOpen}
-                size={300}
+                size={700}
                 toggle={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}
                 onSubmit={this.addModulesToTable}
                 course={this.props.data.courseID}
+                case={this.props.data.caseID}
             />
             <AddActiveModal className="app-rename-modal"
                 open={this.state.reasonModalOpen}

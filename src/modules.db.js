@@ -45,7 +45,7 @@ function ModuleDatabase() {
     },
     getCasesXModules(caseID, cb) {
       getConnection(function (db) {
-        let sql = `SELECT moduleName, caseID, requestDate, anerkannt, moduleID, case_module_ID, requestActive, titel, profName, profEmailadress, cXmhref, begruendung FROM module 
+        let sql = `SELECT moduleName, extModuleName, caseID, requestDate, anerkannt, moduleID, case_module_ID, requestActive, titel, profName, profEmailadress, cXmhref, begruendung FROM module 
                           LEFT JOIN caseXmodule ON module.moduleID = caseXmodule.module_ID 
                           LEFT JOIN professor ON professor.professorID = module.professorID 
                           WHERE caseID = ${caseID} order by  "moduleName" ASC`

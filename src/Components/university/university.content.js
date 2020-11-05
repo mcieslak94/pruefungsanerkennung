@@ -52,9 +52,9 @@ export default class UniversityContent extends Component {
                             <tr key={'university-tr-key-' + idx}>
                                 <td>{idx+1}</td>
                                 <td>{m.courseName}</td>
-                                <td>{m.moduleNameExt}</td>
+                                <td>{m.extModuleName}</td>
                                 <td>{m.moduleName}</td>
-                                <td>{m.anerkannt}</td>
+                                <td>{m.anerkannt === 1 ? 'ja' : 'nein'}</td>
                             </tr>
                         )}
                     </tbody>
