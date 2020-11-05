@@ -161,12 +161,12 @@ export default class ModuleContent extends Component {
                     </Col>
                     <Col xs={12}>
                     <Label for="courseID">Studiengang</Label>
-                    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => 
-                                <Row key={'courses-option-' + c.courseID}>
+                    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map((c, idx) => 
+                                <Row key={'courses-option-' + idx}>
                                     <Col>
                                     <CustomInput disabled={this.state.disabled}
                                         type="checkbox"
-                                        id={"c.courseID" + c.courseID}
+                                        id={"c.courseID" + idx}
                                         checked={this.state.courseIDs && this.state.courseIDs.length > 0 && (this.state.courseIDs.find(m => m.courseID === c.courseID)) }
                                         label={c.courseName} 
                                         onChange={(value) => this.toggleCourse(c.courseID)}/>

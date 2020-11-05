@@ -45,12 +45,12 @@ export default class AddModuleWindow extends Component {
                     </Col>
                     <Col xs={12}>
                     <Label for="courseID">Studiengang</Label>
-                    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map(c => 
-                                <Row key={'courses-option-' + c.courseID}>
+                    {this.state.courses && this.state.courses.length > 0 && this.state.courses.map((c, idx) => 
+                                <Row key={'choose-courses-' + idx}>
                                     <Col>
                                     <CustomInput disabled={this.state.disabled}
                                         type="checkbox"
-                                        id={"c.courseID" + c.courseID}
+                                        id={"c.courseID" + idx}
                                         checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
                                         label={c.courseName} 
                                         onChange={(value) => this.props.onChange(c.courseID, value)} />
