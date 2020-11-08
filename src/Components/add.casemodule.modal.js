@@ -17,7 +17,8 @@ export default class AddCaseModuleModal extends Component {
         detail: null,
         modules: null,
         selected: [],
-        extModuleName: null
+        extModuleName: null,
+        extModuleNames: null
     }
 
     componentDidMount() {
@@ -25,24 +26,24 @@ export default class AddCaseModuleModal extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (!_.isEqual(this.props.course, prevProps.course) && this.props.course) { this.getModules() }
+        if (!_.isEqual(this.props.course, prevProps.course) && this.props.course) this.setState({selected: [], modules: null}, () => this.getModules())
         if (!_.isEqual(this.props.modules, prevProps.modules) && this.state.modules) { this.setInitSelected() }
     }
     
     onChange = (id) => {
+        console.log('### id', id)
         let tempModules = this.state.selected || []
         let modIdx = tempModules.findIndex(m => m === id)
-        if (modIdx === -1)  tempModules.push({id: id, extModuleName: null}) 
+        if (modIdx === -1)  tempModules.push(id) 
         else delete tempModules[modIdx] 
-        
-        tempModules = tempModules.filter(x => x.id != null)
+        console.log('### tempMod', tempModules)
+        tempModules = tempModules.filter(x => x != null)
         this.setState({ selected: tempModules })
 
     }
 
     handleSave = () => {
-        this.props.onSubmit(this.state.selected)
-        this.setState({  selected: [], modules: null })
+        this.props.onSubmit(this.state.selected, this.state.extModuleNames)
     }
     
     getModules = () => {
@@ -55,27 +56,38 @@ export default class AddCaseModuleModal extends Component {
     setInitSelected = () => {
         if (this.props.modules && this.props.modules.length > 0) {
             let selected = []
-            selected = this.state.modules.filter(m => this.props.modules.findIndex(pm => pm.moduleID === m.moduleID) !== -1)
+            let extModuleNames = []
+            selected = this.state.modules.filter(m => {
+                let modIdx = this.props.modules.findIndex(pm => pm.moduleID === m.moduleID)
+                if(modIdx !== -1) extModuleNames.push({ name: this.props.modules[modIdx].extModuleName, moduleID: this.props.modules[modIdx].moduleID })
+                return modIdx !== -1
+            })
             selected = selected.map(x => x.moduleID)
-            this.setState({ selected })
+            this.setState({ selected, extModuleNames })
         } else this.setState({ selected: [] })
 
     }
     getExtName = (moduleID) => {
-        let idx = this.props.modules && this.props.modules.length > 0 && (this.props.modules.findIndex(m => m.moduleID === moduleID))
-            if(idx === 0 || idx >= 1){
-                let tempModule = this.props.modules[idx]
-                return tempModule.extModuleName
-            }
-        }
-
-    changeExtModule = (prop, e) => {
-        let tempExtName = e.target.value
-        this.setState({ tempExtName })
+        if (this.state.extModuleNames && this.state.extModuleNames.length > 0) {
+            let idx = (this.state.extModuleNames.findIndex(m => m.moduleID === moduleID))
+            if(idx !== -1) return this.state.extModuleNames[idx].name
+        } else return null
+    }
+        
+    changeExtModule = (value, moduleID) => {
+        let tempExtNames = this.state.extModuleNames
+        if (tempExtNames && tempExtNames.length > 0) {
+            let extNameIdx = this.state.extModuleNames.findIndex(ext => ext.moduleID === moduleID)
+            if (extNameIdx === -1) tempExtNames.push({ name: value, moduleID })
+            else tempExtNames[extNameIdx].name = value 
+        } else tempExtNames = [{ name: value, moduleID }]
+        this.setState({ extModuleNames: tempExtNames })
     }
             
 
     render = () => {
+        console.log('### renderProps', this.props)
+        console.log('### renderState', this.state)
         return  (
             <>
             <Modal isOpen={this.props.open} toggle={this.props.toggle} >
@@ -98,7 +110,7 @@ export default class AddCaseModuleModal extends Component {
                                 <Input disabled={!(this.state.selected && this.state.selected.length > 0 && (this.state.selected.findIndex(m => m === c.moduleID) !== -1))} type='text' 
                                         placeholder={'Name des externen Moduls'} 
                                         value={this.getExtName(c.moduleID)} 
-                                        onChange= {value => this.changeExtModule('extModuleName', value)} />
+                                        onChange= {e => this.changeExtModule(e.target.value, c.moduleID)} />
                                 </Col>
 {/*                                    <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
 */}                            </Row> 

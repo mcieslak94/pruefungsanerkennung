@@ -32,7 +32,8 @@ function DatabaseConnector(tableName) {
             let values = Object.keys(data).map(prop => data[prop])
             db.run(`INSERT INTO ${tableName} (${propNames}) VALUES (${Object.keys(data).map(prop => '?').join(', ')})`, values, function(err, row) {
               if (err) throw err;
-              cb(row)
+              console.log('### ROW ', this.lastID)
+              cb(this.lastID)
               db.close()
             });
           })

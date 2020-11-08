@@ -11,8 +11,8 @@ export default class ModuleContent extends Component {
     constructor(props) {
         super(props);
         const DataBaseConnector = electron.remote.require('./database.connector.js')        
-        const ModuleDatabase = electron.remote.require('./modules.db.js')
         const CourseDatabase = electron.remote.require('./course.db.js')
+        const ModuleDatabase = electron.remote.require('./modules.db.js')
         this.moduleExtraDB = ModuleDatabase()
         this.courseDB = CourseDatabase()
         this.courseXDB = DataBaseConnector('courseXmodule')

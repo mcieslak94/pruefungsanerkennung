@@ -74,6 +74,16 @@ function ModuleDatabase() {
           cb(rows)
         });
       })
+    },
+    getModuleID(data, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT moduleID FROM module 
+                    WHERE moduleName = '${data.moduleName}' AND professorID = '${data.professorID}' AND creditpoints = '${data.creditpoints}'`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }

@@ -9,12 +9,12 @@ const electron = window.require('electron')
 export default class AddModuleWindow extends Component {
     constructor(props) {
         super(props)
-        const DataBaseConnector = electron.remote.require('./database.connector.js')  
-        this.courseDB = DataBaseConnector('course')
+        const CourseDatabase = electron.remote.require('./course.db.js')
+        this.courseDB = CourseDatabase()
     }
 
     state = { 
-        courses: null
+        courses: null,
     }
 
     componentDidMount() {
@@ -22,8 +22,15 @@ export default class AddModuleWindow extends Component {
     }
 
     getCourses = () => {
-        this.courseDB.getAll(courses => this.setState({ courses }))
+        let data = {
+            intern: '1'
+        }
+
+        console.log('## toggle')
+        this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
+
+    
 
     render = () => {
         return <>
@@ -48,12 +55,12 @@ export default class AddModuleWindow extends Component {
                     {this.state.courses && this.state.courses.length > 0 && this.state.courses.map((c, idx) => 
                                 <Row key={'choose-courses-' + idx}>
                                     <Col>
-                                    <CustomInput disabled={this.state.disabled}
+                                    <CustomInput 
                                         type="checkbox"
                                         id={"c.courseID" + idx}
-                                        checked={this.props.selected && this.props.selected.length > 0 && (this.props.selected.findIndex(m => m === c.moduleID) !== -1)} 
+                                        checked={this.state.courseIDs && this.state.courseIDs.length > 0 && (this.state.courseIDs.find(m => m.courseID === c.courseID))} 
                                         label={c.courseName} 
-                                        onChange={(value) => this.props.onChange(c.courseID, value)} />
+                                        onChange={() => this.props.toggleCourse(c.courseID)}/>
                                     </Col>
                                 </Row> 
                             )}

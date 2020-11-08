@@ -8,6 +8,7 @@ export default class AddModuleModal extends Component {
             moduleName: '',
             creditPoints: '',
             professorID: '', 
+            courseIDs: [],
         } 
     }
 
@@ -24,12 +25,29 @@ export default class AddModuleModal extends Component {
         this.setState({ form: {} })
     }
 
+    toggleCourse = (courseID) => {
+        console.log('## courseIDs', this.state.form.courseIDs)
+        console.log('## courseID', courseID)
+        if(this.state.form.courseIDs != null){
+        if(this.state.form.courseIDs.find(m => m.courseID === courseID)){
+            let tempCourse = this.state.form.courseIDs
+            var idx =this.state.form.courseIDs.findIndex(m => m.courseID === courseID)
+            tempCourse.splice(idx,1)
+            this.setState({courseIDs: tempCourse})  
+        } else {
+            let tempCourse = this.state.form.courseIDs
+            const value = {courseID: courseID}
+            tempCourse.push(value)
+            this.setState({courseIDs: tempCourse})   
+        }}
+    }
+
     render = () => {
         return  (
             <Modal isOpen={this.props.open} toggle={this.props.toggle}>
                 <ModalHeader toggle={this.props.toggle}>Modul hinzufügen</ModalHeader>
                 <ModalBody>
-                    <AddModuleWindow onChange={this.handleChange} data={this.state.form} />
+                    <AddModuleWindow toggleCourse={this.toggleCourse} onChange={this.handleChange} data={this.state.form} />
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.handleSubmit}>Speichern</Button>{' '}

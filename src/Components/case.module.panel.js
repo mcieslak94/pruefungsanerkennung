@@ -37,7 +37,7 @@ export default class CaseModulePanel extends Component {
         if(!_.isEqual(this.props.data, prevProps.data)) this.getCasesXModules()
     }
 
-    addModulesToTable = (selected) => {
+    addModulesToTable = (selected, extNameArray = null) => {
         let currentSelected = this.state.modules.map(x => x.moduleID)
         let removeArray = currentSelected && currentSelected.length > 0 ? currentSelected.filter(c => !selected.includes(c)) : []  
         removeArray = removeArray.map(r => this.state.modules[this.state.modules.findIndex(m => m.moduleID === r)])
@@ -56,10 +56,11 @@ export default class CaseModulePanel extends Component {
             return null
         })
         addArray.map((s, idx) => {
-            setTimeout(() => {
-                this.getDataByModule(s)
-            }, 2000)
             let newEntry = { caseID: this.props.data.caseID, module_ID: s, begruendung: 'keine', requestActive: 0, requestDate: new Date()}
+            if (extNameArray && extNameArray.length > 0) {
+                let extNameIdx = extNameArray.findIndex(ext => ext.moduleID === s)
+                if (extNameIdx !== -1) newEntry.extModuleName = extNameArray[extNameIdx].name
+            }
             this.caseXmoduleDB.data(newEntry).create(() => {
                 if (idx === addArray.length - 1) {
                     setTimeout(() => {
@@ -70,6 +71,19 @@ export default class CaseModulePanel extends Component {
             })        
             return null
         })
+        if ((extNameArray && extNameArray.length > 0)) {
+            extNameArray.forEach((extName, idx) => {
+                let data = { selector: { caseID: this.props.data.caseID, module_ID: extName.moduleID }, value: { extModuleName: extName.name } }
+                this.caseXmoduleDB.data(data).update(() => {
+                    if (idx === addArray.length - 1) {
+                        setTimeout(() => {
+                            this.setState({ modules: [] },() => this.getCasesXModules())
+                        }, 200)
+                    }
+                    return null
+                }) 
+            })
+        }
         this.setState({ moduleModalOpen: false })
     }
 

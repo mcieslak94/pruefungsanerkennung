@@ -10,7 +10,10 @@ export default class MainView extends Component {
         constructor(props) {
         super(props)
         const DataBaseConnector = electron.remote.require('./database.connector.js')
+        const ModuleConnector = electron.remote.require('./modules.db.js')
         this.module = DataBaseConnector('module')
+        this.courseXmodule = DataBaseConnector('courseXmodule')
+        this.moduleCon = ModuleConnector()
       }
       state = {
         modules: null
@@ -27,10 +30,30 @@ export default class MainView extends Component {
         this.module.data(data).getAllAsc(modules => this.setState({ modules }))
     }
 
-    addModule = newModule => {
-      this.module.data(newModule).create(() => {
-        this.getModules()
-    })
+    getModuleID = (module) => {
+        return this.moduleCon.getModuleID((module), tempID => {
+            this.setState({ tempID })
+        })
+    }
+
+    addModule = (data) => {
+        console.log('### data', data)
+        let newModule = {
+            moduleName: data.moduleName,
+            creditpoints: data.creditPoints,
+            professorID: data.professorID
+        }
+        this.module.data(newModule).create((module_ID) => {
+            console.log('### FLORIAN', module_ID)
+            this.getModules()
+            data.courseIDs.forEach((s) => {
+                let data = {
+                    courseID: s.courseID,
+                    module_ID
+                }
+                this.courseXmodule.data(data).create(() => {})
+            })
+        })
     }
 
     saveCase = (module) => {
@@ -62,7 +85,7 @@ export default class MainView extends Component {
                 <Row className='app-body'>
                 <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
                     <ModuleList 
-                        onAdd={() => this.setState({ addModalOpen: true })}
+                        onAdd={() => this.setState({ detail: null, addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })} 
                         active={this.state.detail}
                         onSearch={searchString => this.setState({ searchString })}
