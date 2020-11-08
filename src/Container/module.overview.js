@@ -37,14 +37,12 @@ export default class MainView extends Component {
     }
 
     addModule = (data) => {
-        console.log('### data', data)
         let newModule = {
             moduleName: data.moduleName,
             creditpoints: data.creditPoints,
             professorID: data.professorID
         }
         this.module.data(newModule).create((module_ID) => {
-            console.log('### FLORIAN', module_ID)
             this.getModules()
             data.courseIDs.forEach((s) => {
                 let data = {

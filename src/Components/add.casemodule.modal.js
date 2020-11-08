@@ -31,12 +31,10 @@ export default class AddCaseModuleModal extends Component {
     }
     
     onChange = (id) => {
-        console.log('### id', id)
         let tempModules = this.state.selected || []
         let modIdx = tempModules.findIndex(m => m === id)
         if (modIdx === -1)  tempModules.push(id) 
         else delete tempModules[modIdx] 
-        console.log('### tempMod', tempModules)
         tempModules = tempModules.filter(x => x != null)
         this.setState({ selected: tempModules })
 
@@ -86,8 +84,6 @@ export default class AddCaseModuleModal extends Component {
             
 
     render = () => {
-        console.log('### renderProps', this.props)
-        console.log('### renderState', this.state)
         return  (
             <>
             <Modal isOpen={this.props.open} toggle={this.props.toggle} >

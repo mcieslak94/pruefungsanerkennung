@@ -107,11 +107,11 @@ export default class DocumentsPanel extends Component {
                 <Col xs={2}>
                     <FormGroup>
                         <div className="documentComplete">
-                            <CustomInput disabled={!(this.props.data.docAntrag>=1)} checked={this.props.data.docAntrag>1} type="checkbox" 
+                            <CustomInput disabled={this.props.data.docAntrag === 0 || this.props.disabled} checked={this.props.data.docAntrag>1} type="checkbox" 
                             id="docAntragComplete" onChange={this.toggleAntragComplete} label="Vollständig?"/> 
-                            <CustomInput disabled={!(this.props.data.docNoten>0)} checked={this.props.data.docNoten>1} type="checkbox" 
+                            <CustomInput disabled={this.props.data.docNoten === 0 || this.props.disabled} checked={this.props.data.docNoten>1} type="checkbox" 
                             id="docNotenComplete" onChange={this.toggleGradesComplete} label="Vollständig?"/>
-                            <CustomInput disabled={!(this.props.data.docHandbuch>0)} checked={this.props.data.docHandbuch>1} type="checkbox" 
+                            <CustomInput disabled={this.props.data.docHandbuch === 0 || this.props.disabled} checked={this.props.data.docHandbuch>1} type="checkbox" 
                             id="docHandbuchComplete" onChange={this.toggleModulComplete} label="Vollständig?"/>
                         </div>
                     </FormGroup>
