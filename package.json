@@ -65,8 +65,8 @@
     ],
     "publish": {
       "provider": "github",
-      "repo": "skatplanner",
-      "owner": "braskus"
+      "repo": "pruefungsanerkennung",
+      "owner": "mcieslak"
     }
   },
   "devDependencies": {
