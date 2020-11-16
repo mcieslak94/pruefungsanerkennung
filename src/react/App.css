@@ -42,8 +42,6 @@
   color: white;
 }
 
-
-
 #root {
   height: 100%;
 }
@@ -101,7 +99,7 @@ body {
   position: fixed;
   background: #fff;
   bottom: 0;
-  left: 16.666666%;
+  left: 25%;
   right: 0;
   height: 43px;
   z-index: 1;
@@ -127,20 +125,6 @@ body {
   -webkit-box-shadow: inset 0px 0px 8px 0px #CCC;   
 }
 
-.header-row {
-  position: fixed;
-  background: #fff;
-  top: 79px;
-  left: 16.666666%;
-  right: 15px;
-  height: 50px;
-  z-index: 1;
-  padding-top: 10px;
-  padding-left: 10px;
-  box-shadow: inset 0px 0px 8px 0px #CCC;
-  -moz-box-shadow: inset 0px 0px 8px 0px #CCC;
-  -webkit-box-shadow: inset 0px 0px 8px 0px #CCC;   
-}
 
 #child {
   display: table-cell;    

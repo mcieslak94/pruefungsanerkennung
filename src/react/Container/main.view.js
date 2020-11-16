@@ -101,7 +101,7 @@ export default class MainView extends Component {
  */} 
             </Row>
             <Row className='app-body'>
-                <Col xs={2} className='app-list' style={{ minHeight: '89vh' }}>
+                <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
                     <DetailList
                         onAdd={() => this.setState({ addModalOpen: true })}
                         onChange={value => this.setState({ detail: value })}
@@ -110,7 +110,7 @@ export default class MainView extends Component {
                         data={this.filterCases()}
                     />
                 </Col>
-                <Col xs={10} className='app-content' style={{ maxHeight: '83vh' }}>
+                <Col xs={9} className='app-content' style={{ maxHeight: '83vh' }}>
                     <DetailContent
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}

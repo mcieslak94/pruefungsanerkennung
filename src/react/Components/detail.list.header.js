@@ -17,7 +17,7 @@ class DetailListHeader extends Component {
                     />
                 </FormGroup>
             </Col>
-            <Col className='no-padding' xs={2}><Button color="success" onClick={this.props.onAdd}>+</Button></Col>
+            <Col style={{paddingLeft: '0px'}} xs={2}><Button color="success" onClick={this.props.onAdd}>+</Button></Col>
         </Row>
         </> 
     }

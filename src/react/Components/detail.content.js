@@ -55,6 +55,14 @@ export default class DetailContent extends Component {
         this.setState( {disabled: !this.state.disabled} )
     }
 
+    getDocs = () => {
+        let docAntrag = this.props.data.docAntrag === 0 ? 'nicht eingereicht' : this.props.data.docAntrag=== 1 ? 'nicht vollständig ausgefüllt' : 'vollständig'
+        let docNoten = this.props.data.docNoten === 0 ? 'nicht eingereicht' : this.props.data.docNoten=== 1 ? 'nicht vollständig ausgefüllt' : 'vollständig'
+        let docHandbuch = this.props.data.docHandbuch === 0 ? 'nicht eingereicht' : this.props.data.docHandbuch=== 1 ? 'nicht vollständig ausgefüllt' : 'vollständig'
+        let docString = '%0D%0AAnerkennungsantrag: ' + docAntrag + '%0D%0ANotenübersicht' + docNoten + '%0D%0AModulhandbuch' + docHandbuch
+        return docString
+    }
+
     render = () => {
     return this.props.data
     ?
@@ -109,8 +117,9 @@ export default class DetailContent extends Component {
                         />
                     </Col>
                     <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
-                            <a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a>
+                        <a href={CreateTemplate('missingDoc', { mail: this.props.data.email, gender: this.props.data.anrede==='w' ? 'Frau' : 'Herr', lastName: this.props.data.caseLastName, date: this.props.data.createDateCase, docs: this.getDocs()})}><GrMailOption /></a>
                     </Col>
+                    
                     
                 </Row>
             </FormGroup>
