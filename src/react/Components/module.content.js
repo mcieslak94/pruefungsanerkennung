@@ -33,9 +33,9 @@ export default class ModuleContent extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.professorID !== prevProps.data.professorID))){
-            this.getProfByModule()
+        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.moduleID !== prevProps.data.moduleID))){
             this.getCourseXmodule()
+            this.getProfByModule()
         }
     }
     
