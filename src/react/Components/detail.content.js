@@ -7,6 +7,7 @@ import CoursesInput from '../Components/inputField.courses'
 import EditFooter from './globals/edit.footer';
 import { GrMailOption } from "react-icons/gr";
 import { CreateTemplate } from '../utils/mail.template.util';
+import Moment from 'moment'
 
 export default class DetailContent extends Component {
 
@@ -59,7 +60,7 @@ export default class DetailContent extends Component {
         let docAntrag = this.props.data.docAntrag === 0 ? 'nicht eingereicht' : this.props.data.docAntrag=== 1 ? 'nicht vollständig ausgefüllt' : 'vollständig'
         let docNoten = this.props.data.docNoten === 0 ? 'nicht eingereicht' : this.props.data.docNoten=== 1 ? 'nicht vollständig ausgefüllt' : 'vollständig'
         let docHandbuch = this.props.data.docHandbuch === 0 ? 'nicht eingereicht' : this.props.data.docHandbuch=== 1 ? 'nicht vollständig ausgefüllt' : 'vollständig'
-        let docString = '%0D%0AAnerkennungsantrag: ' + docAntrag + '%0D%0ANotenübersicht' + docNoten + '%0D%0AModulhandbuch' + docHandbuch
+        let docString = '%0D%0AAnerkennungsantrag: ' + docAntrag + '%0D%0ANotenübersicht: ' + docNoten + '%0D%0AModulhandbuch: ' + docHandbuch
         return docString
     }
 
@@ -117,7 +118,7 @@ export default class DetailContent extends Component {
                         />
                     </Col>
                     <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
-                        <a href={CreateTemplate('missingDoc', { mail: this.props.data.email, gender: this.props.data.anrede==='w' ? 'Frau' : 'Herr', lastName: this.props.data.caseLastName, date: this.props.data.createDateCase, docs: this.getDocs()})}><GrMailOption /></a>
+                        <a href={CreateTemplate('missingDoc', { mail: this.props.data.email, gender: this.props.data.anrede==='w' ? 'Frau' : 'Herr', lastName: this.props.data.caseLastName, date: Moment(this.props.data.createDateCase).format('DD.MM.YYYY'), docs: this.getDocs()})}><GrMailOption /></a>
                     </Col>
                     
                     

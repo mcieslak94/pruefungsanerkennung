@@ -1,6 +1,7 @@
 import React, {Component} from 'react' 
 import AddWindow from '../Container/addWindow'
 import { ModalHeader, Modal, ModalBody, ModalFooter, Button } from 'reactstrap'
+import Moment from 'moment'
 
 export default class AddStudentModal extends Component {
     state = {
@@ -28,7 +29,9 @@ export default class AddStudentModal extends Component {
 
     handleSubmit = () => {
         let data = this.state.form
-        data.createDateCase= new Date()
+        let date = Moment(new Date()).format('YYYY-MM-DD')
+        data.createDateCase= date
+        console.log('###', date)
         data.state = 'angelegt'
         this.props.onSubmit(data)
         this.props.toggle()
