@@ -1,6 +1,6 @@
 const sqlite = require('sqlite3').verbose();
 
-const DBFile = './db/case.db'
+const DBFile = './case.db'
 
 function getConnection(cb) {
   let db = new sqlite.Database(DBFile, sqlite.OPEN_READWRITE, (err) => {

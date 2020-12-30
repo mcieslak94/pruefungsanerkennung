@@ -5,7 +5,7 @@ const url = require('url');
 app.disableHardwareAcceleration();
 
 const sqlite = require('sqlite3').verbose();
-const DBFile = process.cwd() + '\\db\\case.db'
+const DBFile = process.cwd() + '\\case.db'
 
 let db = new sqlite.Database(DBFile, sqlite.OPEN_READWRITE | sqlite.OPEN_CREATE, (err) => {
   console.info('#### Init DB')
