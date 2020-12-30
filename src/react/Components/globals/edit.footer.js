@@ -9,9 +9,9 @@ export default class EditFooter extends Component {
     closeCaseModalOpen: false
   }
 
-  closeCase = () => {
+  closeCase = (abgeschlossen) => {
     this.setState({ closeCaseModalOpen: false })
-    this.props.closeCase()
+    this.props.closeCase(abgeschlossen)
   }
 
   render = () => {

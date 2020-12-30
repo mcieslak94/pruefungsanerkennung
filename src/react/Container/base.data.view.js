@@ -3,8 +3,8 @@ import { Col, Row } from 'reactstrap'
 import BaseDataList from '../Components/base.data.list'
 import ProfBaseDataContent from '../Components/prof.base.data.content'
 import CourseBaseDataContent from '../Components/course.base.data.content'
-import EmailTemplateContent from '../Components/template.content'
-import _ from 'lodash'
+//import EmailTemplateContent from '../Components/template.content'
+//import _ from 'lodash'
 /* import moment from 'moment'
  */
 const electron = window.require('electron')
@@ -21,7 +21,7 @@ export default class BaseDataView extends Component {
     }
 
     state = {
-        baseData: ['Professoren', 'Studiengänge', 'E-Mail Vorlagen'],
+        baseData: ['Professoren', 'Studiengänge'],
         courses: null, 
         templates: null, 
         profs: null,
@@ -32,7 +32,7 @@ export default class BaseDataView extends Component {
     componentDidMount() {
         this.getProfs()
         this.getCourses()
-        this.getTemplates()
+        //this.getTemplates()
     }
 
     getProfs = () => {
@@ -42,12 +42,12 @@ export default class BaseDataView extends Component {
         this.professorDB.data(data).getAllAsc(profs => this.setState({ profs }))
     }
 
-    getTemplates = () => {
+    /*getTemplates = () => {
         let data = {
             criteria: 'templateBetreff'
         }
         this.templatesDB.data(data).getAllAsc(templates => this.setState({ templates }))
-    }
+    }*/
     
     getCourses = () => {
         let data = {
@@ -66,10 +66,10 @@ export default class BaseDataView extends Component {
             detail={this.state.detail}
             data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
             saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.deleteCourse} />  
-          case 2: return <EmailTemplateContent
+          /**case 2: return <EmailTemplateContent
             detail={this.state.detail}
             data={this.state.templates != null && this.state.detail != null ? this.state.templates : null}
-            saveChanges={this.saveTemplate} /> 
+            saveChanges={this.saveTemplate} /> */
           default: return <></>;
     }
 }
@@ -90,7 +90,7 @@ export default class BaseDataView extends Component {
         this.courseDB.data(data).update(() => this.getCourses())
     }
 
-    saveTemplate = (template) => {
+    /*saveTemplate = (template) => {
         let data = {
             value: template,
             selector: { templateID: template.templateID }
@@ -111,7 +111,7 @@ export default class BaseDataView extends Component {
             selector: { templateID: template.templateID }
         }
         this.templatesDB.data(data2).update(() => this.getTemplates())
-    }
+    }*/
 
     addProf = prof => {
         this.professorDB.data(prof).create(() => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Progress, Row, Col, FormGroup, CustomInput, Label, Button, Input} from 'reactstrap'
+import { Row, Col, FormGroup, Label, Button, Input} from 'reactstrap'
 import '../App.css';
 import AddUniversityModal from './university/add.university.modal';
 import AddExtCourseModal from './university/add.ext.course.modal';
@@ -17,7 +17,6 @@ export default class CaseProofPanel extends Component {
         this.ExtCourseData = DatabaseUni()
     }
     state = { 
-        progressValue: 0, 
         extCourses: null,
         extCourseModalOpen: false,
         universityModalOpen: false,
@@ -39,48 +38,21 @@ export default class CaseProofPanel extends Component {
         this.uniDB.getAll(universities => this.setState({ universities }))
     }
 
-    getProgressValue = () => {
-            var value = 0;
-            if(this.props.data.intern && this.props.data.inGermany && this.props.data.otherChecks){
-                return 100;
-            }
-            this.props.data.intern ? value += 33.3 : value += 0;
-            this.props.data.inGermany ? value += 33.3 : value += 0;
-            this.props.data.otherChecks ? value += 33.3 : value += 0;
-    
-            return value;
-    };
-
-    toggleIntern = () => {
-        if (this.props.data.intern === 0){
-            this.props.data.intern = 1
-            this.setState({intern: 1})
-        } else {
-            this.props.data.intern = 0
-            this.setState({intern: 0})
+    setUniversityCheck = (state) => {
+        if(state === 1){
+            this.props.data.universityCheck = 1
+            this.setState({universityCheck: 1})
+        }
+        if(state === 2){
+            this.props.data.universityCheck = 2
+            this.setState({universityCheck: 2})
+        }
+        if(state === 3){
+            this.props.data.universityCheck = 3
+            this.setState({universityCheck: 3})
         }
     }
-
-    toggleGermany = () => {
-        if (this.props.data.inGermany === 0){
-            this.props.data.inGermany = 1
-            this.setState({inGermany: 1})
-        } else {
-            this.props.data.inGermany = 0
-            this.setState({inGermany: 0})
-        }
-    }
-
-    toggleMore = () => {
-        if (this.props.data.otherChecks === 0){
-            this.props.data.otherChecks = 1
-            this.setState({otherChecks: 1})
-        } else {
-            this.props.data.otherChecks = 0
-            this.setState({otherChecks: 0})
-        }
-    }
-    
+   
     saveUniversity = (prop, e) => {
         let tempForm = this.props.data
         tempForm[prop] = e
@@ -135,22 +107,26 @@ export default class CaseProofPanel extends Component {
                 </Col>
             </Row>
             
-            <Row xs={2}>
+            <Row xs={2} style={{ paddingLeft: 16 }}>
                 <Col xs={6}>
-                    <FormGroup>
-                        <div className="instChecked">
-                            <CustomInput disabled={this.props.disabled} type="checkbox" checked={this.props.data.intern} 
-                            onChange={this.toggleIntern} id="intern" label="Hochschulinterner Wechsel?"/>
-                            <CustomInput disabled={this.props.disabled} type="checkbox" checked={this.props.data.inGermany} 
-                            onChange={this.toggleGermany} id="inGermany" label="Institution in Deutschland?" />
-                            <CustomInput disabled={this.props.disabled} type="checkbox" checked={this.props.data.otherChecks} 
-                            onChange={this.toggleMore} id="otherChecks" label="weitere Überprüfung notwendig?"/>
-                        </div>
-                    </FormGroup>
+                    
+                            <FormGroup>
+                                        <Label check>
+                                            <Input type="radio" name="yesNoOption" checked={this.props.data.universityCheck === 1} onChange={() => this.setUniversityCheck(1)}/>{' '}
+                                            Hochschulinterner Wechsel
+                                        </Label>
+                                        <br />
+                                        <Label check>
+                                            <Input type="radio" name="yesNoOption" checked={this.props.data.universityCheck === 2} onChange={() => this.setUniversityCheck(2)}/>{' '}
+                                            Institution in Deutschland
+                                        </Label>
+                                        <br />
+                                        <Label check>
+                                            <Input type="radio" name="yesNoOption" checked={this.props.data.universityCheck === 3} onChange={() => this.setUniversityCheck(3)}/>{' '}
+                                            weitere Überprüfung notwendig
+                                        </Label>
+                            </FormGroup>
                 </Col>
-                <Col xs={6}>
-                    <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
-                </Col >
                 <Col xs={3}>
                     <a href="https://anabin.kmk.org/anabin.html"><button disabled={this.props.disabled}> Anabin öffnen</button> </a>
                 </Col> 

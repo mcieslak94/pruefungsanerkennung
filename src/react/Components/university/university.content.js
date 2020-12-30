@@ -45,6 +45,7 @@ export default class UniversityContent extends Component {
                             <th xs={3}>Modulname Extern</th>
                             <th>Modulname Intern</th>
                             <th>Anerkannt?</th>
+                            <th>Begründung</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,6 +56,7 @@ export default class UniversityContent extends Component {
                                 <td>{m.extModuleName}</td>
                                 <td>{m.moduleName}</td>
                                 <td>{m.anerkannt === 1 ? 'ja' : 'nein'}</td>
+                                <td>{m.begruendung}</td>
                             </tr>
                         )}
                     </tbody>

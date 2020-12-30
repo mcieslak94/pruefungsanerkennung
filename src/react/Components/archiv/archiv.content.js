@@ -69,8 +69,14 @@ export default class ArchivContent extends Component {
     <>
     <div>
         <Form>
+            <Row>
+        <Col xs={9}>
         <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
-        
+        </Col>
+        <Col xs={3}>
+                Status: {(this.props.data.state ? this.props.data.state : 'nicht angegeben')}
+        </Col>
+        </Row>
         <FormGroup>
             <Row xs={2} style={{ padding: 16 }}>
                 <Col xs={3}> <span>Matrikelnummer: </span> </Col>

@@ -16,7 +16,7 @@ function UniversityDBConnector() {
   return ({
     getExternModules(data, cb) {
       getConnection(function (db) {
-        let sql = `SELECT caseFirstName, courseName, universityName, anerkannt, moduleName, extModuleName FROM cases 
+        let sql = `SELECT caseFirstName, courseName, universityName, anerkannt, moduleName, extModuleName, begruendung FROM cases 
         LEFT JOIN course ON cases.extCourseID = course.courseID
                   LEFT JOIN caseXmodule ON cases.caseID = caseXmodule.caseID
                   LEFT JOIN module ON module.moduleID = caseXmodule.module_ID

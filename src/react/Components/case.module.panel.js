@@ -7,7 +7,7 @@ import '../App.css';
 
 import _ from 'lodash'
 
-const electron = window.require('electron')
+const electron = window.require('electron') 
 
 export default class CaseModulePanel extends Component {
     constructor(props) {

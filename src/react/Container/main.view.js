@@ -68,10 +68,18 @@ export default class MainView extends Component {
         this.casesDB.data(data).update(() => this.getCases())
     }
 
-    closeCase = (student) => {
-        student = { 
-            state:'abgeschlossen'
-    }
+    closeCase = (abgeschlossen, student) => {
+        console.log('### student', student)
+        console.log('### abgeschlossen', abgeschlossen)
+        if(abgeschlossen===1){
+            student = { 
+                state:'abgeschlossen'
+            }
+        } else {
+            student = { 
+                state:'abgebrochen'
+            }
+        }
         let data = {
             value: student,
             selector: { caseID: this.state.cases[this.state.detail].caseID }

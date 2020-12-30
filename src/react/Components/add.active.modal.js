@@ -4,7 +4,7 @@ import { ModalHeader, Modal, ModalBody, ModalFooter, Button, FormGroup, Label, I
 export default class AddActiveModal extends Component {
     state = {
         begruendung: null,
-        disableReason: true,
+        disableReason: true, 
         anerkannt: 0
     }
 
