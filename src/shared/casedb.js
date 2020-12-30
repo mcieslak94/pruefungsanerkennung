@@ -45,7 +45,7 @@ function DatabaseCase() {
     },
     getActiveCasesAsc(cb) {
       getConnection(function (db) {
-        let sql = `SELECT * FROM cases WHERE state != "abgeschlossen" ORDER BY "caseLastName" ASC;`
+        let sql = `SELECT * FROM cases WHERE state != "abgeschlossen" AND state != "abgebrochen" ORDER BY "caseLastName" ASC;`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)
