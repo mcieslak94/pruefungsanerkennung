@@ -51,9 +51,9 @@
     ]
   },
   "devDependencies": {
-    "electron": "^10.1.5",
+    "electron": "^10.2.0",
     "electron-builder": "^22.9.1",
-    "electron-rebuild": "^2.0.3"
+    "electron-rebuild": "^2.3.4"
   },
   "build": {
     "files": [
