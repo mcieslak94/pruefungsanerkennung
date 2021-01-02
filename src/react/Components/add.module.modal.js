@@ -9,7 +9,11 @@ export default class AddModuleModal extends Component {
             creditPoints: '',
             professorID: '', 
             courseIDs: [],
-        } 
+        }, 
+        errors: {
+            nameError: false,
+
+        }
     }
 
     handleChange = (prop, value) => {
@@ -19,15 +23,26 @@ export default class AddModuleModal extends Component {
     }
 
     handleSubmit = () => {
-        let data = this.state.form
-        this.props.onSubmit(data)
-        this.props.toggle()
-        this.setState({ form: {} })
+        let valid = true
+        if (!this.state.form.moduleName || (this.state.form.moduleName && this.state.form.moduleName.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, nameError: true } })
+            valid = false
+        }
+
+        if(!this.state.form.courseIDs || this.state.form.courseIDs.length < 1){
+            this.setState({ errors: { ...this.state.form.errors, courseIDError: true } })
+            valid = false
+        }
+
+        if (valid) {
+            let data = this.state.form
+            this.props.onSubmit(data)
+            this.props.toggle()
+            this.setState({ form: {} })
+        }
     }
 
     toggleCourse = (courseID) => {
-        console.log('## courseIDs', this.state.form.courseIDs)
-        console.log('## courseID', courseID)
         if(this.state.form.courseIDs != null){
         if(this.state.form.courseIDs.find(m => m.courseID === courseID)){
             let tempCourse = this.state.form.courseIDs
@@ -47,7 +62,7 @@ export default class AddModuleModal extends Component {
             <Modal isOpen={this.props.open} toggle={this.props.toggle}>
                 <ModalHeader toggle={this.props.toggle}>Modul hinzufügen</ModalHeader>
                 <ModalBody>
-                    <AddModuleWindow toggleCourse={this.toggleCourse} onChange={this.handleChange} data={this.state.form} />
+                    <AddModuleWindow toggleCourse={this.toggleCourse} onChange={this.handleChange} data={this.state.form} errors={this.state.errors} />
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.handleSubmit}>Speichern</Button>{' '}

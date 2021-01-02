@@ -3,6 +3,7 @@ import { Label, Input, Row, Col, CustomInput } from 'reactstrap'
 import { AvField } from 'availity-reactstrap-validation';
 import ProfsInput from '../Components/inputField.profs'
 import AvForm from 'availity-reactstrap-validation/lib/AvForm';
+import FormFeedback from 'reactstrap/lib/FormFeedback';
 
 const electron = window.require('electron')
 
@@ -14,7 +15,7 @@ export default class AddModuleWindow extends Component {
     }
 
     state = { 
-        courses: null,
+        courses: null
     }
 
     componentDidMount() {
@@ -37,21 +38,22 @@ export default class AddModuleWindow extends Component {
              <AvForm onValidSubmit={this.handleValidSubmit} onInvalidSubmit={this.handleInvalidSubmit}>
                 <Row xs={2} style={{ padding: 16 }}>
                     <Col>
-                        <Label for="moduleName">Modulname</Label>
-                        <Input value={this.props.data && this.props.data.name} 
+                        <Label for="moduleName">Modulname *</Label>
+                        <Input invalid={this.props.errors.nameError} value={this.props.data && this.props.data.name} 
                         onChange={e => this.props.onChange('moduleName', e.target.value)} 
                         type="text" name="moduleName" id="moduleName" 
                         placeholder="Modulname eintragen" required />
+                        {this.props.errors.nameError && <FormFeedback>Oh noes! that name is already taken</FormFeedback>}
                     </Col>
                     <Col>
-                        <Label for="creditPoints">Credit Points</Label>
+                        <Label for="creditPoints">Credit Points *</Label>
                         <AvField value={this.props.data && this.props.data.creditPoints} 
                         onChange={e => this.props.onChange('creditPoints', e.target.value)} 
                         type="text" name="creditPoints" id="creditPoints" 
                         placeholder="Credit Points eintragen" required />
                     </Col>
                     <Col xs={12}>
-                    <Label for="courseID">Studiengang</Label>
+                    <Label for="courseID">Studiengang *</Label>
                     {this.state.courses && this.state.courses.length > 0 && this.state.courses.map((c, idx) => 
                                 <Row key={'choose-courses-' + idx}>
                                     <Col>
@@ -69,7 +71,7 @@ export default class AddModuleWindow extends Component {
                     <hr />
                     </Col>
                     <Col>
-                        <Label for="professorID">Lehrender</Label>
+                        <Label for="professorID">Lehrender *</Label>
                         <ProfsInput id="professorID" value={this.props.data.professorID} onChange={ value => this.props.onChange('professorID', value)} required/>
                     </Col>
                     
