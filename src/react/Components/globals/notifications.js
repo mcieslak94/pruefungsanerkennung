@@ -30,7 +30,13 @@ export default class Notifications extends Component {
             }else{
                 day = today.getDate()
             }
-            let dateString = '' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + day    
+            var month
+            if((today.getMonth()+1)<10){
+                month = "0" + (today.getMonth()+1)
+            }else{
+                month = (today.getMonth()+1)
+            }
+            let dateString = '' + today.getFullYear() + '-' + month + '-' + day    
             this.casesDB.reminderCases(dateString, casesToRemind => this.setState({ casesToRemind }))
         }
 
@@ -42,7 +48,13 @@ export default class Notifications extends Component {
             }else{
                 day = today.getDate()
             }
-            let dateString = '' + today.getFullYear() + '-' + (today.getMonth()+1) + '-' + day    
+            var month
+            if((today.getMonth()+1)<10){
+                month = "0" + (today.getMonth()+1)
+            }else{
+                month = (today.getMonth()+1)
+            }
+            let dateString = '' + today.getFullYear() + '-' + month + '-' + day    
             this.casesDB.reminderModules(dateString, modulesToRemind => this.setState({ modulesToRemind }))
         }
 

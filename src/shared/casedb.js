@@ -25,7 +25,8 @@ function DatabaseCase() {
     },
     reminderCases(dateString, cb) {
       getConnection(function (db) {
-        let sql = `SELECT caseID, caseFirstName, caseLastName, reminderDate FROM cases WHERE reminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != "abgebrochen";`
+        console.log('### date', dateString)
+        let sql = `SELECT caseID, caseFirstName, caseLastName, reminderDate FROM cases WHERE reminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != 'abgebrochen';`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)
@@ -35,7 +36,8 @@ function DatabaseCase() {
     },
     reminderModules(dateString, cb) {
       getConnection(function (db) {
-        let sql = `SELECT caseID,  caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != "abgebrochen";`
+        console.log('### date', dateString)
+        let sql = `SELECT caseID,  caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != 'abgebrochen';`
         db.all(sql, [], (err, rows) => {
           if (err) throw err;
           cb(this.changes)

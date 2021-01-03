@@ -103,10 +103,6 @@ export default class MainView extends Component {
         return <>    
             <Row className='app-header'>
                 <Col><h3>Fallübersicht</h3></Col>
-{/*                 
-
-{moment(this.state.data.createDate).isBefore(moment().subtract(2, 'weeks'))}
- */} 
             </Row>
             <Row className='app-body'>
                 <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>

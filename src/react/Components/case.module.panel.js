@@ -6,6 +6,7 @@ import { GrMailOption } from "react-icons/gr";
 import '../App.css';
 
 import _ from 'lodash'
+import { CreateTemplate } from '../utils/mail.template.util';
 
 const electron = window.require('electron') 
 
@@ -170,7 +171,7 @@ export default class CaseModulePanel extends Component {
                                     <CustomInput disabled={this.props.disabled} checked={m.requestActive===1} type="checkbox" id={'ruckmeldung-'+ idx} onChange={() => this.toggleRueckruf(m)}/>
                                 </td>
                                 <td id="child" style={{textAlign:'center', fontSize:'15px'}}>
-                                    <a href={m.cXmhref}><GrMailOption /></a>
+                                <a href={CreateTemplate('missingDoc', { })}><GrMailOption /></a>
                                 </td>
                                 <td>{m.begruendung}</td>
                                 <td style={{textAlign:'center'}}>

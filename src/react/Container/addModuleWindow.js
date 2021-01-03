@@ -25,7 +25,6 @@ export default class AddModuleWindow extends Component {
             intern: '1'
         }
 
-        console.log('## toggle')
         this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
 
