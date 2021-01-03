@@ -12,6 +12,9 @@ export default class AddModuleModal extends Component {
         }, 
         errors: {
             nameError: false,
+            creditError: false,
+            courseError: false,
+            profError: false,
 
         }
     }
@@ -28,9 +31,16 @@ export default class AddModuleModal extends Component {
             this.setState({ errors: { ...this.state.form.errors, nameError: true } })
             valid = false
         }
-
         if(!this.state.form.courseIDs || this.state.form.courseIDs.length < 1){
-            this.setState({ errors: { ...this.state.form.errors, courseIDError: true } })
+            this.setState({ errors: { ...this.state.form.errors, courseError: true } })
+            valid = false
+        }
+        if(!this.state.form.creditPoints || (this.state.form.creditPoints && this.state.form.creditPoints.length < 1)){
+            this.setState({ errors: { ...this.state.form.errors, creditError: true } })
+            valid = false
+        }
+        if(!this.state.form.professorID || (this.state.form.professorID && this.state.form.professorID.length < 1)){
+            this.setState({ errors: { ...this.state.form.errors, profError: true } })
             valid = false
         }
 

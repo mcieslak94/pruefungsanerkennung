@@ -17,6 +17,7 @@ export default class BaseDataView extends Component {
         const CourseConnector = electron.remote.require('../src/shared/course.db.js')
         this.courseDB = CourseConnector()
         this.professorDB = DataBaseConnector('professor')
+        this.courseDBAllg = DataBaseConnector('course')
         this.templatesDB = DataBaseConnector('templates')
     }
 
@@ -87,7 +88,7 @@ export default class BaseDataView extends Component {
             value: course,
             selector: { courseID: course.courseID }
         }
-        this.courseDB.data(data).update(() => this.getCourses())
+        this.courseDBAllg.data(data).update(() => this.getCourses())
     }
 
     /*saveTemplate = (template) => {
@@ -120,8 +121,8 @@ export default class BaseDataView extends Component {
     }
 
     addCourse = course => {
-        course.intern = true
-        this.courseDB.data(course).create(() => {
+        course.intern = '1'
+        this.courseDBAllg.data(course).create(() => {
                             this.getCourses()
                         })
     }
@@ -141,7 +142,7 @@ export default class BaseDataView extends Component {
             prop: 'courseID',
             value: courseID
         }
-        this.courseDB.data(data).delete(() => {
+        this.courseDBAllg.data(data).delete(() => {
                             this.getCourses()
                         })
     }

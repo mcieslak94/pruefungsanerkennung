@@ -25,7 +25,7 @@ class ProfsInput extends Component {
 
     render () {
         return (
-           <Input disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='Professor wählen...' onChange={e => this.props.onChange(e.target.value)}>
+           <Input invalid={this.props.profError} disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='Professor wählen...' onChange={e => this.props.onChange(e.target.value)}>
                {this.state.profs && this.state.profs.length > 0 && this.state.profs.map(c => <option key={'profs-option-' + c.professorID} value={c.professorID}>{c.titel} {' '} {c.profName}</option>)}
            </Input>  
         )}
