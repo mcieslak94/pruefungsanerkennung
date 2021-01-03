@@ -118,7 +118,6 @@ export default class DetailContent extends Component {
                         />
                     </Col>
                     <Col xs={1} style={{fontSize:'30px', paddingTop: '14px'}}>
-                        {console.log('### gender', this.props.data.geschlecht)}
                         <a href={CreateTemplate('missingDoc', { mail: this.props.data.email, gender: this.props.data.geschlecht==='w' ? 'Frau' : 'Herr', lastName: this.props.data.caseLastName, date: Moment(this.props.data.createDateCase).format('DD.MM.YYYY'), docs: this.getDocs()})}><GrMailOption /></a>
                     </Col>
                     

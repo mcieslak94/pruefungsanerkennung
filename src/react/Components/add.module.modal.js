@@ -30,7 +30,6 @@ export default class AddModuleModal extends Component {
             this.setState({ errors: { ...this.state.form.errors, nameError: true } })
             valid = false
         }
-        console.log('## courseIDs', this.state.form.courseIDs)
         if(!this.state.form.courseIDs || this.state.form.courseIDs.length < 1){
             this.setState({ errors: { ...this.state.form.errors, courseError: true } })
             valid = false
@@ -76,7 +75,6 @@ export default class AddModuleModal extends Component {
             tempCourse.push(value)
             this.setState({courseIDs: tempCourse})   
         }}
-        console.log('### courseIDs', this.state.form.courseIDs)
     }
 
     render = () => {

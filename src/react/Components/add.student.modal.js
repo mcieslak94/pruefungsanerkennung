@@ -31,7 +31,6 @@ export default class AddStudentModal extends Component {
         let data = this.state.form
         let date = Moment(new Date()).format('YYYY-MM-DD')
         data.createDateCase= date
-        console.log('###', date)
         data.state = 'angelegt'
         this.props.onSubmit(data)
         this.props.toggle()

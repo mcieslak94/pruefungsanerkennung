@@ -49,7 +49,7 @@ export default class ArchivContent extends Component {
 
     getUniversity = () => {
         let idx = this.state.universities && this.state.universities.length > 0 && (this.state.universities.findIndex(m => m.universityID === this.props.data.universityID))
-            if(idx){
+            if(idx>=0){
                 let tempModule = this.state.universities[idx]
                 return tempModule.universityName
         }

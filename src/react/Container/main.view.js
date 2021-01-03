@@ -69,8 +69,6 @@ export default class MainView extends Component {
     }
 
     closeCase = (abgeschlossen, student) => {
-        console.log('### student', student)
-        console.log('### abgeschlossen', abgeschlossen)
         if(abgeschlossen===1){
             student = { 
                 state:'abgeschlossen'
