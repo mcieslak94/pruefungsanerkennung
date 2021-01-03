@@ -89,6 +89,7 @@ export default class CaseProofPanel extends Component {
                     </div>
                     <Input disabled={this.props.disabled} id="universityID" type={'select'} value={this.props.data.universityID ? this.props.data.universityID : ''} 
                         onChange={e => this.saveUniversity('universityID', e.target.value)} >
+                        <option key={'universities-option-' + -1} value={-1}>{'Bitte eine Institution auswählen...'}</option>
                         {this.state.universities && this.state.universities.length > 0 && this.state.universities.map(c => <option key={'universities-option-' + c.universityID} 
                         value={c.universityID}>{c.universityName}</option>)}
                     </Input> 
@@ -101,6 +102,7 @@ export default class CaseProofPanel extends Component {
                     </div>
                     <Input   disabled={this.props.disabled} type={'select'} value={this.props.data.extCourseID ? this.props.data.extCourseID : ''} 
                         onChange={e => this.saveUniversity('extCourseID', e.target.value)}>
+                        <option key={'course-option-' + -1} value={-1}>{'Bitte einen Studiengang auswählen...'}</option>
                         {this.state.extCourses && this.state.extCourses.length > 0 && this.state.extCourses.map((c, idx) => <option key={'course-option-' + idx} 
                         value={c.courseID}>{c.courseName}</option>)}
                     </Input> 
