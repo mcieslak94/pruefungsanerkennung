@@ -49,10 +49,10 @@ export default class ProfBaseDataContent extends Component {
     <div style={{paddingTop: '20px', minheight:'89vh'}}>
     <Row>
         <Col xs={1}>
-            <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" onClick={() => this.setState({ profModalOpen: true })}>+</Button>
-            <Button disabled={this.state.profdetail ? false : true } size='lg' color="danger" onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
+            <Button style={{paddingRight: '10px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" onClick={() => this.setState({ profModalOpen: true })}>+</Button>
+            <Button disabled={!(this.state.profdetail === null) ? false : true }  size='lg' color="danger" onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
         </Col>
-        <Col xs={4} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
+        <Col xs={5} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
             <ProfBaseDataList 
             onAdd={() => this.setState({ addModalOpen: true })}
             onChange={value => this.setState({ profdetail: value })}
@@ -61,7 +61,7 @@ export default class ProfBaseDataContent extends Component {
             />
         </Col>
         <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
-        <Col xs={6}>
+        <Col xs={5}>
             <EditProfBaseDataPanel 
             disabled={this.state.disabled}
             profdetail={this.state.profdetail}
@@ -75,6 +75,7 @@ export default class ProfBaseDataContent extends Component {
                 open={this.state.profModalOpen}
                 toggle={() => this.setState({ profModalOpen: !this.state.profModalOpen })}
                 onSubmit={this.addProf}
+                errors={this.state.errors}
             />
             <DeleteModal className="deleteProf"
                 open={this.state.deleteModalOpen}

@@ -49,12 +49,12 @@ export default class CourseBaseDataContent extends Component {
     <div style={{paddingTop: '20px', minheight:'89vh'}}>
     <Row>
         <Col xs={1}>
-            <Button style={{paddingRight: '11px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" 
+            <Button style={{paddingRight: '10px', paddingLeft: '11px', marginBottom: '2px'}} size='lg' color="success" 
             onClick={() => this.setState({ courseModalOpen: true })}>+</Button>
-            <Button disabled={this.state.coursedetail ? false : true } size='lg' color="danger" 
+            <Button disabled={!(this.state.coursedetail === null) ? false : true } size='lg' color="danger" 
             onClick={() => this.setState({ deleteModalOpen: true })}>-</Button>
         </Col>
-        <Col xs={4} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
+        <Col xs={5} className="base-data-content" style={{ maxHeight: '83vh' , paddingBottom:"30px"}}>
             <CourseBaseDataList
             onAdd={() => this.setState({ addModalOpen: true })}
             onChange={value => this.setState({ coursedetail: value })}
@@ -62,7 +62,7 @@ export default class CourseBaseDataContent extends Component {
             data={this.props.data}/>
         </Col>
         <div style={{borderLeft: '1px solid lightgrey', maxHeight: '85vh'}}></div>
-        <Col xs={6}>
+        <Col xs={5}>
             <EditCourseBaseDataPanel 
             disabled={this.state.disabled}
             profdetail={this.state.coursedetail}

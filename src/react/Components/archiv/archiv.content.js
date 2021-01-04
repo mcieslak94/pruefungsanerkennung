@@ -56,7 +56,7 @@ export default class ArchivContent extends Component {
     }
 
     getCourse = () => {
-        let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.courseID === this.props.data.courseID))
+        let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.extCourseID === this.props.data.courseID))
         if(idx === 0 || idx >= 1){
             let tempModule = this.state.course[idx]
             return tempModule.courseName

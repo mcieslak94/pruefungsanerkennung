@@ -12,7 +12,15 @@ export default class AddStudentModal extends Component {
             email:'',
             geschlecht:'',
             courseID: '' 
-        } 
+        },
+        errors: { 
+            firstNameError: false,
+            lastNameError: false,
+            matrikelError: false,
+            emailError: false,
+            geschlechtError: false, 
+            courseError: false
+        }
     }
 
     handleChange = (prop, e) => {
@@ -28,13 +36,56 @@ export default class AddStudentModal extends Component {
     }
 
     handleSubmit = () => {
-        let data = this.state.form
-        let date = Moment(new Date()).format('YYYY-MM-DD')
-        data.createDateCase= date
-        data.state = 'angelegt'
-        this.props.onSubmit(data)
-        this.props.toggle()
-        this.setState({ form: {} })
+        let valid = true
+        if (!this.state.form.caseFirstName || (this.state.form.caseFirstName && this.state.form.caseFirstName.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, firstNameError: true } })
+            valid = false
+        }
+        if (!this.state.form.caseLastName || (this.state.form.caseLastName && this.state.form.caseLastName.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, lastNameError: true } })
+            valid = false
+        }
+        if (!this.state.form.mNumber || (this.state.form.mNumber && this.state.form.mNumber.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, matrikelError: true } })
+            valid = false
+        }
+        if (!this.state.form.email || (this.state.form.email && this.state.form.email.length < 1)){
+            this.setState({ errors: { ...this.state.form.errors, emailError: true } })
+            valid = false
+        }
+        if (!this.state.form.geschlecht || (this.state.form.geschlecht && this.state.form.geschlecht.length < 1) || !(this.state.form.geschlecht === "m" || this.state.form.geschlecht === "w" )){
+            this.setState({ errors: { ...this.state.form.errors, geschlechtError: true } })
+            valid = false
+        }
+        if (!this.state.form.courseID || (this.state.form.courseID && this.state.form.courseID.length < 1 ) || this.state.form.courseID.length > 10){
+            this.setState({ errors: { ...this.state.form.errors, courseError: true } })
+            valid = false
+        }
+
+        if (valid) {
+            let data = this.state.form
+            let date = Moment(new Date()).format('YYYY-MM-DD')
+            data.createDateCase= date
+            data.state = 'angelegt'
+            this.props.onSubmit(data)
+            this.props.toggle()
+            this.setState({ form: {
+                caseFirstName: '', 
+                caseLastName: '', 
+                mNumber: '', 
+                email:'',
+                geschlecht:'',
+                courseID: '' 
+            } })
+            this.setState({ errors: {
+                firstNameError: false,
+                lastNameError: false,
+                matrikelError: false,
+                emailError: false,
+                geschlechtError: false,
+                courseError: false
+            } })
+        }
     }
 
     render = () => {
@@ -42,7 +93,7 @@ export default class AddStudentModal extends Component {
             <Modal isOpen={this.props.open} toggle={this.props.toggle}>
                 <ModalHeader toggle={this.props.toggle}>Student Eintragen</ModalHeader>
                 <ModalBody>
-                    <AddWindow onChange={this.handleChange} data={this.state.form} />
+                    <AddWindow errors={this.state.errors} onChange={this.handleChange} data={this.state.form} />
                 </ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={this.handleSubmit}>Speichern</Button>{' '}

@@ -1,5 +1,6 @@
 import React, {Component} from 'react' 
 import { ModalHeader, Modal, ModalBody, ModalFooter, Button, Form, FormGroup, Row, Col, Label, Input } from 'reactstrap'
+import FormFeedback from 'reactstrap/lib/FormFeedback'
 
 export default class AddProfModal extends Component {
     state = {
@@ -7,7 +8,12 @@ export default class AddProfModal extends Component {
             titel: '',
             profName: '',
             profEmailadress: ''
-        } 
+        },
+        errors: { 
+            lastNameError: false,
+            emailError: false,
+            titelError: false
+        }
     }
     handleChange = (prop, value) => {
         let tempForm = this.state.form
@@ -16,10 +22,29 @@ export default class AddProfModal extends Component {
     }
 
     handleSubmit = () => {
-        let data = this.state.form
-        this.props.onSubmit(data)
-        this.props.toggle()
-        this.setState({ form: {} })
+        let valid = true
+        if (!this.state.form.titel || (this.state.form.titel && this.state.form.titel.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, titelError: true } })
+            valid = false
+        }
+        if (!this.state.form.profName || (this.state.form.profName && this.state.form.profName.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, lastNameError: true } })
+            valid = false
+        }
+        if (!this.state.form.profEmailadress || (this.state.form.profEmailadress && this.state.form.profEmailadress.length < 1)) {
+            this.setState({ errors: { ...this.state.form.errors, emailError: true } })
+            valid = false
+        }
+        if (valid) {
+            let data = this.state.form
+            this.props.onSubmit(data)
+            this.props.toggle()
+            this.setState({ form: {
+                titel: '',
+                profName: '',
+                profEmailadress: ''
+            }  })
+        }
     }
     
     render = () => {
@@ -32,24 +57,30 @@ export default class AddProfModal extends Component {
                             <Row xs={2} style={{ padding: 16 }}>
                                 <Col>
                                     <Label for="titel">Titel</Label>
-                                    <Input value={this.props.data && this.props.data.titel} 
+                                    <Input invalid={this.state.errors.titelError}
+                                    value={this.props.data && this.props.data.titel} 
                                     onChange={e => this.handleChange('titel', e.target.value)} 
                                     type="text" name="titel" id="titel" 
                                     placeholder="Titel eintragen" />
+                                    <FormFeedback invalid={this.state.errors.titelError}>Bitte den Titel des Dozenten angeben</FormFeedback>
                                 </Col>
                                 <Col>
                                     <Label for="profName">Nachname</Label>
-                                    <Input value={this.props.data && this.props.data.profName} 
+                                    <Input invalid={this.state.errors.lastNameError}
+                                    value={this.props.data && this.props.data.profName} 
                                     onChange={e => this.handleChange('profName', e.target.value)} 
                                     type="text" name="profName" id="profName" 
                                     placeholder="Name eintragen" />
+                                    <FormFeedback invalid={this.state.errors.lastNameError}>Bitte einen Nachnamen angeben</FormFeedback>
                                 </Col>
                                 <Col>
                                     <Label for="profEmailadress">E-Mail-Adresse</Label>
-                                    <Input value={this.props.data && this.props.data.profEmailadress} 
+                                    <Input invalid={this.state.errors.emailError}
+                                    value={this.props.data && this.props.data.profEmailadress} 
                                     onChange={e => this.handleChange('profEmailadress', e.target.value)} 
                                     type="text" name="profEmailadress" id="profEmailadress" 
                                     placeholder="E-Mail-Adresse eintragen" />
+                                    <FormFeedback invalid={this.state.errors.emailError}>Bitte eine E-Mail-Adresse angeben</FormFeedback>
                                 </Col>
                             </Row>
                         </FormGroup>

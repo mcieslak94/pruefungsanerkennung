@@ -31,8 +31,8 @@ function createWindow () {
     slashes: true,
   });
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 1500,
+    height: 850,
     webPreferences: {
       nodeIntegration: true,
       enableRemoteModule: true,

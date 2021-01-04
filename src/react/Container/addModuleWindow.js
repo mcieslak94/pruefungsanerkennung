@@ -24,18 +24,15 @@ export default class AddModuleWindow extends Component {
         let data = {
             intern: '1'
         }
-
         this.courseDB.getCourses(data.intern, courses => this.setState({ courses }))
     }
-
-    
 
     render = () => {
         return <>
              <Form>
                 <Row xs={2} style={{ padding: 16 }}>
                     <Col>
-                        <Label for="moduleName">Modulname *</Label>
+                        <Label for="moduleName">Modulname*</Label>
                         <Input invalid={this.props.errors.nameError} value={this.props.data && this.props.data.name} 
                         onChange={e => this.props.onChange('moduleName', e.target.value)} 
                         type="text" name="moduleName" id="moduleName" 
@@ -43,7 +40,7 @@ export default class AddModuleWindow extends Component {
                     <FormFeedback invalid={this.props.errors.nameError}>Bitte einen Modulname eintragen</FormFeedback>
                     </Col>
                     <Col>
-                        <Label for="creditPoints">Credit Points *</Label>
+                        <Label for="creditPoints">Credit Points*</Label>
                         <Input invalid={this.props.errors.creditError} value={this.props.data && this.props.data.creditPoints} 
                         onChange={e => this.props.onChange('creditPoints', e.target.value)} 
                         type="text" name="creditPoints" id="creditPoints" 
@@ -51,7 +48,7 @@ export default class AddModuleWindow extends Component {
                         <FormFeedback invalid={this.props.errors.creditError}>Bitte die Creditpoints eintragen</FormFeedback>
                     </Col>
                     <Col xs={12}>
-                    <Label for="courseID">Studiengang *</Label>
+                    <Label for="courseID">Studiengang*</Label>
                     {this.state.courses && this.state.courses.length > 0 && this.state.courses.map((c, idx) => 
                                 <Row key={'choose-courses-' + idx}>
                                     <Col>
@@ -62,6 +59,7 @@ export default class AddModuleWindow extends Component {
                                         label={c.courseName} 
                                         onChange={() => this.props.toggleCourse(c.courseID)}/>
                                     </Col>
+                                    <FormFeedback invalid={this.props.errors.courseError}>Bitte einen Studiengang auswählen</FormFeedback>
                                 </Row> 
                             )}
                     </Col>
@@ -69,10 +67,15 @@ export default class AddModuleWindow extends Component {
                     <hr />
                     </Col>
                     <Col>
-                        <Label for="professorID">Lehrender *</Label>
+                        <Label for="professorID">Lehrender*</Label>
                         <ProfsInput id="professorID" profError={this.props.errors.profError} value={this.props.data.professorID} onChange={ value => this.props.onChange('professorID', value)} required/>
                     </Col>
-                    
+                    <Col xs={12}>
+                    <hr />
+                    </Col>
+                    <Col xs={12}>
+                        * Pflichtfelder
+                    </Col>
                 </Row>
             </Form>
             </>

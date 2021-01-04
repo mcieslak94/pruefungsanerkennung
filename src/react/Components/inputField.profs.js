@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import { Input } from 'reactstrap'
+import FormFeedback from 'reactstrap/lib/FormFeedback'
 
 const electron = window.require('electron')
 
@@ -25,10 +26,13 @@ class ProfsInput extends Component {
 
     render () {
         return (
-           <Input invalid={this.props.profError} disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='Professor wählen...' onChange={e => this.props.onChange(e.target.value)}>
-               <option key={'profs-option-' + 0}>{'Bitte einen Professor aussuchen..'}</option>
-               {this.state.profs && this.state.profs.length > 0 && this.state.profs.map(c => <option key={'profs-option-' + c.professorID} value={c.professorID}>{c.titel} {' '} {c.profName}</option>)}
-           </Input>  
+            <div>
+                <Input invalid={this.props.profError} disabled={this.props.disabled} type={'select'} value={this.props.value} placeholder='Professor wählen...' onChange={e => this.props.onChange(e.target.value)}>
+                    <option key={'profs-option-' + 0}>{'Bitte einen Professor aussuchen..'}</option>
+                    {this.state.profs && this.state.profs.length > 0 && this.state.profs.map(c => <option key={'profs-option-' + c.professorID} value={c.professorID}>{c.titel} {' '} {c.profName}</option>)}
+                </Input>  
+                <FormFeedback invalid={this.props.profError}>Bitte einen Professor auswählen</FormFeedback>
+           </div>
         )}
 }
 export default ProfsInput
