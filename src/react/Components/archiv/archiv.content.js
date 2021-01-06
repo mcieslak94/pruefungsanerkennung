@@ -56,7 +56,15 @@ export default class ArchivContent extends Component {
     }
 
     getCourse = () => {
-        let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.extCourseID === this.props.data.courseID))
+        let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.courseID === this.props.data.courseID))
+        if(idx === 0 || idx >= 1){
+            let tempModule = this.state.course[idx]
+            return tempModule.courseName
+        }
+    }
+
+    getExtCourse = () => {
+        let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.courseID === this.props.data.extCourseID))
         if(idx === 0 || idx >= 1){
             let tempModule = this.state.course[idx]
             return tempModule.courseName
@@ -95,7 +103,7 @@ export default class ArchivContent extends Component {
             <Col xs={3}> <span>Ehemalige Institution: </span> </Col>
             <Col xs={9}> <span>{this.getUniversity()}</span> </Col>
             <Col xs={3}> <span>Ehemaliger Studiengang:</span> </Col>
-            <Col xs={9}> <span> {this.getCourse()}</span> </Col>
+            <Col xs={9}> <span> {this.getExtCourse()}</span> </Col>
         </Row>
         <hr />
         <h4>Dokumente</h4>

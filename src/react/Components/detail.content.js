@@ -54,6 +54,7 @@ export default class DetailContent extends Component {
 
     setChangeMode = () => {
         this.setState( {disabled: !this.state.disabled} )
+        this.props.toggleIsOnChange()
     }
 
     getDocs = () => {

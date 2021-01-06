@@ -3,6 +3,8 @@ import DetailList from '../Components/detail.list'
 import DetailContent from '../Components/detail.content'
 import AddStudentModal from '../Components/add.student.modal'
 import { Row, Col } from 'reactstrap'
+import Alert from 'reactstrap/lib/Alert'
+import AlertModal from '../Components/alert.change.modal'
 /* import moment from 'moment'
  */
 const electron = window.require('electron')
@@ -25,7 +27,9 @@ export default class MainView extends Component {
         cases: null,
         tests: null,
         addModalOpen: false,
-        searchString: null
+        alertModalOpen: false,
+        searchString: null, 
+        isOnChange: false
     }
 
     componentDidMount() {
@@ -96,6 +100,14 @@ export default class MainView extends Component {
             return match
         })
     }
+    
+    isOnChange = (value) => {
+        if(!this.state.isOnChange){
+            this.setState({ detail: value })
+        } else {
+            this.setState({alertModalOpen : true})
+        }
+    }
      
     render = () => {
         return <>    
@@ -106,7 +118,7 @@ export default class MainView extends Component {
                 <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
                     <DetailList
                         onAdd={() => this.setState({ addModalOpen: true })}
-                        onChange={value => this.setState({ detail: value })}
+                        onChange={this.isOnChange}
                         active={this.state.detail}
                         onSearch={searchString => this.setState({ searchString })}
                         data={this.filterCases()}
@@ -118,6 +130,7 @@ export default class MainView extends Component {
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
                         saveChanges={this.saveCase} resetChanges={this.resetCase} 
                         closeCase={this.closeCase}
+                        toggleIsOnChange={() => this.setState({ isOnChange: !this.state.isOnChange })}
                     />
                 </Col>
             </Row>
@@ -126,6 +139,14 @@ export default class MainView extends Component {
                 toggle={() => this.setState({ addModalOpen: !this.state.addModalOpen })}
                 onSubmit={this.addCase}
             />
+            <AlertModal class="alert-modal-changeDetail">
+                open={this.state.alertModalOpen}
+                toggle={() => this.setState({ alertModalOpen: !this.state.alertModalOpen })}
+            </AlertModal>
+
+            <Alert color="danger">
+                This is a danger alert — check it out!
+            </Alert>
             
         </>
     }
