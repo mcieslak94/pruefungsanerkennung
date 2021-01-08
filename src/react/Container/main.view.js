@@ -3,8 +3,6 @@ import DetailList from '../Components/detail.list'
 import DetailContent from '../Components/detail.content'
 import AddStudentModal from '../Components/add.student.modal'
 import { Row, Col } from 'reactstrap'
-import Alert from 'reactstrap/lib/Alert'
-import AlertModal from '../Components/alert.change.modal'
 /* import moment from 'moment'
  */
 const electron = window.require('electron')
@@ -27,9 +25,9 @@ export default class MainView extends Component {
         cases: null,
         tests: null,
         addModalOpen: false,
-        alertModalOpen: false,
         searchString: null, 
-        isOnChange: false
+        isOnChange: false,
+        alertModalOpen: false 
     }
 
     componentDidMount() {
@@ -61,6 +59,7 @@ export default class MainView extends Component {
 
     resetCase = () => {
         this.getCases()
+        this.setState({alertModalOpen : false})
     }
 
     saveCase = (student) => {
@@ -70,6 +69,7 @@ export default class MainView extends Component {
             selector: { caseID: this.state.cases[this.state.detail].caseID }
         }
         this.casesDB.data(data).update(() => this.getCases())
+        this.setState({alertModalOpen : false})
     }
 
     closeCase = (abgeschlossen, student) => {
@@ -126,6 +126,8 @@ export default class MainView extends Component {
                 </Col>
                 <Col xs={9} className='app-content' style={{ maxHeight: '83vh' }}>
                     <DetailContent
+                        alertModalOpen={this.state.alertModalOpen}
+                        toggle={() => this.setState({ alertModalOpen: !this.state.alertModalOpen })}
                         detail={this.state.detail}
                         data={this.state.cases != null && this.state.detail != null ? this.state.cases[this.state.detail] : null}
                         saveChanges={this.saveCase} resetChanges={this.resetCase} 
@@ -139,15 +141,6 @@ export default class MainView extends Component {
                 toggle={() => this.setState({ addModalOpen: !this.state.addModalOpen })}
                 onSubmit={this.addCase}
             />
-            <AlertModal class="alert-modal-changeDetail">
-                open={this.state.alertModalOpen}
-                toggle={() => this.setState({ alertModalOpen: !this.state.alertModalOpen })}
-            </AlertModal>
-
-            <Alert color="danger">
-                This is a danger alert — check it out!
-            </Alert>
-            
         </>
     }
 }

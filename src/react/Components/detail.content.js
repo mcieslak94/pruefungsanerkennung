@@ -8,6 +8,7 @@ import EditFooter from './globals/edit.footer';
 import { GrMailOption } from "react-icons/gr";
 import { CreateTemplate } from '../utils/mail.template.util';
 import Moment from 'moment'
+import OnChangeAlert from './onChange.alert.modal';
 
 export default class DetailContent extends Component {
 
@@ -26,7 +27,7 @@ export default class DetailContent extends Component {
                 caseID: '',
                 email: '', 
                 geschlecht: ''
-            } 
+            },
         }
     }
         
@@ -160,6 +161,11 @@ export default class DetailContent extends Component {
         </Form>
     </div> 
     <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} closeCase={this.props.closeCase} />
+    
+    <OnChangeAlert  
+        open={this.props.alertModalOpen} 
+        toggle={() => this.props.toggle()}
+    />
     </>
     : <></>    
 }
