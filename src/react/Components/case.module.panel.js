@@ -16,6 +16,7 @@ export default class CaseModulePanel extends Component {
         const DataBaseConnector = electron.remote.require('../src/shared/database.connector.js')
         const CaseXMConnector = electron.remote.require('../src/shared/modules.db.js')
         this.caseXmoduleDB = DataBaseConnector('caseXmodule')
+        this.profDB = DataBaseConnector('professor')
         this.caseXmDB = CaseXMConnector()
     }
     state = { 
@@ -24,7 +25,8 @@ export default class CaseModulePanel extends Component {
         reasonModalOpen: false,
         selected: [],
         addModuleData: null,
-        activeModule: null
+        activeModule: null,
+        profs: null
     } 
 
     componentDidMount () {
@@ -57,7 +59,7 @@ export default class CaseModulePanel extends Component {
             return null
         })
         addArray.map((s, idx) => {
-            let newEntry = { caseID: this.props.data.caseID, module_ID: s, begruendung: 'keine', requestActive: 0, requestDate: new Date()}
+            let newEntry = { case_ID: this.props.data.caseID, module_ID: s, begruendung: 'keine', requestActive: 0, requestDate: new Date()}
             if (extNameArray && extNameArray.length > 0) {
                 let extNameIdx = extNameArray.findIndex(ext => ext.moduleID === s)
                 if (extNameIdx !== -1) newEntry.extModuleName = extNameArray[extNameIdx].name
@@ -74,7 +76,7 @@ export default class CaseModulePanel extends Component {
         })
         if ((extNameArray && extNameArray.length > 0)) {
             extNameArray.forEach((extName, idx) => {
-                let data = { selector: { caseID: this.props.data.caseID, module_ID: extName.moduleID }, value: { extModuleName: extName.name } }
+                let data = { selector: { case_ID: this.props.data.caseID, module_ID: extName.moduleID }, value: { extModuleName: extName.name } }
                 this.caseXmoduleDB.data(data).update(() => {
                     if (idx === addArray.length - 1) {
                         setTimeout(() => {
@@ -143,9 +145,26 @@ export default class CaseModulePanel extends Component {
         this.setState({ tempForm })
     }
 
+    getEmailString = () => {
+        let emailString = ''
+        this.state.modules && this.state.modules.length > 0 && this.state.modules.map(m => 
+            emailString += m.profEmailadress + ';'
+        )
+        return emailString
+    }
+
+    getModules = () => {
+        let moduleString = ''
+        this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
+            moduleString += idx+1 + '. ' + m.titel + ' ' + m.profName + ' - ' + m.moduleName + '%0D%0A'
+        )
+        return moduleString
+    }
+
     render = () => {
     return ( 
         <div>
+            
             <Row xs={2}>
                 <Col xs={10}>
                 <Table size="sm" bordered hover>
@@ -171,7 +190,7 @@ export default class CaseModulePanel extends Component {
                                     <CustomInput disabled={this.props.disabled} checked={m.requestActive===1} type="checkbox" id={'ruckmeldung-'+ idx} onChange={() => this.toggleRueckruf(m)}/>
                                 </td>
                                 <td id="child" style={{textAlign:'center', fontSize:'15px'}}>
-                                <a href={CreateTemplate('missingDoc', { })}><GrMailOption /></a>
+                                    <a href={CreateTemplate('reminderModule', { mail: m.profEmailadress, moduleName: m.moduleName, titel: m.titel, profLastName: m.profName, gender: this.props.data.geschlecht==='w' ? 'Frau' : 'Herrn', caseLastName: m.caseLastName })}><GrMailOption /></a>
                                 </td>
                                 <td>{m.begruendung}</td>
                                 <td style={{textAlign:'center'}}>
@@ -186,6 +205,7 @@ export default class CaseModulePanel extends Component {
                 
                 </Col>
                 {!this.props.archiv ?
+                    <>
                     <Col xs={2}>
                         <Button disabled={this.props.disabled} color="primary" onClick={() => this.setState({ moduleModalOpen: !this.state.moduleModalOpen })}>Module auswählen</Button>
                         <hr />
@@ -194,7 +214,13 @@ export default class CaseModulePanel extends Component {
                             type="date" value={this.props.data.moduleReminderDate ? this.props.data.moduleReminderDate : ''}
                             id="moduleReminderDate" placeholder="days placeholder" onChange={value => this.handleChange('moduleReminderDate', value)}
                         />
-                    </Col> 
+                        <hr />
+                        <div>
+                            Alle Kollegen kontaktieren:
+                        </div>
+                        <a style={{fontSize:'30px'}} href={CreateTemplate('sendToAllProfs', { mailString: this.getEmailString(), modules: this.getModules()})}><GrMailOption /></a>
+                    </Col>     
+                    </>
                 : <></> } 
             </Row>
 

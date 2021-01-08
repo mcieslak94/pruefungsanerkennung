@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
-import { GrMailOption } from 'react-icons/gr';
 import { Progress, Row, Col, FormGroup, CustomInput} from 'reactstrap'
 import '../App.css';
-import { CreateTemplate } from '../utils/mail.template.util';
 
 
 export default class DocumentsPanel extends Component {
@@ -92,7 +90,7 @@ export default class DocumentsPanel extends Component {
         <div>
             
             <Row xs={3}>
-                <Col xs={3}>
+                <Col xs={4}>
                     <FormGroup>
                         <div className="documentChecks">
                             <CustomInput disabled={this.props.disabled} checked={this.props.data.docAntrag>0} type="checkbox" 
@@ -115,9 +113,6 @@ export default class DocumentsPanel extends Component {
                             id="docHandbuchComplete" onChange={this.toggleModulComplete} label="Vollständig?"/>
                         </div>
                     </FormGroup>
-                </Col>
-                <Col xs={1} >
-                    <div style={{fontSize:'30px'}}><a href={CreateTemplate('missingDocuments', { mail: 'tet@test.de', firstName: 'Heidi', lastName: 'Müller', date: '10.10.20' })}><GrMailOption /></a></div>
                 </Col>
                 <Col xs={6}>
                     <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
