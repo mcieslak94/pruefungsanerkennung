@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
+import { GrMailOption } from 'react-icons/gr';
 import { Progress, Row, Col, FormGroup, CustomInput} from 'reactstrap'
 import '../App.css';
+import { CreateTemplate } from '../utils/mail.template.util';
 
 
 export default class DocumentsPanel extends Component {
 
     state = { 
         progressValue: 0,
+        convertGrades: false,
         completeAntrag: false,
         completeGrades: false,
         completeHandbuch: false
@@ -83,6 +86,16 @@ export default class DocumentsPanel extends Component {
             this.setState({docHandbuch: 1})
         }  
     }
+
+    toggleConvertGrades = () => {
+        if (this.props.data.convertGrades === 1){
+            this.props.data.convertGrades = 0
+            this.setState({convertGrades: 0})
+        } else {
+            this.props.data.convertGrades = 1
+            this.setState({convertGrades: 1})
+        }  
+    }
     
     
     render = () => {
@@ -116,6 +129,10 @@ export default class DocumentsPanel extends Component {
                 </Col>
                 <Col xs={6}>
                     <Progress color="success" value={this.getProgressValue()}>{(this.getProgressValue())}% Vollständig</Progress>
+                </Col>
+                <Col xs={3}>
+                    Mail an das International Office:
+                    <a  style={{fontSize:'30px', paddingLeft: '10px', paddingTop:'15px'}} href={CreateTemplate('convertGrades', { })}><GrMailOption /></a>
                 </Col>
             </Row>
         </div>

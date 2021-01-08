@@ -13,6 +13,11 @@ export function CreateTemplate (templateName, data) {
             subject = `mailto:${data.mail}?subject=Erinnerung: Rückmeldung zur Anerkennung des Moduls ${data.moduleName} &`
             body = `body=Hallo ${data.titel} ${data.profLastName},%0D%0A%0D%0AVor einigen Tagen habe ich Sie um die Prüfung eines Moduls für den Fall von ${data.gender} ${data.caseLastName} gebeten, und bisher keine Rückmeldung erhalten.%0D%0ADamit ich den Fall abschließen kann, bitte ich um ihre Rückmeldung zum Modul ${data.moduleName}.%0D%0A`
             return subject + body
+        case 'convertGrades':
+            subject = `mailto:notenumrechnen@fhdortmund.de?subject=Erinnerung: Umrechnung der Noten für einen Fall zur Prüfungsanerkennung &`
+            body = `body=Sehr geehrte Damen und Herren,%0D%0A%0D%0AIch habe hier einen Fall vorliegen, bei dem die Benotung der Module einer früheren Hochschule einer Umrechnung bedürfen. %0D%0AAnbei die Unterlagen.`
+            return subject + body
+            
         default: return ''
     }
 }
