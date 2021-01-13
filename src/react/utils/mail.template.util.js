@@ -11,7 +11,7 @@ export function CreateTemplate (templateName, data) {
             return subject + body
         case 'reminderModule':
             subject = `mailto:${data.mail}?subject=Erinnerung: Rückmeldung zur Anerkennung des Moduls ${data.moduleName} &`
-            body = `body=Hallo ${data.titel} ${data.profLastName},%0D%0A%0D%0AVor einigen Tagen habe ich Sie um die Prüfung eines Moduls für den Fall von ${data.gender} ${data.caseLastName} gebeten, und bisher keine Rückmeldung erhalten.%0D%0ADamit ich den Fall abschließen kann, bitte ich um ihre Rückmeldung zum Modul ${data.moduleName}.%0D%0A`
+            body = `body=Hallo ${data.titel} ${data.profFirstName} ${data.profLastName},%0D%0A%0D%0AVor einigen Tagen habe ich Sie um die Prüfung eines Moduls für den Fall von ${data.gender} ${data.caseLastName} gebeten, und bisher keine Rückmeldung erhalten.%0D%0ADamit ich den Fall abschließen kann, bitte ich um ihre Rückmeldung zum Modul ${data.moduleName}.%0D%0A`
             return subject + body
         case 'convertGrades':
             subject = `mailto:notenumrechnen@fhdortmund.de?subject=Erinnerung: Umrechnung der Noten für einen Fall zur Prüfungsanerkennung &`

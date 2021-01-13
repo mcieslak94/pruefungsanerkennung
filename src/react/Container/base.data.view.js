@@ -22,7 +22,7 @@ export default class BaseDataView extends Component {
     }
 
     state = {
-        baseData: ['Professoren', 'Studiengänge'],
+        baseData: ['Lehrende', 'Studiengänge'],
         courses: null, 
         templates: null, 
         profs: null,

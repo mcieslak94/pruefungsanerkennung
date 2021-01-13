@@ -12,7 +12,7 @@ class ProfBaseDataList extends Component {
                     active={this.props.active === idx}
                     onClick={() => this.props.onChange(idx)}
                     tag="button" action>
-                    <span>{(o.titel ? o.titel : '') + ' ' + (o.profName ? o.profName : '')}</span>
+                    <span>{(o.titel ? o.titel : '') + ' ' + (o.profFirstName ? o.profFirstName : '') + ' ' + (o.profName ? o.profName : '')}</span>
                 </ListGroupItem>)}
             </ListGroup>
             </>

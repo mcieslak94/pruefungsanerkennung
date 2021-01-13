@@ -42,13 +42,19 @@ export default class AddCourseModal extends Component {
                         <FormGroup>
                             <Row style={{ padding: 16 }}>
                                 <Col> 
-                                    <Label for="courseName">Name des Studiengangs</Label>
+                                    <Label for="courseName">Name des Studiengangs*</Label>
                                     <Input invalid={this.state.errors.courseError} 
                                     value={this.props.data && this.props.data.courseName} 
                                     onChange={e => this.handleChange('courseName', e.target.value)} 
                                     type="text" name="courseName" id="courseName" 
                                     placeholder="Name des Studiengangs eintragen" />
                                     <FormFeedback invalid={this.state.errors.courseError}>Bitte den Namen des Studiengangs angeben</FormFeedback>
+                                </Col>
+                                <Col xs={12}>
+                                    <hr />
+                                </Col>
+                                <Col xs={12}>
+                                    * Pflichtfeld
                                 </Col>
                             </Row>
                         </FormGroup>

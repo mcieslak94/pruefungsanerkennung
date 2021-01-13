@@ -28,12 +28,19 @@ export default class EditProfBaseDataPanel extends Component {
                 <Col>
                 <FormGroup>
                     <Row xs={2}>
-                        <Col>
+                        <Col xs={6}>
                             <Label for="titel">Titel</Label>
                             <Input disabled={this.props.disabled} type='text' value={this.props.data.titel ? this.props.data.titel : ''} 
                             onChange= {value => this.handleChange('titel', value)} />
                         </Col>
-                        <Col>
+                        <Col xs={6}>
+                        </Col>
+                        <Col xs={6}>
+                            <Label for="profFirstName">Vorname</Label>
+                            <Input disabled={this.props.disabled} type='text' value={this.props.data.profFirstName ? this.props.data.profFirstName : ''} 
+                            onChange={value => this.handleChange('profFirstName', value)} />
+                        </Col>
+                        <Col xs={6}>
                             <Label for="profName">Nachname</Label>
                             <Input disabled={this.props.disabled} type='text' value={this.props.data.profName ? this.props.data.profName : ''} 
                             onChange={value => this.handleChange('profName', value)} />

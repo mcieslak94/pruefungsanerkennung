@@ -190,7 +190,7 @@ export default class CaseModulePanel extends Component {
                                     <CustomInput disabled={this.props.disabled} checked={m.requestActive===1} type="checkbox" id={'ruckmeldung-'+ idx} onChange={() => this.toggleRueckruf(m)}/>
                                 </td>
                                 <td id="child" style={{textAlign:'center', fontSize:'15px'}}>
-                                    <a href={CreateTemplate('reminderModule', { mail: m.profEmailadress, moduleName: m.moduleName, titel: m.titel, profLastName: m.profName, gender: this.props.data.geschlecht==='w' ? 'Frau' : 'Herrn', caseLastName: m.caseLastName })}><GrMailOption /></a>
+                                    <a href={CreateTemplate('reminderModule', { mail: m.profEmailadress, moduleName: m.moduleName, titel: m.titel, profFirstName: m.profFirstName, profLastName: m.profName, gender: this.props.data.geschlecht==='w' ? 'Frau' : 'Herrn', caseLastName: m.caseLastName })}><GrMailOption /></a>
                                 </td>
                                 <td>{m.begruendung}</td>
                                 <td style={{textAlign:'center'}}>
