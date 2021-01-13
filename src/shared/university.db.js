@@ -18,7 +18,7 @@ function UniversityDBConnector() {
       getConnection(function (db) {
         let sql = `SELECT caseFirstName, courseName, universityName, anerkannt, moduleName, extModuleName, begruendung FROM cases 
         LEFT JOIN course ON cases.extCourseID = course.courseID
-                  LEFT JOIN caseXmodule ON cases.caseID = caseXmodule.caseID
+                  LEFT JOIN caseXmodule ON cases.caseID = caseXmodule.case_ID
                   LEFT JOIN module ON module.moduleID = caseXmodule.module_ID
                   LEFT JOIN university ON cases.universityID = university.universityID 
                   WHERE university.universityID = "${data.universityID}" AND cases.state = "abgeschlossen" order by  "courseName" ASC, "extModuleName" ASC`
