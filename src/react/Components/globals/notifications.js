@@ -78,10 +78,11 @@ export default class Notifications extends Component {
                         <DropdownItem header className="text-danger">Fälle, bei denen eine Erinnerungs-E-Mail fällig ist</DropdownItem>
                         {this.state.casesToRemind && this.state.casesToRemind.length > 0 && this.state.casesToRemind.map((c, idx) => 
                         <DropdownItem  key={'reminder-cases-item' + idx}
-                            onClick={() => this.props.setDetail(c.caseID)}
-                            tag="button">
+                        onClick={() => this.props.setDetail(c.caseID)}
+                        tag="button">
                             <span>{(c.caseLastName ? c.caseLastName : '') + ', ' + (c.caseFirstName ? c.caseFirstName : '')}</span>
                         </DropdownItem>)}
+                        
                         <DropdownItem divider/>
                         <DropdownItem header className="text-danger">Module, bei denen eine Erinnerungs-E-Mail fällig ist</DropdownItem>
                         {this.state.modulesToRemind && this.state.modulesToRemind.length > 0 && this.state.modulesToRemind.map((c, idx) => 

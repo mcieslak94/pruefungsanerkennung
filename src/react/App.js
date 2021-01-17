@@ -25,7 +25,7 @@ class App extends Component {
       case 2: return <BaseDataView />
       case 3: return <UniversityView />
       case 4: return <ArchivView />
-      default: return <MainView detail={this.state.detail} />;
+      default: return <MainView onChange={idx => this.setState({ detail: idx })} detail={this.state.detail} />;
     }
 
     

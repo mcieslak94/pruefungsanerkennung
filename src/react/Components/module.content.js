@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { Form, FormGroup, Row, Col, Label, Input, CustomInput } from 'reactstrap'
 import ModuleEditFooter from './globals/module.edit.footer';
 import ProfsInput from './inputField.profs';
+import OnChangeAlert from './onChange.alert.modal';
 
 const electron = window.require('electron')
 
@@ -137,6 +138,7 @@ export default class ModuleContent extends Component {
 
     setChangeMode = () => {
         this.setState( {disabled: !this.state.disabled} )
+        this.props.toggleIsOnChange()
     }
 
     render = () => {
@@ -186,6 +188,11 @@ export default class ModuleContent extends Component {
             
 </Form>
     <ModuleEditFooter className="module-edit-footer" editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} />
+
+    <OnChangeAlert  
+        open={this.props.alertModalOpen} 
+        toggle={() => this.props.toggle()}
+    />
     </div> 
     : <></>    
 }

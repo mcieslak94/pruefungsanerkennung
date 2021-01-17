@@ -35,7 +35,7 @@ export default class MainView extends Component {
         this.getCourses()
     }
     componentDidUpdate(prevProps) {
-        if (prevProps.detail !== this.props.detail) {
+        if (prevProps.detail !== this.props.detail && this.props.detail !== this.state.detail) {
             this.setState({ detail: this.state.cases.findIndex(c => c.caseID === this.props.detail) })
         }
     }

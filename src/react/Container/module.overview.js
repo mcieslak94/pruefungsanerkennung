@@ -16,7 +16,9 @@ export default class MainView extends Component {
         this.moduleCon = ModuleConnector()
       }
       state = {
-        modules: null
+        modules: null,
+        isOnChange: false,
+        alertModalOpen: false 
       }  
   
       componentDidMount() {
@@ -62,17 +64,25 @@ export default class MainView extends Component {
       this.module.data(data).update(() => this.getModules())
   }
 
-  filterModules = () => {
-    if (!this.state.searchString || this.state.searchString.length < 1) return  this.state.modules
-    let splitted = this.state.searchString.toLowerCase().split(' ') 
-    return this.state.modules.filter(c => {
-        let match = false
-        splitted.forEach(s => {
-            match = c.moduleName.toLowerCase().includes(s) 
-        });
-        return match
-    })
-}
+    filterModules = () => {
+        if (!this.state.searchString || this.state.searchString.length < 1) return  this.state.modules
+        let splitted = this.state.searchString.toLowerCase().split(' ') 
+        return this.state.modules.filter(c => {
+            let match = false
+            splitted.forEach(s => {
+                match = c.moduleName.toLowerCase().includes(s) 
+            });
+            return match
+        })
+    }
+
+    isOnChange = (value) => {
+        if(!this.state.isOnChange){
+            this.setState({ detail: value })
+        } else {
+            this.setState({alertModalOpen : true})
+        }
+    }
 
     render () {
         return (
@@ -84,7 +94,7 @@ export default class MainView extends Component {
                 <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
                     <ModuleList 
                         onAdd={() => this.setState({ detail: null, addModalOpen: true })}
-                        onChange={value => this.setState({ detail: value })} 
+                        onChange={this.isOnChange}
                         active={this.state.detail}
                         onSearch={searchString => this.setState({ searchString })}
                         data={this.filterModules()}
@@ -92,9 +102,12 @@ export default class MainView extends Component {
                 </Col>
                 <Col xs={9} className='app-content' style={{ maxHeight: '83vh' }}>
                     <ModuleContent 
-                    detail={this.state.detail} 
-                    data={this.state.modules != null && this.state.detail != null ? this.state.modules[this.state.detail] : null}
-                    saveChanges={this.saveCase}
+                        alertModalOpen={this.state.alertModalOpen}
+                        toggle={() => this.setState({ alertModalOpen: !this.state.alertModalOpen })}
+                        detail={this.state.detail} 
+                        data={this.state.modules != null && this.state.detail != null ? this.state.modules[this.state.detail] : null}
+                        saveChanges={this.saveCase}
+                        toggleIsOnChange={() => this.setState({ isOnChange: !this.state.isOnChange })}
                     />
                 </Col>
             </Row>
