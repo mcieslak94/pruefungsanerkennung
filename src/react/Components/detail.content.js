@@ -104,8 +104,13 @@ export default class DetailContent extends Component {
                     </Col>
                     <Col> 
                         <Label for="geschlecht">Geschlecht</Label>
-                        <Input disabled={this.state.disabled} type='text' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
-                        onChange={value => this.handleChange('geschlecht', value)} />
+                        <Input disabled={this.state.disabled} type='select' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
+                            onChange={value => this.handleChange('geschlecht', value)} > 
+                            <option value={-1}>Geschlecht auswählen..</option> 
+                            <option value={'m'}>männlich</option> 
+                            <option value={'w'}>weiblich</option> 
+                            <option value={'d'}>divers</option> 
+                        </Input>
                     </Col>
                     <Col>
                     <Label for="courseID">Studiengang</Label>

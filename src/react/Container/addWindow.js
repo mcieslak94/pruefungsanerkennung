@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Form, FormGroup, Label, Input, Row, Col } from 'reactstrap'
+import CustomInput from 'reactstrap/lib/CustomInput'
 import FormFeedback from 'reactstrap/lib/FormFeedback'
 import CoursesInput from '../Components/inputField.courses'
 
@@ -36,9 +37,16 @@ export default class AddWindow extends Component {
                 </Col>
                 <Col> 
                     <Label for="geschlecht">Geschlecht*</Label>
-                    <Input invalid={this.props.errors.geschlechtError} id="geschlecht" type='text' value={this.props.data.geschlecht ? this.props.data.geschlecht : ''} 
-                    onChange={value => this.props.onChange('geschlecht', value)} placeholder="Geschlecht angeben"/>
-                    <FormFeedback invalid={this.props.errors.geschlechtError}>"m" oder "w" als Geschlecht eingeben</FormFeedback>
+                    <CustomInput invalid={this.props.errors.geschlechtError} 
+                        type="select" 
+                        id="geschlecht" 
+                        name="geschlecht"
+                        onChange={value => this.props.onChange('geschlecht', value)}> 
+                        <option value={-1}>Geschlecht auswählen..</option> 
+                        <option value={'m'}>männlich</option> 
+                        <option value={'w'}>weiblich</option> 
+                        <option value={'d'}>divers</option> </CustomInput>
+                    <FormFeedback check invalid={this.props.errors.geschlechtError}>Bitte eine Geschlecht angeben</FormFeedback>
                 </Col>
                 <Col>
                     <Label for="courseID">Studiengang*</Label>

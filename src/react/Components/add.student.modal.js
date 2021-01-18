@@ -25,7 +25,11 @@ export default class AddStudentModal extends Component {
 
     handleChange = (prop, e) => {
         let tempForm = this.state.form
-        tempForm[prop] = e.target.value
+        console.log('## e', e)
+        if(e.target != null)
+            tempForm[prop] = e.target.value
+        else
+            tempForm[prop] = e
         this.setState({ tempForm })
     }
 
@@ -53,7 +57,7 @@ export default class AddStudentModal extends Component {
             this.setState({ errors: { ...this.state.form.errors, emailError: true } })
             valid = false
         }
-        if (!this.state.form.geschlecht || (this.state.form.geschlecht && this.state.form.geschlecht.length < 1) || !(this.state.form.geschlecht === "m" || this.state.form.geschlecht === "w" )){
+        if (!this.state.form.geschlecht || (this.state.form.geschlecht && this.state.form.geschlecht.length < 1) || !(this.state.form.geschlecht === "m" || this.state.form.geschlecht === "d" || this.state.form.geschlecht === "w" )){
             this.setState({ errors: { ...this.state.form.errors, geschlechtError: true } })
             valid = false
         }
