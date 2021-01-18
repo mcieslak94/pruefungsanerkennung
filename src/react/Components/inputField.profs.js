@@ -21,7 +21,10 @@ class ProfsInput extends Component {
     }
 
     getprofs = () => {
-        this.profDB.getAll(profs => this.setState({ profs }))
+        let data = {
+            criteria: 'profName'
+        }
+        this.profDB.data(data).getAllAsc(profs => this.setState({ profs }))
     }
 
     render () {
