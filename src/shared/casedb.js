@@ -62,6 +62,15 @@ function DatabaseCase() {
           cb(rows)
         });
       })
+    },
+    getCountByCourseID(courseID, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT * FROM cases WHERE courseID = '${courseID}'`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }

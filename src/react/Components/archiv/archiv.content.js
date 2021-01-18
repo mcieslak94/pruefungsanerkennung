@@ -75,15 +75,14 @@ export default class ArchivContent extends Component {
     return this.props.data
     ?
     <>
-    <div>
         <Form>
-            <Row>
-        <Col xs={9}>
-        <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
-        </Col>
-        <Col xs={3}>
-                Status: {(this.props.data.state ? this.props.data.state : 'nicht angegeben')}
-        </Col>
+        <Row>
+            <Col xs={9}>
+            <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
+            </Col>
+            <Col xs={3}>
+                    Status: {(this.props.data.state ? this.props.data.state : 'nicht angegeben')}
+            </Col>
         </Row>
         <FormGroup>
             <Row xs={2} style={{ padding: 16 }}>
@@ -118,7 +117,7 @@ export default class ArchivContent extends Component {
         <hr />
         <h4>Module</h4>
         <Row xs={2} disabled>
-                <Col xs={10}>
+                <Col xs={12}>
                 <Table size="sm" bordered>
                     <thead>
                         <tr style={{textAlign:'center'}}>
@@ -155,7 +154,6 @@ export default class ArchivContent extends Component {
                     
             </Row>
         </Form>
-    </div> 
     </>
     : <></>    
 }

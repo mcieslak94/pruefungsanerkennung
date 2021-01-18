@@ -15,10 +15,13 @@ export default class BaseDataView extends Component {
         super(props)
         const DataBaseConnector = electron.remote.require('../src/shared/database.connector.js')
         const CourseConnector = electron.remote.require('../src/shared/course.db.js')
+        const ModuleConnector = electron.remote.require('../src/shared/modules.db.js')
+        const CaseConnector = electron.remote.require('../src/shared/casedb.js')
         this.courseDB = CourseConnector()
+        this.moduleDB = ModuleConnector()
+        this.caseDB = CaseConnector()
         this.professorDB = DataBaseConnector('professor')
         this.courseDBAllg = DataBaseConnector('course')
-        this.templatesDB = DataBaseConnector('templates')
     }
 
     state = {
@@ -27,7 +30,11 @@ export default class BaseDataView extends Component {
         templates: null, 
         profs: null,
         detail: null,
-        addModalOpen: false
+        addModalOpen: false,
+        profCount: {},
+        courseCount: {},
+        profAlertModalOpen: false,
+        courseAlertModalOpen: false
     }
 
     componentDidMount() {
@@ -62,15 +69,15 @@ export default class BaseDataView extends Component {
           case 0: return <ProfBaseDataContent
             detail={this.state.detail}
             data={this.state.profs != null && this.state.detail != null ? this.state.profs : null}
-            saveChanges={this.saveProf} addProf={this.addProf} deleteProf={this.deleteProf} />
+            saveChanges={this.saveProf} addProf={this.addProf} checkProf={this.checkProf} 
+            profAlertModalOpen={this.state.profAlertModalOpen}
+            toggleAlert={() => this.setState({ profAlertModalOpen: !this.state.profAlertModalOpen })}/>
           case 1: return <CourseBaseDataContent
             detail={this.state.detail}
             data={this.state.courses != null && this.state.detail != null ? this.state.courses : null}
-            saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.deleteCourse} />  
-          /**case 2: return <EmailTemplateContent
-            detail={this.state.detail}
-            data={this.state.templates != null && this.state.detail != null ? this.state.templates : null}
-            saveChanges={this.saveTemplate} /> */
+            saveChanges={this.saveCourse} addCourse={this.addCourse} deleteCourse={this.checkCourse}
+            courseAlertModalOpen={this.state.courseAlertModalOpen}
+            toggleAlert={() => this.setState({ courseAlertModalOpen: !this.state.courseAlertModalOpen })}/> 
           default: return <></>;
     }
 }
@@ -91,29 +98,6 @@ export default class BaseDataView extends Component {
         this.courseDBAllg.data(data).update(() => this.getCourses())
     }
 
-    /*saveTemplate = (template) => {
-        let data = {
-            value: template,
-            selector: { templateID: template.templateID }
-        }
-        this.templatesDB.data(data).update(() => this.getTemplates())
-        
-        let text = template.templateText
-        let textHref = _.replace(text, new RegExp(" ", "g"), "%20")
-        let betreff = template.templateBetreff
-        let betreffHref = _.replace(betreff, new RegExp(" ", "g"), "%20")
-        let hrefTemplate = {
-            hrefText: textHref,
-            hrefBetreff: betreffHref
-        }
-        
-        let data2 = {
-            value: hrefTemplate,
-            selector: { templateID: template.templateID }
-        }
-        this.templatesDB.data(data2).update(() => this.getTemplates())
-    }*/
-
     addProf = prof => {
         this.professorDB.data(prof).create(() => {
                             this.getProfs()
@@ -127,24 +111,48 @@ export default class BaseDataView extends Component {
                         })
     }
 
-    deleteProf = professorID => {
-        let data = {
-            prop: 'professorID',
-            value: professorID
-        }
-        this.professorDB.data(data).delete(() => {
-                            this.getProfs()
-                        })
+    checkProf = professorID => {
+        this.moduleDB.getCountByProfID(professorID, profCount => this.setState({ profCount }))
+        setTimeout(() => {
+            this.deleteProf(professorID)
+        }, 200)
     }
 
-    deleteCourse = courseID => {
-        let data = {
-            prop: 'courseID',
-            value: courseID
+    checkCourse = courseID => {
+        this.caseDB.getCountByCourseID(courseID, courseCount => this.setState({ courseCount }))
+        setTimeout(() => {
+            this.deleteCourse(courseID)
+        }, 200)
+    }
+
+    deleteProf = professorID => {
+        console.log('##', this.state.profCount.length===0)
+        if(this.state.profCount.length===0){
+            let data = {
+                prop: 'professorID',
+                value: professorID
+            }
+            this.professorDB.data(data).delete(() => {
+                this.getProfs()
+            })
+        } else {
+            this.setState({ profAlertModalOpen: !this.state.profAlertModalOpen })
         }
-        this.courseDBAllg.data(data).delete(() => {
-                            this.getCourses()
-                        })
+    }
+    
+    deleteCourse = courseID => {
+        console.log('##', this.state.courseCount.length===0)
+        if(this.state.courseCount.length===0){
+            let data = {
+                prop: 'courseID',
+                value: courseID
+            }
+            this.courseDBAllg.data(data).delete(() => {
+                                this.getCourses()
+                            })
+        } else {
+            this.setState({ courseAlertModalOpen: !this.state.courseAlertModalOpen })
+        }
     }
 
     render = () => {

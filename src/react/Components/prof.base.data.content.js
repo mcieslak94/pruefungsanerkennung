@@ -5,6 +5,7 @@ import EditModuleFooter from './globals/module.edit.footer';
 import ProfBaseDataList from './prof.data.list';
 import AddProfModal from './addBaseData/add.prof.modal';
 import DeleteModal from './addBaseData/delete.modal';
+import DeleteAlert from './delete.alert.modal';
 
 export default class ProfBaseDataContent extends Component {
 
@@ -14,7 +15,8 @@ export default class ProfBaseDataContent extends Component {
             disabled: true,
             profdetail: null,
             profModalOpen: false,
-            deleteModalOpen: false
+            deleteModalOpen: false,
+            deleteAlertModalOpen: false
         }
     }
         
@@ -38,7 +40,7 @@ export default class ProfBaseDataContent extends Component {
     }
 
     deleteProf = () => {
-        this.props.deleteProf(this.props.data[this.state.profdetail].professorID)
+        this.props.checkProf(this.props.data[this.state.profdetail].professorID)
         this.setState({ deleteModalOpen: !this.state.deleteModalOpen })
     }
 
@@ -82,6 +84,10 @@ export default class ProfBaseDataContent extends Component {
                 toggle={() => this.setState({ deleteModalOpen: !this.state.deleteModalOpen })}
                 data={this.props.data != null && this.state.profdetail != null ? this.props.data[this.state.profdetail] : null}
                 onSubmit={this.deleteProf}
+            />
+            <DeleteAlert 
+                alertOpen={this.props.profAlertModalOpen}
+                toggleAlert={this.props.toggleAlert}
             />
     </div> 
     </>

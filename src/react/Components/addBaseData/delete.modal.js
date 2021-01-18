@@ -20,8 +20,8 @@ export default class DeleteModal extends Component {
                     </Form>
                 </ModalBody>
                 <ModalFooter>
-                    <Button color="primary" onClick={this.props.onSubmit}>Speichern</Button>{' '}
-                    <Button color="secondary" onClick={this.props.toggle}>Abbrechen</Button>
+                    <Button color="primary" onClick={this.props.onSubmit}>Ja</Button>{' '}
+                    <Button color="secondary" onClick={this.props.toggle}>Nein</Button>
                 </ModalFooter>
             </Modal>
       )

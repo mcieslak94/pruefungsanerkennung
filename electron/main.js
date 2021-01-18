@@ -45,7 +45,7 @@ function createWindow () {
     mainWindow = null;
   });
   
- // mainWindow.setMenuBarVisibility(false)
+ //mainWindow.setMenuBarVisibility(false)
 }
 app.on('ready', createWindow);
 app.on('window-all-closed', function () {

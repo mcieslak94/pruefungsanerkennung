@@ -85,6 +85,15 @@ function ModuleDatabase() {
           cb(rows)
         });
       })
+    },
+    getCountByProfID(profID, cb) {
+      getConnection(function (db) {
+        let sql = `SELECT * FROM module WHERE professorID = '${profID}'`
+        db.all(sql, [], (err, rows) => {
+          if (err) throw err;
+          cb(rows)
+        });
+      })
     }
   })
 }

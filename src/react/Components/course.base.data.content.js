@@ -5,6 +5,7 @@ import CourseBaseDataList from './course.data.list';
 import EditCourseBaseDataPanel from './edit.course.panel';
 import AddCourseModal from './addBaseData/add.course.modal';
 import DeleteModal from './addBaseData/delete.modal';
+import DeleteAlert from './delete.alert.modal';
 
 export default class CourseBaseDataContent extends Component {
 
@@ -82,6 +83,10 @@ export default class CourseBaseDataContent extends Component {
                 toggle={() => this.setState({ deleteModalOpen: !this.state.deleteModalOpen })}
                 data={this.props.data != null && this.state.coursedetail != null ? this.props.data[this.state.coursedetail] : null}
                 onSubmit={this.deleteCourse}
+            />
+            <DeleteAlert
+                alertOpen={this.props.courseAlertModalOpen}
+                toggleAlert={this.props.toggleAlert}
             />
     </div> 
     </>
