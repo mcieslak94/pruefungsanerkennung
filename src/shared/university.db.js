@@ -1,6 +1,5 @@
-const sqlite = require('sqlite3').verbose();
-
-const DBFile = './case.db'
+var sqlite = require('sqlite-cipher')
+const DBFile = './case.enc'
 
 function getConnection(cb) {
   let db = new sqlite.Database(DBFile, sqlite.OPEN_READWRITE, (err) => {
@@ -15,39 +14,24 @@ function getConnection(cb) {
 function UniversityDBConnector() {
   return ({
     getExternModules(data, cb) {
-      getConnection(function (db) {
-        let sql = `SELECT caseFirstName, courseName, universityName, anerkannt, moduleName, extModuleName, begruendung FROM cases 
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT caseFirstName, courseName, universityName, anerkannt, moduleName, extModuleName, begruendung FROM cases 
         LEFT JOIN course ON cases.extCourseID = course.courseID
                   LEFT JOIN caseXmodule ON cases.caseID = caseXmodule.case_ID
                   LEFT JOIN module ON module.moduleID = caseXmodule.module_ID
                   LEFT JOIN university ON cases.universityID = university.universityID 
                   WHERE university.universityID = "${data.universityID}" AND cases.state = "abgeschlossen" order by  "courseName" ASC, "extModuleName" ASC`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
+                  cb(sqlite.run(sql, []))
     },
     getUniversityName(data, cb) {
-      getConnection(function (db) {
-        let sql = `SELECT * FROM university WHERE universityID = ${data}`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT * FROM university WHERE universityID = ${data}`
+        cb(sqlite.run(sql, []))
     },
     getExtCourses(cb) {
-      getConnection(function (db) {
-        let sql = `SELECT DISTINCT * FROM Course WHERE intern = "0"`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT DISTINCT * FROM Course WHERE intern = "0"`
+        cb(sqlite.run(sql, []))
     }
   })
 }

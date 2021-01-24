@@ -1,6 +1,5 @@
-const sqlite = require('sqlite3').verbose();
-
-const DBFile = './case.db'
+var sqlite = require('sqlite-cipher')
+const DBFile = './case.enc'
 
 function getConnection(cb) {
   let db = new sqlite.Database(DBFile, sqlite.OPEN_READWRITE, (err) => {
@@ -15,62 +14,34 @@ function getConnection(cb) {
 function DatabaseCase() {
   return ({
     updateCase(caseID, prop, value, cb) {
-      getConnection(function (db) {
-        let sql = `UPDATE cases SET ${prop} = ${value} WHERE caseID = ${caseID}`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-        });
-      })
-    },
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `UPDATE cases SET ${prop} = ${value} WHERE caseID = ${caseID}`
+        cb(sqlite.run(sql, []))
+      },
     reminderCases(dateString, cb) {
-      getConnection(function (db) {
-        let sql = `SELECT caseID, caseFirstName, caseLastName, reminderDate FROM cases WHERE reminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != 'abgebrochen';`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
-    },
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT caseID, caseFirstName, caseLastName, reminderDate FROM cases WHERE reminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != 'abgebrochen';`
+        cb(sqlite.run(sql, []))
+      },
     reminderModules(dateString, cb) {
-      getConnection(function (db) {
-        let sql = `SELECT caseID,  caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != 'abgebrochen';`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
-    },
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT caseID,  caseFirstName, caseLastName, moduleReminderDate FROM cases WHERE moduleReminderDate <= '${dateString}' AND state != 'abgeschlossen' AND state != 'abgebrochen';`
+        cb(sqlite.run(sql, []))
+      },
     getActiveCasesAsc(cb) {
-      getConnection(function (db) {
-        let sql = `SELECT * FROM cases WHERE state != "abgeschlossen" AND state != "abgebrochen" ORDER BY "caseLastName" ASC;`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
-    },
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT * FROM cases WHERE state != "abgeschlossen" AND state != "abgebrochen" ORDER BY "caseLastName" ASC;`
+        cb(sqlite.run(sql, []))
+      },
     getInactiveCasesAsc(cb) {
-      getConnection(function (db) {
-        let sql = `SELECT * FROM cases WHERE state = "abgeschlossen" OR state = "abgebrochen" ORDER BY "caseLastName" ASC;`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(this.changes)
-          cb(rows)
-        });
-      })
-    },
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT * FROM cases WHERE state = "abgeschlossen" OR state = "abgebrochen" ORDER BY "caseLastName" ASC;`
+        cb(sqlite.run(sql, []))
+      },
     getCountByCourseID(courseID, cb) {
-      getConnection(function (db) {
-        let sql = `SELECT * FROM cases WHERE courseID = '${courseID}'`
-        db.all(sql, [], (err, rows) => {
-          if (err) throw err;
-          cb(rows)
-        });
-      })
+      sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
+      let sql = `SELECT * FROM cases WHERE courseID = '${courseID}'`
+        cb(sqlite.run(sql, []))
     }
   })
 }
