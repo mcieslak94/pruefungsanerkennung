@@ -6,7 +6,7 @@ class CourseBaseDataList extends Component {
     render () {
         return (
             <>
-            <ListGroup >
+            <ListGroup >  
                 {this.props.data && this.props.data.length > 0 && this.props.data.map((o, idx) => 
                 <ListGroupItem  key={'course-base-date-list-item' + idx}
                     active={this.props.active === idx}

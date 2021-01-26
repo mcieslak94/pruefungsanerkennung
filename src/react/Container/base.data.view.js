@@ -96,19 +96,20 @@ export default class BaseDataView extends Component {
             selector: { courseID: course.courseID }
         }
         this.courseDBAllg.data(data).update(() => this.getCourses())
+        
     }
 
     addProf = prof => {
         this.professorDB.data(prof).create(() => {
                             this.getProfs()
-                        })
+        })
     }
 
     addCourse = course => {
         course.intern = '1'
         this.courseDBAllg.data(course).create(() => {
                             this.getCourses()
-                        })
+        })
     }
 
     checkProf = professorID => {
@@ -126,7 +127,6 @@ export default class BaseDataView extends Component {
     }
 
     deleteProf = professorID => {
-        console.log('##', this.state.profCount.length===0)
         if(this.state.profCount.length===0){
             let data = {
                 prop: 'professorID',
@@ -141,7 +141,6 @@ export default class BaseDataView extends Component {
     }
     
     deleteCourse = courseID => {
-        console.log('##', this.state.courseCount.length===0)
         if(this.state.courseCount.length===0){
             let data = {
                 prop: 'courseID',

@@ -25,7 +25,6 @@ export default class AddStudentModal extends Component {
 
     handleChange = (prop, e) => {
         let tempForm = this.state.form
-        console.log('## e', e)
         if(e.target != null)
             tempForm[prop] = e.target.value
         else

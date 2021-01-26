@@ -5,8 +5,9 @@ function CourseDBConnector() {
   return ({
     getCourses(intern, cb) {
         sqlite.connect(DBFile, 'superPassword123', 'aes-256-ctr');
-        let sql = ` SELECT * FROM course WHERE intern = "${intern}" ORDER BY "courseName" ASC`
+        let sql = `SELECT * FROM course WHERE intern = '${intern}' ORDER BY "courseName" ASC`
         cb(sqlite.run(sql, []))
+        sqlite.close()
     }
   })
 }

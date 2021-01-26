@@ -59,18 +59,19 @@ export default class CaseModulePanel extends Component {
             return null
         })
         addArray.map((s, idx) => {
-            let newEntry = { case_ID: this.props.data.caseID, module_ID: s, begruendung: 'keine', requestActive: 0, requestDate: new Date()}
+            let newEntry = { case_ID: this.props.data.caseID, module_ID: s, begruendung: 'keine', requestActive: 0}
             if (extNameArray && extNameArray.length > 0) {
                 let extNameIdx = extNameArray.findIndex(ext => ext.moduleID === s)
                 if (extNameIdx !== -1) newEntry.extModuleName = extNameArray[extNameIdx].name
             }
+            console.log('### newEntry', newEntry)
             this.caseXmoduleDB.data(newEntry).create(() => {
-                if (idx === addArray.length - 1) {
-                    setTimeout(() => {
-                        this.setState({ modules: [] },() => this.getCasesXModules())
-                    }, 200)
-                }
-                return null
+            if (idx === addArray.length - 1) {
+                setTimeout(() => {
+                    this.setState({ modules: [] },() => this.getCasesXModules())
+                }, 200)
+            }
+            return null
             })        
             return null
         })
@@ -181,6 +182,7 @@ export default class CaseModulePanel extends Component {
                     </thead>
                     
                     <tbody>
+                        {console.log('### modules', this.state.modules)}
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr key={'module-tr-key-' + idx}>
                                 <td>{idx+1}</td>
