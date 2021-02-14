@@ -3,6 +3,7 @@ import { Form, FormGroup, Row, Col, Label, Input, CustomInput } from 'reactstrap
 import ModuleEditFooter from './globals/module.edit.footer';
 import ProfsInput from './inputField.profs';
 import OnChangeAlert from './onChange.alert.modal';
+import _ from 'lodash'
 
 const electron = window.require('electron')
 
@@ -34,10 +35,14 @@ export default class ModuleContent extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if((prevProps.data == null && this.props.data != null) || (this.props.data != null && (this.props.data.moduleID !== prevProps.data.moduleID))){
+            if (this.props.data == null && !_.isEqual(this.props.data, prevProps.data)) {
+                this.setState({ courseIDs: null })
+            }
+
+            if (this.props.data != null && !_.isEqual(this.props.data, prevProps.data)){
             this.getCourseXmodule()
             this.getProfByModule()
-        }
+            } 
     }
     
     getCourses = () => {

@@ -17,7 +17,7 @@ sqlite.run('CREATE TABLE IF NOT EXISTS caseXmodule (case_module_ID INTEGER PRIMA
 sqlite.run('CREATE TABLE IF NOT EXISTS courseXmodule  (course_module_ID INTEGER PRIMARY KEY AUTOINCREMENT,courseID 	INTEGER,module_ID 	INTEGER,FOREIGN KEY( module_ID ) REFERENCES  module ( moduleID ),FOREIGN KEY( courseID ) REFERENCES  course ( courseID ))')
 sqlite.close()
 
-sqlite.decrypt(DBFile,process.cwd() + '\\test.db', "superPassword123", "aes-256-ctr")
+//sqlite.decrypt(DBFile,process.cwd() + '\\test.db', "superPassword123", "aes-256-ctr")
 
 let mainWindow;
 function createWindow() {

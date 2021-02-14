@@ -87,6 +87,7 @@ export default class MainView extends Component {
             selector: { caseID: this.state.cases[this.state.detail].caseID }
         }
         this.casesDB.data(data).update(() => this.getCases())
+        this.setState({detail : null})
     }
 
     filterCases = () => {

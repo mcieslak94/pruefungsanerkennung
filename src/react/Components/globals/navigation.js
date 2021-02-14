@@ -7,7 +7,7 @@ const Navigation = (props) => {
     return (
       <div>
         <Navbar color="light" light expand="md" style={{ margin: '0 -15px' }}>
-          <NavbarBrand href="/">Menü</NavbarBrand>
+          <NavbarBrand >Menü</NavbarBrand>
             <Nav className="mr-auto" navbar>
                 <NavItem>
                     <NavLink onClick={() => props.changeSite(0)} className='pointer' >Fallverwaltung</NavLink>

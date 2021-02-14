@@ -21,11 +21,12 @@ export default class MainView extends Component {
         alertModalOpen: false 
       }  
   
-      componentDidMount() {
+    componentDidMount() {
           this.getModules()          
-      }
+    }
 
     getModules = (searchString = null) => {
+        console.log('###', this.state.modules)
         let data = {
             criteria: 'moduleName'
         }
@@ -54,6 +55,7 @@ export default class MainView extends Component {
                 this.courseXmodule.data(data).create(() => {})
             })
         })
+
     }
 
     saveCase = (module) => {
@@ -93,7 +95,7 @@ export default class MainView extends Component {
                 <Row className='app-body'>
                 <Col xs={3} className='app-list' style={{ minHeight: '89vh' }}>
                     <ModuleList 
-                        onAdd={() => this.setState({ detail: null, addModalOpen: true })}
+                        onAdd={() => this.setState( { detail: null, addModalOpen: true })}
                         onChange={this.isOnChange}
                         active={this.state.detail}
                         onSearch={searchString => this.setState({ searchString })}

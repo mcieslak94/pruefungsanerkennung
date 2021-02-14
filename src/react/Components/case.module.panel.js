@@ -182,7 +182,6 @@ export default class CaseModulePanel extends Component {
                     </thead>
                     
                     <tbody>
-                        {console.log('### modules', this.state.modules)}
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr key={'module-tr-key-' + idx}>
                                 <td>{idx+1}</td>

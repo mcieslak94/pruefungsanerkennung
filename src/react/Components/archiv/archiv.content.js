@@ -51,7 +51,7 @@ export default class ArchivContent extends Component {
         let idx = this.state.universities && this.state.universities.length > 0 && (this.state.universities.findIndex(m => m.universityID === this.props.data.universityID))
             if(idx>=0){
                 let tempModule = this.state.universities[idx]
-                return tempModule.universityName
+                return tempModule ? tempModule.universityName : ""
         }
     }
 
@@ -59,7 +59,7 @@ export default class ArchivContent extends Component {
         let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.courseID === this.props.data.courseID))
         if(idx === 0 || idx >= 1){
             let tempModule = this.state.course[idx]
-            return tempModule.courseName
+            return tempModule ? tempModule.courseName : ""
         }
     }
 
@@ -67,7 +67,7 @@ export default class ArchivContent extends Component {
         let idx = this.state.course && this.state.course.length > 0 && (this.state.course.findIndex(m => m.courseID === this.props.data.extCourseID))
         if(idx === 0 || idx >= 1){
             let tempModule = this.state.course[idx]
-            return tempModule.courseName
+            return tempModule ? tempModule.courseName : ""
         }
     }
 
@@ -75,7 +75,7 @@ export default class ArchivContent extends Component {
     return this.props.data
     ?
     <>
-        <Form>
+        <Form style={{ width: '100%'}}>
         <Row>
             <Col xs={9}>
             <h3>{(this.props.data.caseFirstName ? this.props.data.caseFirstName : '') + ' ' + (this.props.data.caseLastName ? this.props.data.caseLastName : '')}</h3>
@@ -108,11 +108,11 @@ export default class ArchivContent extends Component {
         <h4>Dokumente</h4>
         <Row xs={2} style={{ padding: 16 }}>
             <Col xs={3}> <span>Antrag Prüfungsanerkennung: </span> </Col>
-            <Col xs={9}> <span>{this.props.data.docAntrag === 0 ? 'Der Antrag wurde nicht eingereicht' : this.props.data.docAntrag === 1 ? 'nicht vollständig' : 'vollständig'}</span> </Col>
+            <Col xs={9}> <span>{this.props.data.docAntrag === 0 ? 'Der Antrag wurde nicht eingereicht' : this.props.data.docAntrag === 1 ? 'Der Antrag wurde nicht vollständig eingereicht' : 'Der Antrag wurde vollständig eingereicht'}</span> </Col>
             <Col xs={3}> <span>Notenspiegel:</span> </Col>
-            <Col xs={9}> <span>{this.props.data.docNoten === 0 ? ' Der Notenspiegel wurde nicht eingereicht' : this.props.data.docNoten === 1 ? 'nicht vollständig' : 'vollständig'}</span> </Col>
+            <Col xs={9}> <span>{this.props.data.docNoten === 0 ? ' Der Notenspiegel wurde nicht eingereicht' : this.props.data.docNoten === 1 ? 'Der Notenspiegel wurde nicht vollständig eingereicht' : 'Der Notenspiegel wurde vollständig eingereicht'}</span> </Col>
             <Col xs={3}> <span>Modulhandbuch:</span> </Col>
-            <Col xs={9}> <span>{this.props.data.docHandbuch === 0 ? 'Das Modulhandbuch wurde nicht eingereicht' : this.props.data.docHandbuch === 1 ? 'nicht vollständig' : 'vollständig'}</span> </Col>
+            <Col xs={9}> <span>{this.props.data.docHandbuch === 0 ? 'Das Modulhandbuch wurde nicht eingereicht' : this.props.data.docHandbuch === 1 ? 'Das Modulhandbuch wurde nicht vollständig eingereicht' : 'Das Modulhandbuch wurde vollständig eingereicht'}</span> </Col>
         </Row>
         <hr />
         <h4>Module</h4>
@@ -121,31 +121,29 @@ export default class ArchivContent extends Component {
                 <Table size="sm" bordered>
                     <thead>
                         <tr style={{textAlign:'center'}}>
-                            <th>#</th>
+                            <th style={{ width: 40 }}>#</th>
                             <th>Modulname</th>
                             <th>Name des Fachkollegen</th>
-                            <th>Rückmeldung</th>
                             <th>Begründung</th>
-                            <th>Anerkannt</th>
+                            <th style={{ width: 130 }}>Rückmeldung</th>
+                            <th style={{ width: 130 }}>Anerkannt</th>
                         </tr>
                     </thead>
                     
                     <tbody>
                         {this.state.modules && this.state.modules.length > 0 && this.state.modules.map((m, idx) => 
                             <tr key={'module-tr-key-' + idx}>
-                                <td>{idx+1}</td>
+                                <td style={{ textAlign:'center',width: 40 }}>{idx+1}</td>
                                 <td>{m.moduleName}</td>
                                 <td>{m.titel} {m.profName}</td>
-                                <td style={{textAlign:'center'}}>
+                                <td>{m.begruendung}</td>
+                                <td style={{textAlign:'center', width: 130 }}>
                                     <CustomInput disabled checked={m.requestActive===1} type="checkbox" id={'ruckmeldung-'+ idx} onChange={() => this.toggleRueckruf(m)}/>
                                 </td>
-                                <td>{m.begruendung}</td>
-                                <td style={{textAlign:'center'}}>
+                                <td style={{textAlign:'center', width: 130}}>
                                     <CustomInput disabled checked={m.anerkannt===1} type="checkbox" id={'anerkannt-'+ idx}/>
                                 </td>
                             </tr>
-                            
-
                         )}
                     </tbody>
                 </Table>

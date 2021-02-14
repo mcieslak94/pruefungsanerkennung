@@ -48,6 +48,11 @@ export default class DetailContent extends Component {
         this.setChangeMode()
     }
 
+    closeCase = (abgeschlossen) => {
+        this.setChangeMode()
+        this.props.closeCase(abgeschlossen)
+    }
+
     resetChanges = () => {
         this.props.resetChanges()
         this.setChangeMode()
@@ -165,7 +170,7 @@ export default class DetailContent extends Component {
         </Row>
         </Form>
     </div> 
-    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} closeCase={this.props.closeCase} />
+    <EditFooter editActive={!this.state.disabled} onSave={this.saveChanges} toggle={this.resetChanges} closeCase={this.closeCase} />
     
     <OnChangeAlert  
         open={this.props.alertModalOpen} 
