@@ -26,6 +26,7 @@
     "sqlite-cipher": "^0.3.6"
   },
   "main": "electron/main.js",
+  "license": "MIT",
   "homepage": "./",
   "scripts": {
     "start": "set BROWSER=none && react-scripts start",
